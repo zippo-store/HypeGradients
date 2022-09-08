@@ -1,0 +1,42 @@
+name: HypeGradients
+version: '${project.version}'
+main: me.doublenico.hypegradients.HypeGradients
+api-version: 1.16
+depend: [ PlaceholderAPI ]
+softdepend:
+  - ProtocolLib
+authors: [ DoubleNico, PerryPlaysMC ]
+description: Create gradients with PlaceholderAPI support
+commands:
+  hypegradients:
+    description: HypeGradients main commands
+    permission: hypegradients.default
+    aliases: [ hyg ]
+permissions:
+  hypegradients.*:
+    description: Everything about HypeGradients
+    children:
+      hypegradients.default: true
+      hypegradients.color.*: true
+      hypegradients.debug.*: true
+      hypegradients.reload.*: true
+  hypegradients.color.*:
+    description: Everything about color
+    children:
+      hypegradients.color: true
+      hypegradients.color.add: true
+      hypegradients.color.remove: true
+      hypegradients.color.list: true
+  hypegradients.debug.*:
+    description: Everything about debug
+    children:
+      hypegradients.debug: true
+      hypegradients.debug.message: true
+      hypegradients.debug.title: true
+      hypegradients.debug.subtitle: true
+  hypegradients.reload:
+    description: Everything about reload
+  hypegradients.default:
+    description: Can access commands
+
+

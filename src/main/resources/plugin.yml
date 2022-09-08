@@ -1,7 +1,0 @@
-name: HypeGradients
-version: '${project.version}'
-main: me.doublenico.hypegradients.HypeGradients
-api-version: 1.18
-depend: [ PlaceholderAPI ]
-authors: [ DoubleNico, PerryPlaysMC ]
-description: Gradients Easier
