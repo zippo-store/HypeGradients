@@ -50,34 +50,23 @@ public final class HypeGradients extends JavaPlugin {
                 getLogger().warning("Could not find ProtocolLib! Disabling gradient chat detection.");
             else {
 
-                getLogger().info("Registering ProtocolLib packet listener...");
-                this.packetHandler = new MessagePacketHandler();
-                if (isLegacy()) {
-                    try {
+                try {
+                    getLogger().info("Registering ProtocolLib packet listener...");
+                    this.packetHandler = new MessagePacketHandler();
+                    if (isLegacy()) {
                         new LegacyTitleMessagePacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.TITLE);
-                    } catch (NoSuchFieldError e) {
-                        throwError();
-                    }
-                } else {
-                    try {
+                    } else {
                         new TitleMessagePacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.SET_TITLE_TEXT);
                         new SubtitleMessagePacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.SET_SUBTITLE_TEXT);
-                    } catch (NoSuchFieldError e) {
-                        throwError();
                     }
-                }
-                if (supportsSignature()) {
-                    try {
+                    if (supportsSignature()) {
                         new SignaturePacket(this);
-                    } catch (NoSuchFieldError e) {
-                        throwError();
-                    }
-                } else {
-                    try {
+                    } else {
                         new ChatMessagePacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.CHAT);
-                    } catch (NoSuchFieldError e) {
-                        throwError();
                     }
+                } catch (NoSuchFieldError e) {
+                    getLogger().severe("Report this error to the developer: " + e.getMessage());
+                    throwError();
                 }
                 if (this.packetHandler.registerPacketListener()) {
                     getLogger().info("Registered " + this.packetHandler.getPacketCount() + " packet listeners.");
