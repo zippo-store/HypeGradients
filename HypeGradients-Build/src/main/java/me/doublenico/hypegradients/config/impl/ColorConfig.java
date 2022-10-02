@@ -8,8 +8,8 @@ import me.doublenico.hypegradients.config.ConfigManager;
 import java.util.LinkedList;
 
 public class ColorConfig extends ConfigManager {
-    public ColorConfig(DynamicConfigurationDirectory configDirectory, IDynamicConfiguration config, boolean firstTime) {
-        super(configDirectory, config);
+    public ColorConfig(DynamicConfigurationDirectory configDirectory, String configName, boolean firstTime) {
+        super(configDirectory, configName, false);
         if (firstTime) {
             addDefault("colors.red", "840000");
             addDefault("colors.orange", "ff7f00");

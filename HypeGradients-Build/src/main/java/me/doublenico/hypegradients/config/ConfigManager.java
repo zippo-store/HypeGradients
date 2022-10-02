@@ -3,15 +3,17 @@ package me.doublenico.hypegradients.config;
 
 import dev.perryplaysmc.dynamicconfigurations.IDynamicConfiguration;
 import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
+import dev.perryplaysmc.dynamicconfigurations.utils.StringWrap;
 
 public class ConfigManager {
     private final DynamicConfigurationDirectory configDirectory;
 
     private final IDynamicConfiguration config;
 
-    public ConfigManager(DynamicConfigurationDirectory configDirectory, IDynamicConfiguration config) {
+    public ConfigManager(DynamicConfigurationDirectory configDirectory, String configName, boolean appendMissingKeys) {
         this.configDirectory = configDirectory;
-        this.config = config;
+        this.config = configDirectory.createConfiguration(configName + ".yml").options().autoSave(true).indent(2).stringWrap(StringWrap.SINGLE_QUOTED).appendMissingKeys(appendMissingKeys).configuration();
+        configDirectory.addConfiguration(config);
     }
 
     public DynamicConfigurationDirectory getConfigDirectory() {

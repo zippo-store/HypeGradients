@@ -36,11 +36,9 @@ public final class HypeGradients extends JavaPlugin {
         }
         getLogger().info("Loading configurations");
         DynamicConfigurationDirectory parent = new DynamicConfigurationDirectory(this, getDataFolder());
-        this.settingsConfig = new SettingsConfig(parent, parent.createConfiguration("settings.yml").options().autoSave(true).indent(2).stringWrap(StringWrap.SINGLE_QUOTED).appendMissingKeys(true).configuration());
-        if (parent.getConfiguration("colors.yml") == null)
-            this.colorConfig = new ColorConfig(parent,
-                    parent.createConfiguration("colors.yml").options().autoSave(true).indent(2).stringWrap(StringWrap.SINGLE_QUOTED).appendMissingKeys(false).configuration(), true);
-        this.colorConfig = new ColorConfig(parent, parent.createConfiguration("colors.yml").options().autoSave(true).indent(2).stringWrap(StringWrap.SINGLE_QUOTED).appendMissingKeys(false).configuration(), false);
+        this.settingsConfig = new SettingsConfig(parent, "settings");
+        if (parent.getConfiguration("colors.yml") == null) this.colorConfig = new ColorConfig(parent, "colors", true);
+        this.colorConfig = new ColorConfig(parent, "colors", false);
         getLogger().info("Configurations are loaded!");
         getLogger().info("Registering PlaceholderAPI placeholders...");
         (new GradientPlaceholder(this)).register();

@@ -50,7 +50,7 @@
                         <includes>
                             <include>me.lucko:commodore</include>
                             <include>com.github.PerryPlaysMC:DynamicJson</include>
-                            <include>com.github.PerryPlaysMC:DynamicConfigurations</include>
+                            <include>dev.perryplaysmc.dynamicconfigurations:DynamicConfigurations</include>
                             <include>me.doublenico:HypeGradients-Dev</include>
                             <include>me.doublenico:HypeGradients-API</include>
                             <include>me.doublenico:HypeGradients-Build</include>
@@ -136,9 +136,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.PerryPlaysMC</groupId>
+            <groupId>dev.perryplaysmc.dynamicconfigurations</groupId>
             <artifactId>DynamicConfigurations</artifactId>
-            <version>v1.3.5</version>
+            <version>v1.3.6</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

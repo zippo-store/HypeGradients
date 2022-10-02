@@ -11,7 +11,10 @@ commands:
   hypegradients:
     description: HypeGradients main commands
     permission: hypegradients.default
-    aliases: [ hyg ]
+    aliases:
+      - hg
+      - hypegradient
+      - hypeg
 permissions:
   hypegradients.*:
     description: Everything about HypeGradients
