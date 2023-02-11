@@ -17,6 +17,10 @@ public abstract class MessagePacket {
         this.priority = priority;
         this.type = type;
         MessagePacketHandler.packets.add(this);
+        if (new MessagePacketHandler().registerPacketListener(this))
+            plugin.getLogger().finest("Registered packet listener for " + type.name());
+        else
+            plugin.getLogger().warning("Failed to register packet listener for " + type.name());
     }
 
     public JavaPlugin getPlugin() {

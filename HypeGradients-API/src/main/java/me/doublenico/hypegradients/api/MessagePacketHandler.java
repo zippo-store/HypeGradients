@@ -38,4 +38,21 @@ public class MessagePacketHandler {
         return true;
     }
 
+    public boolean registerPacketListener(MessagePacket packet) {
+        ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+        if (manager == null) return false;
+        if (packet == null) return false;
+        if (!packet.register()) {
+            packets.remove(packet);
+            return false;
+        }
+        manager.addPacketListener(new PacketAdapter(packet.getPlugin(), packet.getPriority(), packet.getType()) {
+            @Override
+            public void onPacketSending(PacketEvent event) {
+                packet.onPacketSending(event);
+            }
+        });
+        return true;
+    }
+
 }

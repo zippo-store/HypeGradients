@@ -4,6 +4,7 @@ import me.doublenico.hypegradients.HypeGradients;
 import me.doublenico.hypegradients.chat.ColorChat;
 import me.doublenico.hypegradients.commands.impl.ColorsSubCommand;
 import me.doublenico.hypegradients.commands.impl.DebugSubCommand;
+import me.doublenico.hypegradients.commands.impl.PacketsSubCommand;
 import me.doublenico.hypegradients.commands.impl.ReloadSubCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,6 +26,7 @@ public class CommandsManager implements CommandExecutor, TabExecutor {
         this.subcmds.add(new ColorsSubCommand());
         this.subcmds.add(new ReloadSubCommand());
         this.subcmds.add(new DebugSubCommand());
+        this.subcmds.add(new PacketsSubCommand());
     }
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

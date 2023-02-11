@@ -33,7 +33,10 @@ public class SignaturePacket extends MessagePacket {
             return;
         String string = (new ChatJson(component)).convertToString();
         ChatGradient gradient = new ChatGradient(string);
-        if (gradient.isGradient((HypeGradients) getPlugin()))
+        if (gradient.isGradient((HypeGradients) getPlugin())) {
             wrapper.setMessage(new ChatJson(gradient.translateGradient((HypeGradients) getPlugin())).convertToJson());
+            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
+            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Signature", "Chat");
+        }
     }
 }

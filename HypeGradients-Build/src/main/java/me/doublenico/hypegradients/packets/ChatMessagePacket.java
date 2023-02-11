@@ -36,6 +36,8 @@ public class ChatMessagePacket extends MessagePacket {
         if (gradient.isGradient((HypeGradients) getPlugin())) {
             component.setJson((new ChatJson(gradient.translateGradient((HypeGradients) getPlugin()))).convertToJson());
             wrapper.setMessage(component);
+            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
+            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Chat", "Chat");
         }
     }
 }

@@ -34,6 +34,8 @@ public class SubtitleMessagePacket extends MessagePacket {
         if (gradient.isGradient((HypeGradients) getPlugin())) {
             component.setJson((new ChatJson(gradient.translateGradient((HypeGradients) getPlugin()))).convertToJson());
             wrapper.setSubtitle(component);
+            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
+            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Subtitle", "Subtitle");
         }
     }
 }

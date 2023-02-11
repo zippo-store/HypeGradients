@@ -44,8 +44,7 @@ public class ChatGradient {
                 Bukkit.getLogger().warning("Gradient is not valid!");
                 continue;
             }
-            this.message = this.message.replace(matcher.group(), CColor.translateGradient(text, gradients.toArray(new CColor[0])));
-            return this.message;
+            this.message = this.message.replace(matcher.group(), CColor.translateGradient(text, gradients.toArray(new CColor[0])) + ChatColor.RESET);
         }
         return this.message;
     }
@@ -58,4 +57,15 @@ public class ChatGradient {
         Matcher matcher = pattern.matcher(this.message);
         return matcher.find();
     }
+
+    public boolean isGradientTeam(HypeGradients plugin) {
+        if (this.message == null)
+            return false;
+        this.message = (new ColorChat(this.message)).replaceColors(plugin);
+        Pattern pattern = Pattern.compile(gradientRegex);
+        Matcher matcher = pattern.matcher(ChatColor.stripColor(this.message));
+        return matcher.find();
+    }
+
+
 }

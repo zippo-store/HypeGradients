@@ -9,33 +9,35 @@ import me.doublenico.hypegradients.HypeGradients;
 import me.doublenico.hypegradients.api.MessagePacket;
 import me.doublenico.hypegradients.chat.ChatGradient;
 import me.doublenico.hypegradients.chat.ChatJson;
-import me.doublenico.hypegradients.wrappers.WrapperPlayServerTitle;
+import me.doublenico.hypegradients.wrappers.WrapperGuiTitleMessage;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class TitleMessagePacket extends MessagePacket {
-    public TitleMessagePacket(JavaPlugin plugin, ListenerPriority priority, PacketType type) {
+public class GuiTitleMessagePacket extends MessagePacket {
+
+    public GuiTitleMessagePacket(JavaPlugin plugin, ListenerPriority priority, PacketType type) {
         super(plugin, priority, type);
     }
 
+    @Override
     public boolean register() {
         HypeGradients plugin = (HypeGradients) getPlugin();
-        return plugin.getSettingsConfig().getConfig().getBoolean("chat-detection.title", true);
+        return plugin.getSettingsConfig().getConfig().getBoolean("chat-detection.gui.title", true);
     }
 
+    @Override
     public void onPacketSending(PacketEvent event) {
         PacketContainer packet = event.getPacket();
-        WrapperPlayServerTitle wrapper = new WrapperPlayServerTitle(packet);
-        WrappedChatComponent component = wrapper.getTitle();
-        if (component == null)
-            return;
+        WrapperGuiTitleMessage wrapper = new WrapperGuiTitleMessage(packet);
+        WrappedChatComponent component = wrapper.getWindowTitle();
+        if (component == null) return;
         String message = component.getJson();
-        String string = (new ChatJson(message)).convertToString();
+        String string = new ChatJson(message).convertToString();
         ChatGradient gradient = new ChatGradient(string);
-        if (gradient.isGradient((HypeGradients) getPlugin())) {
-            component.setJson((new ChatJson(gradient.translateGradient((HypeGradients) getPlugin()))).convertToJson());
-            wrapper.setTitle(component);
+        if (gradient.isGradient(JavaPlugin.getPlugin(HypeGradients.class))) {
+            component.setJson(new ChatJson(gradient.translateGradient(JavaPlugin.getPlugin(HypeGradients.class))).convertToJson());
+            wrapper.setWindowTitle(component);
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
-            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Title", "Title");
+            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Gui Title", "Gui");
         }
     }
 }

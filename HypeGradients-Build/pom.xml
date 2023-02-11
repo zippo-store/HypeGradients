@@ -5,7 +5,7 @@
     <parent>
         <artifactId>HypeGradients</artifactId>
         <groupId>me.doublenico</groupId>
-        <version>1.0.3</version>
+        <version>1.0.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -26,6 +26,17 @@
     </properties>
 
     <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
+                <configuration>
+                    <outputDirectory>/Users/doublenico/Documents/Servers.nosync/Debug Server 1.19.3/plugins/
+                    </outputDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

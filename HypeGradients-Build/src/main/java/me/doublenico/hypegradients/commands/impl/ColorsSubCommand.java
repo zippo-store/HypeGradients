@@ -18,7 +18,7 @@ public class ColorsSubCommand extends SubCommand {
 
     @Override
     public String getPermission() {
-        return "hypegradient.color";
+        return "hypegradients.color";
     }
 
     @Override

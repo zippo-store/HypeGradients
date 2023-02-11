@@ -37,8 +37,11 @@ permissions:
       hypegradients.debug.message: true
       hypegradients.debug.title: true
       hypegradients.debug.subtitle: true
+      hypegradients.debug.scoreboard: true
   hypegradients.reload:
     description: Everything about reload
+  hypegradients.packets:
+    description: Everything about packets
   hypegradients.default:
     description: Can access commands
 
