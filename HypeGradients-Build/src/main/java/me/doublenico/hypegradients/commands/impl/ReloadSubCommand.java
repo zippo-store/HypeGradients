@@ -69,6 +69,11 @@ public class ReloadSubCommand extends SubCommand {
             new SignaturePacket(plugin);
         else
             new ChatMessagePacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.CHAT);
+        new GuiMessagePacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.WINDOW_ITEMS);
+        new GuiSlotMessage(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.SET_SLOT);
+        new GuiTitleMessagePacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.OPEN_WINDOW);
+        new ScoreboardTeamPacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.SCOREBOARD_TEAM);
+        new ScoreboardObjectivePacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.SCOREBOARD_OBJECTIVE);
         if (plugin.getPacketHandler().registerPacketListener()) {
             new ColorChat("[info]Registered " + plugin.getPacketHandler().getPacketCount() + " packet listeners.").sendMessage(sender);
             new ColorChat("[info]ProtocolLib packet listener is enabled...").sendMessage(sender);

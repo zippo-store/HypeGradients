@@ -19,7 +19,6 @@ public class ScoreboardTeamPacket extends MessagePacket {
 
     public boolean register() {
         HypeGradients plugin = (HypeGradients) getPlugin();
-        System.out.println(plugin.getSettingsConfig().getConfig().getBoolean("chat-detection.scoreboard.lines", true));
         return plugin.getSettingsConfig().getConfig().getBoolean("chat-detection.scoreboard.lines", true);
     }
 
