@@ -33,53 +33,6 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <artifactSet>
-                        <includes>
-                            <include>me.lucko:commodore</include>
-                            <include>com.github.PerryPlaysMC:DynamicJson</include>
-                            <include>com.github.PerryPlaysMC:DynamicConfigurations</include>
-                            <include>me.doublenico:HypeGradients-Dev</include>
-                            <include>me.doublenico:HypeGradients-API</include>
-                            <include>me.doublenico:HypeGradients-Build</include>
-                            <include>org.bstats:bstats-base</include>
-                            <include>org.bstats:bstats-bukkit</include>
-                        </includes>
-                    </artifactSet>
-                    <relocations>
-                        <relocation>
-                            <pattern>me.lucko.commodore</pattern>
-                            <shadedPattern>me.doublenico.hypegradients.commodore</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>dev.dynamicstudios.json.data.util</pattern>
-                            <shadedPattern>me.doublenico.hypegradients.json</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>dev.perryplaysmc.dynamicconfigurations</pattern>
-                            <shadedPattern>me.doublenico.hypegradients.config</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.bstats</pattern>
-                            <shadedPattern>me.doublenico.hypegradients.bstats</shadedPattern>
-                        </relocation>
-                    </relocations>
-                    <minimizeJar>true</minimizeJar>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
@@ -89,24 +42,8 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/groups/public/</url>
-        </repository>
-        <repository>
-            <id>placeholderapi</id>
-            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
-        </repository>
-        <repository>
             <id>dmulloy2-repo</id>
             <url>https://repo.dmulloy2.net/repository/public/</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>minecraft-repo</id>
-            <url>https://libraries.minecraft.net/</url>
         </repository>
     </repositories>
 
@@ -114,44 +51,15 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.19.3-R0.1-SNAPSHOT</version>
+            <version>1.19.4-R0.1-SNAPSHOT</version>
+            <classifier>remapped-mojang</classifier>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.clip</groupId>
-            <artifactId>placeholderapi</artifactId>
-            <version>2.11.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.PerryPlaysMC</groupId>
-            <artifactId>DynamicJson</artifactId>
-            <version>v2.0.3</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
             <version>4.8.0</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.lucko</groupId>
-            <artifactId>commodore</artifactId>
-            <version>2.2</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.PerryPlaysMC</groupId>
-            <artifactId>DynamicConfigurations</artifactId>
-            <version>1.4.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.0</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

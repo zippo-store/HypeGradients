@@ -13,6 +13,7 @@ import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -47,6 +48,9 @@ public class CommandsManager implements CommandExecutor, TabExecutor {
             (new ColorChat("[important]/hypegradients [argument]debug [optional]message [required]<message> [description]- Send a debug message")).sendMessage(sender);
             (new ColorChat("[important]/hypegradients [argument]debug [optional]title [required]<message> [description]- Send a debug title")).sendMessage(sender);
             (new ColorChat("[important]/hypegradients [argument]debug [optional]subtitle [required]<message> [description]- Send a debug subtitle")).sendMessage(sender);
+            new ColorChat("[important]/hypegradients [argument]debug [optional]bossbar [required]<message> [description]- Send a debug bossbar").sendMessage(sender);
+            new ColorChat("[important]/hypegradients [argument]debug [optional]scoreboard [required]<line|title> <message> [description]- Send a debug scoreboard").sendMessage(sender);
+            new ColorChat("[important]/hypegradients [argument]debug [optional]diagnostics [description]- Check for data and informations, good for bug report").sendMessage(sender);
             return true;
         }
         for (int i = 0; i < getSubCommands().size(); i++) {
@@ -67,7 +71,7 @@ public class CommandsManager implements CommandExecutor, TabExecutor {
         return true;
     }
 
-    public LinkedList<SubCommand> getSubCommands() {
+    public List<SubCommand> getSubCommands() {
         return this.subcmds;
     }
 
@@ -78,6 +82,14 @@ public class CommandsManager implements CommandExecutor, TabExecutor {
     @Nullable
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         SubCommand subCommand = null;
+        if (args.length == 1) {
+            LinkedList<String> subcmds = new LinkedList<>();
+            for (SubCommand c : getSubCommands()) {
+                if (sender.hasPermission(c.getPermission()))
+                    subcmds.add(c.getName());
+            }
+            return subcmds;
+        }
         for (int i = 0; i < getSubCommands().size(); i++) {
             if (args[0].equalsIgnoreCase(getSubCommands().get(i).getName())) {
                 subCommand = getSubCommands().get(i);
@@ -87,7 +99,7 @@ public class CommandsManager implements CommandExecutor, TabExecutor {
         if (subCommand == null)
             return null;
         LinkedList<String> subcmds = new LinkedList<>();
-        subCommand.tabCompleter(this.plugin, sender, args, subcmds);
+        subCommand.tabCompleter(this.plugin, sender, Arrays.copyOfRange(args, 1, args.length), subcmds);
         return subcmds;
     }
 }

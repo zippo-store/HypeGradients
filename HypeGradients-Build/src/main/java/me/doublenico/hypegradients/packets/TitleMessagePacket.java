@@ -34,6 +34,7 @@ public class TitleMessagePacket extends MessagePacket {
         if (gradient.isGradient((HypeGradients) getPlugin())) {
             component.setJson((new ChatJson(gradient.translateGradient((HypeGradients) getPlugin()))).convertToJson());
             wrapper.setTitle(component);
+            if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Title", "Title");
         }

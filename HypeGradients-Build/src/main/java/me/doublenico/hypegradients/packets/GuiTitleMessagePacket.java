@@ -36,6 +36,7 @@ public class GuiTitleMessagePacket extends MessagePacket {
         if (gradient.isGradient(JavaPlugin.getPlugin(HypeGradients.class))) {
             component.setJson(new ChatJson(gradient.translateGradient(JavaPlugin.getPlugin(HypeGradients.class))).convertToJson());
             wrapper.setWindowTitle(component);
+            if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Gui Title", "Gui");
         }

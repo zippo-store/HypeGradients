@@ -4,6 +4,8 @@ import dev.dynamicstudios.json.data.util.CColor;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.doublenico.hypegradients.HypeGradients;
+import me.doublenico.hypegradients.animations.AnimationCache;
+import me.doublenico.hypegradients.animations.AnimationHandler;
 import me.doublenico.hypegradients.chat.ColorChat;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -11,10 +13,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class GradientPlaceholder extends PlaceholderExpansion {
     private final HypeGradients plugin;
+    private final AnimationHandler animationHandler = new AnimationHandler();
+    private final HashMap<UUID, AnimationCache> animationCache = new HashMap<>();
 
     public GradientPlaceholder(HypeGradients plugin) {
         this.plugin = plugin;
@@ -37,7 +43,7 @@ public class GradientPlaceholder extends PlaceholderExpansion {
 
     @NotNull
     public String getVersion() {
-        return "1.0.3";
+        return "1.0.4";
     }
 
     @NotNull
@@ -93,4 +99,5 @@ public class GradientPlaceholder extends PlaceholderExpansion {
         }
         return CColor.translateGradient(message, align, gradients.toArray(new CColor[0]));
     }
+
 }

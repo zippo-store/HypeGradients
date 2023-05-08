@@ -11,6 +11,7 @@ import me.doublenico.hypegradients.commands.SubCommand;
 import me.doublenico.hypegradients.packets.*;
 import org.bukkit.command.CommandSender;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ReloadSubCommand extends SubCommand {
@@ -29,18 +30,37 @@ public class ReloadSubCommand extends SubCommand {
             (new ColorChat("[info]Reloaded everything")).sendMessage(sender);
         } else if (args.length == 2) {
             switch (args[1]) {
+                case "configs" -> {
+                    if (!hasPermission(sender, "hypegradients.reload.configs")) return;
+                    plugin.getColorConfig().checkConfig(plugin);
+                    plugin.getColorConfig().getConfig().reload();
+                    plugin.getSettingsConfig().getConfig().reload();
+                    plugin.getAnimationsConfig().getConfig().reload();
+                    (new ColorChat("[info]Reloaded configs")).sendMessage(sender);
+                }
+                case "animations" -> {
+                    if (!hasPermission(sender, "hypegradients.reload.animations")) return;
+                    plugin.getAnimationsConfig().getConfig().reload();
+                    (new ColorChat("[info]Reloaded animations list")).sendMessage(sender);
+                }
                 case "colors" -> {
+                    if (!hasPermission(sender, "hypegradients.reload.colors")) return;
+                    plugin.getColorConfig().checkConfig(plugin);
                     plugin.getColorConfig().getConfig().reload();
                     (new ColorChat("[info]Reloaded colors list")).sendMessage(sender);
                 }
                 case "settings" -> {
+                    if (!hasPermission(sender, "hypegradients.reload.settings")) return;
                     plugin.getSettingsConfig().getConfig().reload();
                     reloadPackets(plugin, sender);
                     (new ColorChat("[info]Reloaded settings")).sendMessage(sender);
                 }
                 case "all" -> {
+                    if (!hasPermission(sender, "hypegradients.reload.all")) return;
+                    plugin.getColorConfig().checkConfig(plugin);
                     plugin.getColorConfig().getConfig().reload();
                     plugin.getSettingsConfig().getConfig().reload();
+                    plugin.getAnimationsConfig().getConfig().reload();
                     reloadPackets(plugin, sender);
                     (new ColorChat("[info]Reloaded everything")).sendMessage(sender);
                 }
@@ -51,12 +71,15 @@ public class ReloadSubCommand extends SubCommand {
 
 
     public void tabCompleter(HypeGradients plugin, CommandSender sender, String[] args, List<String> completions) {
+        if (args.length == 2)
+            completions.addAll(Arrays.asList("colors", "settings", "all", "animations", "configs"));
     }
 
     private void reloadPackets(HypeGradients plugin, CommandSender sender) {
         ProtocolManager manager = ProtocolLibrary.getProtocolManager();
         manager.removePacketListeners(plugin);
-        MessagePacketHandler.packets.clear();
+        MessagePacketHandler handler = new MessagePacketHandler();
+        MessagePacketHandler.getPackets().clear();
         if (!plugin.getSettingsConfig().getConfig().getBoolean("chat-detection.enabled", true))
             return;
         if (plugin.isLegacy())
@@ -74,8 +97,8 @@ public class ReloadSubCommand extends SubCommand {
         new GuiTitleMessagePacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.OPEN_WINDOW);
         new ScoreboardTeamPacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.SCOREBOARD_TEAM);
         new ScoreboardObjectivePacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.SCOREBOARD_OBJECTIVE);
-        if (plugin.getPacketHandler().registerPacketListener()) {
-            new ColorChat("[info]Registered " + plugin.getPacketHandler().getPacketCount() + " packet listeners.").sendMessage(sender);
+        if (handler.registerPacketListener()) {
+            new ColorChat("[info]Registered " + handler.getPacketCount() + " packet listeners.").sendMessage(sender);
             new ColorChat("[info]ProtocolLib packet listener is enabled...").sendMessage(sender);
         } else
             new ColorChat("[error]Could not register ProtocolLib packet listener! Disabling gradient chat detection.").sendMessage(sender);

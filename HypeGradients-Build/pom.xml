@@ -10,20 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>HypeGradients-Build</artifactId>
-    <dependencies>
-        <dependency>
-            <groupId>me.doublenico</groupId>
-            <artifactId>HypeGradients-Dev</artifactId>
-            <version>1.0.3</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
-
-    <properties>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <packaging>jar</packaging>
 
     <build>
         <plugins>
@@ -32,8 +19,54 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.1</version>
                 <configuration>
-                    <outputDirectory>/Users/doublenico/Documents/Servers.nosync/Debug Server 1.19.3/plugins/
+                    <outputDirectory>/Users/doublenico/Documents/Servers/Debug Server 1.19.4/plugins/
                     </outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>me.lucko:commodore</include>
+                            <include>com.github.PerryPlaysMC:DynamicJson</include>
+                            <include>com.github.PerryPlaysMC:DynamicConfigurations</include>
+                            <include>me.doublenico:HypeGradients-Dev</include>
+                            <include>me.doublenico:HypeGradients-API</include>
+                            <include>org.bstats:bstats-base</include>
+                            <include>org.bstats:bstats-bukkit</include>
+                        </includes>
+                    </artifactSet>
+                    <relocations>
+                        <relocation>
+                            <pattern>me.lucko.commodore</pattern>
+                            <shadedPattern>me.doublenico.hypegradients.commodore</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>dev.dynamicstudios.json.data.util</pattern>
+                            <shadedPattern>me.doublenico.hypegradients.json</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>dev.perryplaysmc.dynamicconfigurations</pattern>
+                            <shadedPattern>me.doublenico.hypegradients.config</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <shadedPattern>me.doublenico.hypegradients.bstats</shadedPattern>
+                        </relocation>
+                    </relocations>
+                    <minimizeJar>true</minimizeJar>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
                 </configuration>
             </plugin>
         </plugins>
@@ -43,7 +76,65 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-        <finalName>HypeGradients ${project.version}</finalName>
+        <finalName>HypeGradients 1.0.4</finalName>
     </build>
 
+
+    <dependencies>
+        <dependency>
+            <groupId>me.doublenico</groupId>
+            <artifactId>HypeGradients-Dev</artifactId>
+            <version>1.0.4</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.PerryPlaysMC</groupId>
+            <artifactId>DynamicJson</artifactId>
+            <version>v2.0.3</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.lucko</groupId>
+            <artifactId>commodore</artifactId>
+            <version>2.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.PerryPlaysMC</groupId>
+            <artifactId>DynamicConfigurations</artifactId>
+            <version>1.4.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>3.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>minecraft-repo</id>
+            <url>https://libraries.minecraft.net/</url>
+        </repository>
+    </repositories>
 </project>

@@ -21,7 +21,7 @@ public class PacketsSubCommand extends SubCommand {
     @Override
     public void execute(HypeGradients plugin, CommandSender sender, String[] args) {
         if (args.length == 1) {
-            MessagePacketHandler.packets.forEach(messagePacket -> {
+            MessagePacketHandler.getPackets().forEach(messagePacket -> {
                 sender.sendMessage(messagePacket.toString());
                 sender.sendMessage(messagePacket.getType().name());
                 sender.sendMessage(messagePacket.getPriority().name());

@@ -42,6 +42,7 @@ public class ScoreboardTeamPacket extends MessagePacket {
             prefix.setJson((new ChatJson(gradient.translateGradient((HypeGradients) getPlugin()))).convertToJson());
             wrapper.setPrefix(prefix);
             wrapper.setSuffix(WrappedChatComponent.fromText(""));
+            if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Scoreboard", "Team");
         }
