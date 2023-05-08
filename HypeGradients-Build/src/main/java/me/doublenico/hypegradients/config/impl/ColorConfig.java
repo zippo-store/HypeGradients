@@ -32,9 +32,7 @@ public class ColorConfig extends ConfigManager {
 
     public void checkConfig(HypeGradients plugin) {
         HashMap<String, String> colors = new HashMap<>();
-        System.out.println(getConfig().getSection("colors").getKeys(false));
         for (String key : getConfig().getSection("colors").getKeys(false)) {
-            System.out.println(key);
             String hex = getConfig().getString("colors." + key);
             if (hex == null) {
                 getConfig().getSection("colors").set(key, null);
