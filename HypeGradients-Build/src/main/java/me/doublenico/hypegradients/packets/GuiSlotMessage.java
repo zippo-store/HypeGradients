@@ -51,6 +51,7 @@ public class GuiSlotMessage extends MessagePacket {
             meta.setLore(lore);
         }
         item.setItemMeta(meta);
+        if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
         ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
         ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Gui Slot", "Gui");
     }

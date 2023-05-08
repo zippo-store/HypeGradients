@@ -51,6 +51,7 @@ public class GuiMessagePacket extends MessagePacket {
             }
             item.setItemMeta(meta);
         }
+        if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
         ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
         ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Gui Message", "Gui");
     }

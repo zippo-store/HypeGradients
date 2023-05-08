@@ -35,6 +35,7 @@ public class ScoreboardObjectivePacket extends MessagePacket {
         if (gradient.isGradient((HypeGradients) getPlugin())) {
             component.setJson((new ChatJson(gradient.translateGradient((HypeGradients) getPlugin()))).convertToJson());
             wrapper.setDisplayName(component);
+            if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Scoreboard", "Team");
         }

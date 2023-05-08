@@ -6,19 +6,34 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class MessagePacketHandler {
 
-    public static LinkedList<MessagePacket> packets = new LinkedList<>();
+    private static final List<MessagePacket> packets = new LinkedList<>();
 
-    public LinkedList<MessagePacket> getPackets() {
+
+    /**
+     * Get the list of packets, should be used only for manipulating the packets
+     *
+     * @return the list of packets
+     */
+    public static List<MessagePacket> getPackets() {
         return packets;
     }
 
+    /**
+     * @return the amount of packets
+     */
     public int getPacketCount() {
         return packets.size();
     }
 
+    /**
+     * This will add every packet from the {@link #getPackets()} list to the ProtocolLib packet listener
+     *
+     * @return true if the packet was added
+     */
     public boolean registerPacketListener() {
         ProtocolManager manager = ProtocolLibrary.getProtocolManager();
         if (manager == null) return false;
@@ -38,6 +53,12 @@ public class MessagePacketHandler {
         return true;
     }
 
+    /**
+     * This will add the packet to the ProtocolLib packet listener
+     *
+     * @param packet the packet to add
+     * @return true if the packet was added
+     */
     public boolean registerPacketListener(MessagePacket packet) {
         ProtocolManager manager = ProtocolLibrary.getProtocolManager();
         if (manager == null) return false;

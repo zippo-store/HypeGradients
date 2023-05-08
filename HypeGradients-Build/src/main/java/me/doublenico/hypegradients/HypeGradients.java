@@ -2,18 +2,18 @@ package me.doublenico.hypegradients;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
-import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.builder.RequiredArgumentBuilder;
-import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
+import me.doublenico.hypegradients.animations.AnimationListener;
 import me.doublenico.hypegradients.api.MessagePacketHandler;
 import me.doublenico.hypegradients.bstats.MetricsWrapper;
 import me.doublenico.hypegradients.chat.ChatTranslators;
 import me.doublenico.hypegradients.commands.CommandsManager;
+import me.doublenico.hypegradients.commands.CommodoreHandler;
+import me.doublenico.hypegradients.config.impl.AnimationsConfig;
 import me.doublenico.hypegradients.config.impl.ColorConfig;
 import me.doublenico.hypegradients.config.impl.SettingsConfig;
 import me.doublenico.hypegradients.packets.*;
+import me.doublenico.hypegradients.placeholder.AnimationPlaceholder;
 import me.doublenico.hypegradients.placeholder.GradientPlaceholder;
 import me.lucko.commodore.CommodoreProvider;
 import org.bukkit.Bukkit;
@@ -22,13 +22,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Objects;
 
 public final class HypeGradients extends JavaPlugin {
-    private MessagePacketHandler packetHandler;
-
     private SettingsConfig settingsConfig;
 
     private ColorConfig colorConfig;
+    private AnimationsConfig animationsConfig;
 
-    private CommandsManager commandsManager;
     private MetricsWrapper metricsWrapper;
 
     @Override
@@ -42,6 +40,10 @@ public final class HypeGradients extends JavaPlugin {
         this.settingsConfig = new SettingsConfig(parent, "settings");
         if (parent.getConfiguration("colors.yml") == null) this.colorConfig = new ColorConfig(parent, "colors", true);
         this.colorConfig = new ColorConfig(parent, "colors", false);
+        this.colorConfig.checkConfig(this);
+        if (parent.getConfiguration("animations.yml") == null)
+            this.animationsConfig = new AnimationsConfig(parent, "animations", true);
+        this.animationsConfig = new AnimationsConfig(parent, "animations", false);
         getLogger().finest("Configurations are loaded!");
         getLogger().finest("Registering PlaceholderAPI placeholders...");
         new GradientPlaceholder(this).register();
@@ -53,18 +55,19 @@ public final class HypeGradients extends JavaPlugin {
 
                 try {
                     getLogger().info("Registering ProtocolLib packet listener...");
-                    this.packetHandler = new MessagePacketHandler();
                     if (isLegacy()) {
                         new LegacyTitleMessagePacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.TITLE);
                     } else {
                         new TitleMessagePacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.SET_TITLE_TEXT);
                         new SubtitleMessagePacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.SET_SUBTITLE_TEXT);
                     }
-                    if (supportsSignature()) {
-                        new SignaturePacket(this);
-                    } else {
-                        new ChatMessagePacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.CHAT);
-                    }
+                    if (supportsSignature() && !isNewSignature()) new SignaturePacket(this);
+                    else if (isNewSignature()) {
+                        System.out.println("New signature");
+                        new NewSignaturePacket(this);
+                    } else new ChatMessagePacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.CHAT);
+                    // TODO: ADD BOSSBAR PACKET
+                    // new BossBarPacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.BOSS);
                     new GuiMessagePacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.WINDOW_ITEMS);
                     new GuiSlotMessage(this, ListenerPriority.MONITOR, PacketType.Play.Server.SET_SLOT);
                     new GuiTitleMessagePacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.OPEN_WINDOW);
@@ -76,50 +79,33 @@ public final class HypeGradients extends JavaPlugin {
                 }
             }
         }
-        getLogger().finest("PlaceholderAPI placehoders are loaded!");
+        getLogger().finest("PlaceholderAPI placeholders are loaded!");
         new ChatTranslators();
         getLogger().info("Registering commands...");
-        this.commandsManager = new CommandsManager(this);
-        Objects.requireNonNull(getCommand("hypegradients")).setExecutor(this.commandsManager);
-        LiteralCommandNode<?> node = LiteralArgumentBuilder.literal("hypegradients")
-                .then(LiteralArgumentBuilder.literal("colors")
-                        .then(LiteralArgumentBuilder.literal("add")
-                                .then(RequiredArgumentBuilder.argument("name", StringArgumentType.word())
-                                        .then(RequiredArgumentBuilder.argument("color", StringArgumentType.greedyString()))))
-                        .then(LiteralArgumentBuilder.literal("remove")
-                                .then(RequiredArgumentBuilder.argument("color", StringArgumentType.word())))
-                        .then(LiteralArgumentBuilder.literal("list")))
-                .then(LiteralArgumentBuilder.literal("debug")
-                        .then(LiteralArgumentBuilder.literal("message")
-                                .then(RequiredArgumentBuilder.argument("message", StringArgumentType.greedyString())))
-                        .then(LiteralArgumentBuilder.literal("title")
-                                .then(RequiredArgumentBuilder.argument("message", StringArgumentType.greedyString())))
-                        .then(LiteralArgumentBuilder.literal("subtitle")
-                                .then(RequiredArgumentBuilder.argument("message", StringArgumentType.greedyString())))
-                        .then(LiteralArgumentBuilder.literal("bossbar")
-                                .then(RequiredArgumentBuilder.argument("message", StringArgumentType.greedyString())))
-                        .then(LiteralArgumentBuilder.literal("scoreboard")
-                                .then(LiteralArgumentBuilder.literal("title")
-                                        .then(RequiredArgumentBuilder.argument("message", StringArgumentType.greedyString())))
-                                .then(LiteralArgumentBuilder.literal("line")
-                                        .then(RequiredArgumentBuilder.argument("message", StringArgumentType.greedyString())))))
-                .then(LiteralArgumentBuilder.literal("reload")
-                        .then(LiteralArgumentBuilder.literal("settings"))
-                        .then(LiteralArgumentBuilder.literal("colors"))
-                        .then(LiteralArgumentBuilder.literal("all")))
-                .then(LiteralArgumentBuilder.literal("packets")).build();
-
-        CommodoreProvider.getCommodore(this).register(getCommand("hypegradients"), node, player -> this.commandsManager.checkPermission(player));
+        CommandsManager commandsManager = new CommandsManager(this);
+        Objects.requireNonNull(getCommand("hypegradients")).setExecutor(commandsManager);
+        if (CommodoreProvider.isSupported())
+            new CommodoreHandler().registerCommodoreSupport(this, commandsManager);
+        else Objects.requireNonNull(getCommand("hypegradients")).setTabCompleter(commandsManager);
         getLogger().finest("Commands are enabled!");
-        getLogger().info("Loading bStats metrics...");
-        this.metricsWrapper = new MetricsWrapper(this, 17671);
-        getLogger().finest("bStats metrics are enabled...");
+        if (settingsConfig.getConfig().getBoolean("bstats.enabled", true)) {
+            getLogger().info("Loading bStats metrics...");
+            this.metricsWrapper = new MetricsWrapper(this, 17671);
+            getLogger().finest("bStats metrics are enabled...");
+        }
+        if (settingsConfig.getConfig().getBoolean("animations.enabled", true)) {
+            getLogger().info("Loading animations...");
+            AnimationPlaceholder animationPlaceholder = new AnimationPlaceholder(this);
+            animationPlaceholder.register();
+            getServer().getPluginManager().registerEvents(new AnimationListener(animationPlaceholder), this);
+            getLogger().finest("Animations are enabled...");
+        }
     }
 
     @Override
     public void onDisable() {
-        if (this.packetHandler != null)
-            this.packetHandler.getPackets().clear();
+        if (MessagePacketHandler.getPackets() != null)
+            MessagePacketHandler.getPackets().clear();
     }
 
     public SettingsConfig getSettingsConfig() {
@@ -130,8 +116,8 @@ public final class HypeGradients extends JavaPlugin {
         return this.colorConfig;
     }
 
-    public MessagePacketHandler getPacketHandler() {
-        return this.packetHandler;
+    public AnimationsConfig getAnimationsConfig() {
+        return animationsConfig;
     }
 
     public MetricsWrapper getMetricsWrapper() {
@@ -148,6 +134,20 @@ public final class HypeGradients extends JavaPlugin {
             case "v1_16_R1", "v1_16_R2", "v1_16_R3", "v1_17_R1", "v1_18_R1", "v1_18_R2" -> false;
             default -> true;
         };
+    }
+
+    public boolean isNewSignature() {
+        if (supportsSignature()) {
+            switch (getNMSVersion()) {
+                case "v1_19_R1", "v1_19_R2" -> {
+                    return false;
+                }
+                default -> {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public boolean isLegacy() {

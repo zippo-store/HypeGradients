@@ -17,5 +17,7 @@ public class SettingsConfig extends ConfigManager {
         addInlineDefault("chat-detection.gui.title", true, "Enable gradient detection for the gui title.");
         addInlineDefault("chat-detection.scoreboard.title", true, "Enable gradient detection for the scoreboard title.");
         addInlineDefault("chat-detection.scoreboard.lines", true, "Enable gradient detection for the scoreboard lines.");
+        addInlineDefault("bstats.enabled", true, "Enable bStats");
+        addInlineDefault("animations.enabled", true, "Enable animations");
     }
 }

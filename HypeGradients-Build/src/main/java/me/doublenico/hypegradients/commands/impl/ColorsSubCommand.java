@@ -26,19 +26,19 @@ public class ColorsSubCommand extends SubCommand {
         if (args.length == 1)
             switch (args[0]) {
                 case "add" -> {
-                    if (!sender.hasPermission("hypegradients.color.add"))
+                    if (!hasPermission(sender, "hypegradients.color.add"))
                         return;
                     (new ColorChat("[important]/hypegradients [argument]colors [optional]add [required]<hex> [description]- Add a color to the colors list")).sendMessage(sender);
                     return;
                 }
                 case "remove" -> {
-                    if (!sender.hasPermission("hypegradients.color.remove"))
+                    if (!hasPermission(sender, "hypegradients.color.remove"))
                         return;
                     (new ColorChat("[important]/hypegradients [argument]colors [optional]remove [required]<hex> [description]- Remove a color from the colors list")).sendMessage(sender);
                     return;
                 }
                 case "list" -> {
-                    if (!sender.hasPermission("hypegradients.color.list"))
+                    if (!hasPermission(sender, "hypegradients.color.list"))
                         return;
                     (new ColorChat("[important]/hypegradients [argument]colors [optional]list [description]- List the colors list")).sendMessage(sender);
                     return;
@@ -51,7 +51,7 @@ public class ColorsSubCommand extends SubCommand {
         if (args.length >= 2) {
             switch (args[1]) {
                 case "add" -> {
-                    if (!sender.hasPermission("hypegradients.color.add"))
+                    if (!hasPermission(sender, "hypegradients.color.add"))
                         return;
                     if (args.length == 4) {
                         IDynamicConfigurationSection colors = plugin.getColorConfig().getConfig().getSection("colors");
@@ -74,7 +74,7 @@ public class ColorsSubCommand extends SubCommand {
                     }
                 }
                 case "remove" -> {
-                    if (!sender.hasPermission("hypegradients.color.remove"))
+                    if (!hasPermission(sender, "hypegradients.color.remove"))
                         return;
                     if (args.length == 3) {
                         IDynamicConfigurationSection colors = plugin.getColorConfig().getConfig().getSection("colors");
@@ -87,7 +87,7 @@ public class ColorsSubCommand extends SubCommand {
                     }
                 }
                 case "list" -> {
-                    if (!sender.hasPermission("hypegradients.color.list"))
+                    if (!hasPermission(sender, "hypegradients.color.list"))
                         return;
                     IDynamicConfigurationSection colors = plugin.getColorConfig().getConfig().getSection("colors");
                     Set<String> keys = colors.getKeys(false);
@@ -118,24 +118,20 @@ public class ColorsSubCommand extends SubCommand {
             return;
         }
         if (args.length == 2)
-            switch (args[1]) {
+            switch (args[0]) {
                 case "add" -> {
                     completions.add("<name> <hex>");
                     return;
                 }
                 case "remove" -> {
-                    completions.add("<name>");
+                    completions.addAll(plugin.getColorConfig().getColors());
                     return;
                 }
             }
-        switch (args[1]) {
-            case "add" -> {
-                if (args.length == 3)
-                    completions.add("<name>");
-                if (args.length == 4)
-                    completions.add("123456");
-            }
-            case "remove" -> completions.addAll(plugin.getColorConfig().getColors());
-        }
+        if (args.length == 3)
+            if (args[0].equals("add"))
+                completions.add("123456");
+
+
     }
 }

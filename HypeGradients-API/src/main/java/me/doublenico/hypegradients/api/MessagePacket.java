@@ -16,7 +16,7 @@ public abstract class MessagePacket {
         this.plugin = plugin;
         this.priority = priority;
         this.type = type;
-        MessagePacketHandler.packets.add(this);
+        new MessagePacketHandler().getPackets().add(this);
         if (new MessagePacketHandler().registerPacketListener(this))
             plugin.getLogger().finest("Registered packet listener for " + type.name());
         else
@@ -45,6 +45,20 @@ public abstract class MessagePacket {
             case "v1_16_R1", "v1_16_R2", "v1_16_R3", "v1_17_R1", "v1_18_R1", "v1_18_R2" -> false;
             default -> true;
         };
+    }
+
+    public boolean isNewSignature() {
+        if (supportsSignature()) {
+            switch (getNMSVersion()) {
+                case "v1_19_R1", "v1_19_R2" -> {
+                    return false;
+                }
+                default -> {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

@@ -1,5 +1,6 @@
 package me.doublenico.hypegradients.commands.impl;
 
+import com.comphenix.protocol.ProtocolLibrary;
 import me.doublenico.hypegradients.HypeGradients;
 import me.doublenico.hypegradients.chat.ColorChat;
 import me.doublenico.hypegradients.commands.SubCommand;
@@ -32,6 +33,9 @@ public class DebugSubCommand extends SubCommand {
                 (new ColorChat("[important]/hypegradients [argument]debug [optional]message [required]<message> [description]- Send a debug message")).sendMessage(sender);
                 (new ColorChat("[important]/hypegradients [argument]debug [optional]title [required]<message> [description]- Send a debug title")).sendMessage(sender);
                 (new ColorChat("[important]/hypegradients [argument]debug [optional]subtitle [required]<message> [description]- Send a debug subtitle")).sendMessage(sender);
+                new ColorChat("[important]/hypegradients [argument]debug [optional]bossbar [required]<message> [description]- Send a debug bossbar").sendMessage(sender);
+                new ColorChat("[important]/hypegradients [argument]debug [optional]scoreboard [required]<line|title> <message> [description]- Send a debug scoreboard").sendMessage(sender);
+                new ColorChat("[important]/hypegradients [argument]debug [optional]diagnostics [description]- Check for data and informations, good for bug report").sendMessage(sender);
                 return;
             }
             (new ColorChat("[error]Invalid argument!")).sendMessage(sender);
@@ -117,6 +121,21 @@ public class DebugSubCommand extends SubCommand {
 
                     }
                 }
+                case "diagnostics" -> {
+                    if (!sender.hasPermission("hypegradients.debug.diagnostics"))
+                        return;
+                    (new ColorChat("[important]HypeGradients Diagnostics")).sendMessage(sender);
+                    (new ColorChat("[important]Version: " + plugin.getDescription().getVersion())).sendMessage(sender);
+                    (new ColorChat("[important]Author: " + plugin.getDescription().getAuthors().get(0))).sendMessage(sender);
+                    new ColorChat("[important]Server version: " + Bukkit.getVersion()).sendMessage(sender);
+                    if (Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
+                        new ColorChat("[important]ProtocolLib version: " + ProtocolLibrary.getPlugin().getDescription().getVersion()).sendMessage(sender);
+                        new ColorChat("[important]ProtocolLib API version: " + ProtocolLibrary.getPlugin().getDescription().getAPIVersion()).sendMessage(sender);
+                        new ColorChat("[important]ProtocolLib full name: " + ProtocolLibrary.getPlugin().getDescription().getFullName()).sendMessage(sender);
+                    }
+                    new ColorChat("[important]Java version: " + System.getProperty("java.version")).sendMessage(sender);
+                    new ColorChat("[important]PlaceholderAPI version: " + Bukkit.getPluginManager().getPlugin("PlaceholderAPI").getDescription().getVersion()).sendMessage(sender);
+                }
                 default -> (new ColorChat("[error]Unknown argument!")).sendMessage(sender);
             }
         }
@@ -133,10 +152,14 @@ public class DebugSubCommand extends SubCommand {
                 completions.add("subtitle");
             if (sender.hasPermission("hypegradients.debug.scoreboard"))
                 completions.add("scoreboard");
+            if (sender.hasPermission("hypegradients.debug.bossbar"))
+                completions.add("bossbar");
+            if (sender.hasPermission("hypegradients.debug.diagnostics"))
+                completions.add("diagnostics");
             return;
         }
-        if (args.length == 3)
-            switch (args[1]) {
+        if (args.length == 2)
+            switch (args[0]) {
                 case "message" -> {
                     if (sender.hasPermission("hypegradients.debug.message"))
                         completions.add("<message>");
@@ -158,8 +181,8 @@ public class DebugSubCommand extends SubCommand {
                         completions.add("<title/line>");
                 }
             }
-        if (args.length == 4) {
-            if (args[1].equals("scoreboard")) {
+        if (args.length == 3) {
+            if (args[0].equals("scoreboard")) {
                 if (sender.hasPermission("hypegradients.debug.scoreboard"))
                     completions.add("<message>");
             }

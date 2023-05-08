@@ -38,8 +38,16 @@ permissions:
       hypegradients.debug.title: true
       hypegradients.debug.subtitle: true
       hypegradients.debug.scoreboard: true
+      hypegradiebts.debug.bossbar: true
+      hypegradients.debug.diagnostics: true
   hypegradients.reload:
     description: Everything about reload
+    children:
+      hypegradients.reload.configs: true
+      hypegradients.reload.animations: true
+      hypegradients.reload.settings: true
+      hypegradients.reload.colors: true
+      hypegradients.reload.all: true
   hypegradients.packets:
     description: Everything about packets
   hypegradients.default:
