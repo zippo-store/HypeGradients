@@ -44,7 +44,6 @@ public class AnimationPlaceholder extends PlaceholderExpansion {
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String identifier) {
         // %hypeanimations_<animation>_<text>%
-        System.out.println(identifier);
         String[] args = identifier.split("_");
         if (args.length < 1) return null;
         String animation = args[0];

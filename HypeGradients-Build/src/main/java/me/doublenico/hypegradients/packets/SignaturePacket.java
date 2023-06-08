@@ -6,8 +6,9 @@ import me.doublenico.hypegradients.HypeGradients;
 import me.doublenico.hypegradients.api.MessagePacket;
 import me.doublenico.hypegradients.chat.ChatGradient;
 import me.doublenico.hypegradients.chat.ChatJson;
-import me.doublenico.hypegradients.dev.SignatureChatMessagePacket;
-import me.doublenico.hypegradients.dev.WrapperSignatureChat;
+import me.doublenico.hypegradients.dev.AdventureChatComponent;
+import me.doublenico.hypegradients.dev.packets.SignatureChatMessagePacket;
+import me.doublenico.hypegradients.dev.wrappers.WrapperSignatureChat;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SignaturePacket extends MessagePacket {
@@ -35,6 +36,13 @@ public class SignaturePacket extends MessagePacket {
         ChatGradient gradient = new ChatGradient(string);
         if (gradient.isGradient((HypeGradients) getPlugin())) {
             wrapper.setMessage(new ChatJson(gradient.translateGradient((HypeGradients) getPlugin())).convertToJson());
+            if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
+            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
+            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Signature", "Chat");
+        } else if (((HypeGradients) getPlugin()).getSettingsConfig().getConfig().getBoolean("chat-detection-minimessage.enabled", true) || ((HypeGradients) getPlugin()).getSettingsConfig().getConfig().getBoolean("chat-detection-minimessage.chat", true)) {
+            AdventureChatComponent adventureChatComponent = new AdventureChatComponent(string);
+            if (adventureChatComponent.getFormattedComponent() == null) return;
+            wrapper.setMessage(adventureChatComponent.getFormattedComponent());
             if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Signature", "Chat");

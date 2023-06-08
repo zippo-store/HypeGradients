@@ -9,6 +9,7 @@ import me.doublenico.hypegradients.HypeGradients;
 import me.doublenico.hypegradients.api.MessagePacket;
 import me.doublenico.hypegradients.chat.ChatGradient;
 import me.doublenico.hypegradients.chat.ChatJson;
+import me.doublenico.hypegradients.dev.AdventureChatComponent;
 import me.doublenico.hypegradients.wrappers.WrapperScoreboardTeam;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -40,6 +41,16 @@ public class ScoreboardTeamPacket extends MessagePacket {
         ChatGradient gradient = new ChatGradient(text);
         if (gradient.isGradientTeam((HypeGradients) getPlugin())) {
             prefix.setJson((new ChatJson(gradient.translateGradient((HypeGradients) getPlugin()))).convertToJson());
+            wrapper.setPrefix(prefix);
+            wrapper.setSuffix(WrappedChatComponent.fromText(""));
+            if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
+            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
+            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Scoreboard", "Team");
+        } else if (((HypeGradients) getPlugin()).getSettingsConfig().getConfig().getBoolean("chat-detection-minimessage.enabled", true) || ((HypeGradients) getPlugin()).getSettingsConfig().getConfig().getBoolean("chat-detection-minimessage.scoreboard.lines", true)) {
+            AdventureChatComponent adventureChatComponent = new AdventureChatComponent(text);
+            if (adventureChatComponent.getFormattedComponent() == null)
+                return;
+            prefix.setJson(adventureChatComponent.getFormattedComponent());
             wrapper.setPrefix(prefix);
             wrapper.setSuffix(WrappedChatComponent.fromText(""));
             if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;

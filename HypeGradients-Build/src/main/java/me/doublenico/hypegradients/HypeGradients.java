@@ -63,11 +63,14 @@ public final class HypeGradients extends JavaPlugin {
                     }
                     if (supportsSignature() && !isNewSignature()) new SignaturePacket(this);
                     else if (isNewSignature()) {
-                        System.out.println("New signature");
                         new NewSignaturePacket(this);
                     } else new ChatMessagePacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.CHAT);
-                    // TODO: ADD BOSSBAR PACKET
-                    // new BossBarPacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.BOSS);
+                    new ServerInfoPacket(this, ListenerPriority.MONITOR, PacketType.Status.Server.SERVER_INFO);
+                    new PlayerInfoPacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.PLAYER_INFO);
+                    new HeaderFooterPacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
+                    new EntityMetaDataPacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.ENTITY_METADATA);
+                    new EntityPacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.SPAWN_ENTITY);
+                    new BossBarPacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.BOSS);
                     new GuiMessagePacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.WINDOW_ITEMS);
                     new GuiSlotMessage(this, ListenerPriority.MONITOR, PacketType.Play.Server.SET_SLOT);
                     new GuiTitleMessagePacket(this, ListenerPriority.MONITOR, PacketType.Play.Server.OPEN_WINDOW);
@@ -100,6 +103,19 @@ public final class HypeGradients extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new AnimationListener(animationPlaceholder), this);
             getLogger().finest("Animations are enabled...");
         }
+        if (settingsConfig.getConfig().getBoolean("chat-detection-minimessage.enabled", false)) {
+            try {
+                Class.forName("net.kyori.adventure.text.minimessage.MiniMessage");
+                getLogger().info("Loading MiniMessage chat detection...");
+                settingsConfig.getConfig().set("chat-detection-minimessage.enabled", true);
+                settingsConfig.getConfig().reload();
+                getLogger().finest("Minimessage chat detection is enabled...");
+            } catch (ClassNotFoundException e) {
+                getLogger().warning("Could not find MiniMessage! Disabling MiniMessage chat detection.");
+                settingsConfig.getConfig().set("chat-detection-minimessage.enabled", false);
+                settingsConfig.getConfig().reload();
+            }
+        }
     }
 
     @Override
@@ -107,6 +123,7 @@ public final class HypeGradients extends JavaPlugin {
         if (MessagePacketHandler.getPackets() != null)
             MessagePacketHandler.getPackets().clear();
     }
+
 
     public SettingsConfig getSettingsConfig() {
         return this.settingsConfig;

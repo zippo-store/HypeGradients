@@ -27,6 +27,8 @@ public class CommodoreHandler {
                                 .then(RequiredArgumentBuilder.argument("message", StringArgumentType.greedyString())))
                         .then(LiteralArgumentBuilder.literal("bossbar")
                                 .then(RequiredArgumentBuilder.argument("message", StringArgumentType.greedyString())))
+                        .then(LiteralArgumentBuilder.literal("actionbar")
+                                .then(RequiredArgumentBuilder.argument("message", StringArgumentType.greedyString())))
                         .then(LiteralArgumentBuilder.literal("scoreboard")
                                 .then(LiteralArgumentBuilder.literal("title")
                                         .then(RequiredArgumentBuilder.argument("message", StringArgumentType.greedyString())))

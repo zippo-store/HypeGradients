@@ -4,6 +4,8 @@ import com.comphenix.protocol.ProtocolLibrary;
 import me.doublenico.hypegradients.HypeGradients;
 import me.doublenico.hypegradients.chat.ColorChat;
 import me.doublenico.hypegradients.commands.SubCommand;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -34,6 +36,7 @@ public class DebugSubCommand extends SubCommand {
                 (new ColorChat("[important]/hypegradients [argument]debug [optional]title [required]<message> [description]- Send a debug title")).sendMessage(sender);
                 (new ColorChat("[important]/hypegradients [argument]debug [optional]subtitle [required]<message> [description]- Send a debug subtitle")).sendMessage(sender);
                 new ColorChat("[important]/hypegradients [argument]debug [optional]bossbar [required]<message> [description]- Send a debug bossbar").sendMessage(sender);
+                new ColorChat("[important]/hypegradients [argument]debug [optional]actionbar [required]<message> [description]- Send a debug actionbar").sendMessage(sender);
                 new ColorChat("[important]/hypegradients [argument]debug [optional]scoreboard [required]<line|title> <message> [description]- Send a debug scoreboard").sendMessage(sender);
                 new ColorChat("[important]/hypegradients [argument]debug [optional]diagnostics [description]- Check for data and informations, good for bug report").sendMessage(sender);
                 return;
@@ -41,7 +44,7 @@ public class DebugSubCommand extends SubCommand {
             (new ColorChat("[error]Invalid argument!")).sendMessage(sender);
             return;
         }
-        if (args.length > 2) {
+        if (args.length >= 2) {
             switch (args[1]) {
                 case "message" -> {
                     if (!sender.hasPermission("hypegradients.debug.message"))
@@ -52,9 +55,20 @@ public class DebugSubCommand extends SubCommand {
                         message.append(args[i]).append(" ");
                     sender.sendMessage(message.toString());
                 }
+                case "actionbar" -> {
+                    if (!sender.hasPermission("hypegradients.debug.actionbar"))
+                        return;
+                    if (!(sender instanceof Player player)) return;
+                    StringBuilder message = new StringBuilder();
+                    int i;
+                    for (i = 2; i < args.length; i++)
+                        message.append(args[i]).append(" ");
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message.toString()));
+                }
                 case "bossbar" -> {
                     if (!sender.hasPermission("hypegradients.debug.bossbar"))
                         return;
+                    if (!(sender instanceof Player)) return;
                     StringBuilder message = new StringBuilder();
                     int i;
                     for (i = 2; i < args.length; i++)
@@ -156,6 +170,8 @@ public class DebugSubCommand extends SubCommand {
                 completions.add("bossbar");
             if (sender.hasPermission("hypegradients.debug.diagnostics"))
                 completions.add("diagnostics");
+            if (sender.hasPermission("hypegradients.debug.actionbar"))
+                completions.add("actionbar");
             return;
         }
         if (args.length == 2)
@@ -174,6 +190,10 @@ public class DebugSubCommand extends SubCommand {
                 }
                 case "bossbar" -> {
                     if (sender.hasPermission("hypegradients.debug.bossbar"))
+                        completions.add("<message>");
+                }
+                case "actionbar" -> {
+                    if (sender.hasPermission("hypegradients.debug.actionbar"))
                         completions.add("<message>");
                 }
                 case "scoreboard" -> {
