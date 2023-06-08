@@ -6,7 +6,7 @@
 
     <groupId>me.doublenico</groupId>
     <artifactId>HypeGradients</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <modules>
         <module>HypeGradients-Dev</module>
         <module>HypeGradients-API</module>
@@ -52,13 +52,12 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>1.19.4-R0.1-SNAPSHOT</version>
-            <classifier>remapped-mojang</classifier>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
-            <version>4.8.0</version>
+            <version>5.0.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

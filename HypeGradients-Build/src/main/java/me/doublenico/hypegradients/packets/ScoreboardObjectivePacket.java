@@ -37,7 +37,15 @@ public class ScoreboardObjectivePacket extends MessagePacket {
             wrapper.setDisplayName(component);
             if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
-            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Scoreboard", "Team");
+            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Scoreboard", "Objective");
+        } else if (((HypeGradients) getPlugin()).getSettingsConfig().getConfig().getBoolean("chat-detection-minimessage.enabled", true) || ((HypeGradients) getPlugin()).getSettingsConfig().getConfig().getBoolean("chat-detection-minimessage.scoreboard.title", true)) {
+            me.doublenico.hypegradients.dev.AdventureChatComponent adventureChatComponent = new me.doublenico.hypegradients.dev.AdventureChatComponent(string);
+            if (adventureChatComponent.getFormattedComponent() == null)
+                return;
+            component.setJson(adventureChatComponent.getFormattedComponent());
+            wrapper.setDisplayName(component);
+            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
+            ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Scoreboard", "Objective");
         }
     }
 }

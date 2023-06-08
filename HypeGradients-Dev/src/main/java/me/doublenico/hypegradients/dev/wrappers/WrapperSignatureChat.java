@@ -1,4 +1,4 @@
-package me.doublenico.hypegradients.dev;
+package me.doublenico.hypegradients.dev.wrappers;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;

@@ -7,6 +7,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import me.doublenico.hypegradients.HypeGradients;
 import me.doublenico.hypegradients.api.MessagePacket;
 import me.doublenico.hypegradients.chat.ChatGradient;
+import me.doublenico.hypegradients.dev.AdventureChatComponent;
 import me.doublenico.hypegradients.wrappers.WrapperGuiMessage;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -37,7 +38,11 @@ public class GuiMessagePacket extends MessagePacket {
                 ChatGradient gradient = new ChatGradient(meta.getDisplayName());
                 if (gradient.isGradient(JavaPlugin.getPlugin(HypeGradients.class)))
                     meta.setDisplayName(gradient.translateGradient(JavaPlugin.getPlugin(HypeGradients.class)));
-
+                if (((HypeGradients) getPlugin()).getSettingsConfig().getConfig().getBoolean("chat-detection-minimessage.enabled", true) || ((HypeGradients) getPlugin()).getSettingsConfig().getConfig().getBoolean("chat-detection-minimessage.gui.item", true)) {
+                    AdventureChatComponent component = new AdventureChatComponent(meta.getDisplayName());
+                    if (component.getFormattedComponent() != null)
+                        meta.setDisplayName(component.getFormattedComponent());
+                }
             }
             if (meta.getLore() != null && !meta.getLore().isEmpty()) {
                 List<String> lore = new ArrayList<>();
@@ -45,7 +50,12 @@ public class GuiMessagePacket extends MessagePacket {
                     ChatGradient gradient = new ChatGradient(s);
                     if (gradient.isGradient(JavaPlugin.getPlugin(HypeGradients.class)))
                         s = gradient.translateGradient(JavaPlugin.getPlugin(HypeGradients.class));
-                    lore.add(s);
+                    if (((HypeGradients) getPlugin()).getSettingsConfig().getConfig().getBoolean("chat-detection-minimessage.enabled", true) || ((HypeGradients) getPlugin()).getSettingsConfig().getConfig().getBoolean("chat-detection-minimessage.gui.item", true)) {
+                        AdventureChatComponent component = new AdventureChatComponent(s);
+                        if (component.getFormattedComponent() != null)
+                            s = component.getFormattedComponent();
+                        lore.add(s);
+                    }
                 }
                 meta.setLore(lore);
             }

@@ -1,4 +1,4 @@
-package me.doublenico.hypegradients.dev;
+package me.doublenico.hypegradients.dev.packets;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;

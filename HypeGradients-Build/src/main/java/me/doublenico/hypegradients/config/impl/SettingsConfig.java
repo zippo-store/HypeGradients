@@ -17,7 +17,24 @@ public class SettingsConfig extends ConfigManager {
         addInlineDefault("chat-detection.gui.title", true, "Enable gradient detection for the gui title.");
         addInlineDefault("chat-detection.scoreboard.title", true, "Enable gradient detection for the scoreboard title.");
         addInlineDefault("chat-detection.scoreboard.lines", true, "Enable gradient detection for the scoreboard lines.");
+        addInlineDefault("chat-detection.bossbar", true, "Enable gradient detection for the bossbar.");
         addInlineDefault("bstats.enabled", true, "Enable bStats");
         addInlineDefault("animations.enabled", true, "Enable animations");
+        addInlineDefault("chat-detection-minimessage.enabled", false, "Enable minimessage chat detection.");
+        addInlineDefault("chat-detection-minimessage.chat", true, "Enable chat minimessage detection.");
+        addInlineDefault("chat-detection-minimessage.title", true, "Enable title minimessage detection.");
+        addInlineDefault("chat-detection-minimessage.subtitle", true, "Enable subtitle minimessage detection.");
+        addInlineDefault("chat-detection-minimessage.gui.item", true, "Enable minimessage detection for items in a gui.");
+        addInlineDefault("chat-detection-minimessage.gui.title", true, "Enable minimessage detection for the gui title.");
+        addInlineDefault("chat-detection-minimessage.scoreboard.title", true, "Enable minimessage detection for the scoreboard title.");
+        addInlineDefault("chat-detection-minimessage.scoreboard.lines", true, "Enable minimessage detection for the scoreboard lines.");
+        addInlineDefault("chat-detection-uwu.enabled", true, "Enable uwu chat detection.");
+        addInlineDefault("chat-detection-uwu.chat", true, "Enable chat uwu detection.");
+        addInlineDefault("chat-detection-uwu.title", true, "Enable title uwu detection.");
+        addInlineDefault("chat-detection-uwu.subtitle", true, "Enable subtitle uwu detection.");
+        addInlineDefault("chat-detection-uwu.gui.item", true, "Enable uwu detection for items in a gui.");
+        addInlineDefault("chat-detection-uwu.gui.title", true, "Enable uwu detection for the gui title.");
+        addInlineDefault("chat-detection-uwu.scoreboard.title", true, "Enable uwu detection for the scoreboard title.");
+        addInlineDefault("chat-detection-uwu.scoreboard.lines", true, "Enable uwu detection for the scoreboard lines.");
     }
 }
