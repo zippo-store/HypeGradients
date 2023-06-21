@@ -4,7 +4,10 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
 import me.doublenico.hypegradients.HypeGradients;
+import me.doublenico.hypegradients.api.MessageDetection;
+import me.doublenico.hypegradients.api.MessageDetectionManager;
 import me.doublenico.hypegradients.api.chat.ChatGradient;
 import me.doublenico.hypegradients.api.chat.ChatJson;
 import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
@@ -38,16 +41,17 @@ public class HeaderFooterPacket extends MessagePacket {
         if (!((HypeGradients) getPlugin()).getSettingsConfig().getChatDetectionValues().footer()) return;
         WrapperHeaderFooter wrapper = new WrapperHeaderFooter(event.getPacket());
         WrappedChatComponent component = wrapper.getFooter();
-        if (component == null)
+        if (component == null) {
             return;
+        }
         String message = component.getJson();
         String string = (new ChatJson(message)).convertToString();
-        ChatGradient gradient = new ChatGradient(string);
         MessagePacketEvent messagePacketEvent = new MessagePacketEvent(getMessageType(), string, message, component);
         Bukkit.getPluginManager().callEvent(messagePacketEvent);
         message = messagePacketEvent.getJsonMessage();
         string = messagePacketEvent.getPlainMessage();
         component = messagePacketEvent.getChatComponent();
+        ChatGradient gradient = new ChatGradient(string);
         if (gradient.isGradient() && getChatDetectionConfiguration().getChatDetectionValues().footer()) {
             GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(string, message, gradient.getMessage(), getMessageType());
             Bukkit.getPluginManager().callEvent(gradientModifyEvent);
@@ -57,6 +61,18 @@ public class HeaderFooterPacket extends MessagePacket {
             if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Tab", "Footer");
+        } else {
+            for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
+                if (!messageDetection.isEnabled(event.getPlayer(), string, message, component)) continue;
+                HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);
+                ChatDetectionConfiguration chatDetectionConfiguration = messageDetection.chatDetectionConfiguration(event.getPlayer(), new DynamicConfigurationDirectory(plugin, plugin.getDataFolder()));
+                if (!chatDetectionConfiguration.getChatDetectionValues().footer()) continue;
+                string = messageDetection.getPlainMessage(event.getPlayer(), string);
+                component.setJson(new ChatJson(string).convertToJson());
+                wrapper.setFooter(component);
+            }
+            component.setJson(new ChatJson(string).convertToJson());
+            wrapper.setFooter(component);
         }
     }
 
@@ -68,8 +84,12 @@ public class HeaderFooterPacket extends MessagePacket {
             return;
         String message = component.getJson();
         String string = (new ChatJson(message)).convertToString();
+        MessagePacketEvent messagePacketEvent = new MessagePacketEvent(getMessageType(), string, message, component);
+        Bukkit.getPluginManager().callEvent(messagePacketEvent);
+        message = messagePacketEvent.getJsonMessage();
+        string = messagePacketEvent.getPlainMessage();
+        component = messagePacketEvent.getChatComponent();
         ChatGradient gradient = new ChatGradient(string);
-        Bukkit.getPluginManager().callEvent(new MessagePacketEvent(getMessageType(), string, message, component));
         if (gradient.isGradient() && getChatDetectionConfiguration().getChatDetectionValues().header()) {
             Bukkit.getPluginManager().callEvent(new GradientModifyEvent(string, message, gradient.getMessage(), getMessageType()));
             component.setJson((new ChatJson(gradient.translateGradient())).convertToJson());
@@ -77,6 +97,18 @@ public class HeaderFooterPacket extends MessagePacket {
             if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Tab", "Header");
+        } else {
+            for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
+                if (!messageDetection.isEnabled(event.getPlayer(), string, message, component)) continue;
+                HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);
+                ChatDetectionConfiguration chatDetectionConfiguration = messageDetection.chatDetectionConfiguration(event.getPlayer(), new DynamicConfigurationDirectory(plugin, plugin.getDataFolder()));
+                if (!chatDetectionConfiguration.getChatDetectionValues().header()) continue;
+                string = messageDetection.getPlainMessage(event.getPlayer(), string);
+                component.setJson(new ChatJson(string).convertToJson());
+                wrapper.setHeader(component);
+            }
+            component.setJson(new ChatJson(string).convertToJson());
+            wrapper.setHeader(component);
         }
     }
 }

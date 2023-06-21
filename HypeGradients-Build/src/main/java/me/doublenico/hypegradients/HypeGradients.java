@@ -153,6 +153,7 @@ public final class HypeGradients extends JavaPlugin {
     public void onDisable() {
         if (MessagePacketHandler.getPackets() != null)
             MessagePacketHandler.getPackets().clear();
+
     }
 
 

@@ -5,7 +5,10 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
 import me.doublenico.hypegradients.HypeGradients;
+import me.doublenico.hypegradients.api.MessageDetection;
+import me.doublenico.hypegradients.api.MessageDetectionManager;
 import me.doublenico.hypegradients.api.chat.ChatGradient;
 import me.doublenico.hypegradients.api.chat.ChatJson;
 import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
@@ -44,12 +47,12 @@ public class GuiMessagePacket extends MessagePacket {
                 String string = meta.getDisplayName();
                 String message = new ChatJson(string).convertToJson();
                 WrappedChatComponent component = WrappedChatComponent.fromText(string);
-                ChatGradient gradient = new ChatGradient(string);
                 MessagePacketEvent messagePacketEvent = new MessagePacketEvent(getMessageType(), string, message, component);
                 Bukkit.getPluginManager().callEvent(messagePacketEvent);
                 message = messagePacketEvent.getJsonMessage();
                 string = messagePacketEvent.getPlainMessage();
                 component = messagePacketEvent.getChatComponent();
+                ChatGradient gradient = new ChatGradient(string);
                 if (gradient.isGradient() && getChatDetectionConfiguration().getChatDetectionValues().guiItem()) {
                     GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(string, message, gradient.getMessage(), getMessageType());
                     Bukkit.getPluginManager().callEvent(gradientModifyEvent);
@@ -60,7 +63,6 @@ public class GuiMessagePacket extends MessagePacket {
             if (meta.getLore() != null && !meta.getLore().isEmpty()) {
                 List<String> lore = new ArrayList<>();
                 for (String s : meta.getLore()) {
-                    ChatGradient gradient = new ChatGradient(s);
                     String message = new ChatJson(s).convertToJson();
                     WrappedChatComponent component = WrappedChatComponent.fromText(s);
                     MessagePacketEvent messagePacketEvent = new MessagePacketEvent(getMessageType(), s, message, component);
@@ -68,13 +70,22 @@ public class GuiMessagePacket extends MessagePacket {
                     message = messagePacketEvent.getJsonMessage();
                     s = messagePacketEvent.getPlainMessage();
                     component = messagePacketEvent.getChatComponent();
+                    ChatGradient gradient = new ChatGradient(s);
                     if (gradient.isGradient() && getChatDetectionConfiguration().getChatDetectionValues().guiItem()) {
                         GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(s, message, gradient.getMessage(), getMessageType());
                         Bukkit.getPluginManager().callEvent(gradientModifyEvent);
                         gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
                         s = gradient.translateGradient();
+                    } else {
+                        for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
+                            if (!messageDetection.isEnabled(event.getPlayer(), s, message, component)) continue;
+                            HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);
+                            ChatDetectionConfiguration chatDetectionConfiguration = messageDetection.chatDetectionConfiguration(event.getPlayer(), new DynamicConfigurationDirectory(plugin, plugin.getDataFolder()));
+                            if (!chatDetectionConfiguration.getChatDetectionValues().guiItem()) continue;
+                            s = messageDetection.getPlainMessage(event.getPlayer(), s);
+                        }
+                        lore.add(s);
                     }
-                    lore.add(s);
                 }
                 meta.setLore(lore);
             }

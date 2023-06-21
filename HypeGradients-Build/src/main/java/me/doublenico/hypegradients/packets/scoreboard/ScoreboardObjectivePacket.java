@@ -5,7 +5,10 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
 import me.doublenico.hypegradients.HypeGradients;
+import me.doublenico.hypegradients.api.MessageDetection;
+import me.doublenico.hypegradients.api.MessageDetectionManager;
 import me.doublenico.hypegradients.api.chat.ChatGradient;
 import me.doublenico.hypegradients.api.chat.ChatJson;
 import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
@@ -35,12 +38,12 @@ public class ScoreboardObjectivePacket extends MessagePacket {
             return;
         String message = component.getJson();
         String string = (new ChatJson(message)).convertToString();
-        ChatGradient gradient = new ChatGradient(string);
         MessagePacketEvent messagePacketEvent = new MessagePacketEvent(getMessageType(), string, message, component);
         Bukkit.getPluginManager().callEvent(messagePacketEvent);
         message = messagePacketEvent.getJsonMessage();
         string = messagePacketEvent.getPlainMessage();
         component = messagePacketEvent.getChatComponent();
+        ChatGradient gradient = new ChatGradient(string);
         if (gradient.isGradient() && getChatDetectionConfiguration().getChatDetectionValues().scoreboardTitle()) {
             GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(string, message, gradient.getMessage(), getMessageType());
             Bukkit.getPluginManager().callEvent(gradientModifyEvent);
@@ -50,6 +53,18 @@ public class ScoreboardObjectivePacket extends MessagePacket {
             if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Scoreboard", "Objective");
+        } else {
+            for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
+                if (!messageDetection.isEnabled(event.getPlayer(), string, message, component)) continue;
+                HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);
+                ChatDetectionConfiguration chatDetectionConfiguration = messageDetection.chatDetectionConfiguration(event.getPlayer(), new DynamicConfigurationDirectory(plugin, plugin.getDataFolder()));
+                if (!chatDetectionConfiguration.getChatDetectionValues().scoreboardTitle()) continue;
+                string = messageDetection.getPlainMessage(event.getPlayer(), string);
+                component.setJson(new ChatJson(string).convertToJson());
+                wrapper.setDisplayName(component);
+            }
+            component.setJson(new ChatJson(string).convertToJson());
+            wrapper.setDisplayName(component);
         }
     }
 }

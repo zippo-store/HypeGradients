@@ -4,7 +4,10 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
 import me.doublenico.hypegradients.HypeGradients;
+import me.doublenico.hypegradients.api.MessageDetection;
+import me.doublenico.hypegradients.api.MessageDetectionManager;
 import me.doublenico.hypegradients.api.chat.ChatGradient;
 import me.doublenico.hypegradients.api.chat.ChatJson;
 import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
@@ -51,11 +54,22 @@ public class EntityMetaDataPacket extends MessagePacket {
                 wrappedChatComponent.setJson((new ChatJson(gradient.translateGradient())).convertToJson());
                 components.add(wrappedChatComponent);
             } else {
+                for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
+                    if (!messageDetection.isEnabled(event.getPlayer(), string, message, wrappedChatComponent)) continue;
+                    HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);
+                    ChatDetectionConfiguration chatDetectionConfiguration = messageDetection.chatDetectionConfiguration(event.getPlayer(), new DynamicConfigurationDirectory(plugin, plugin.getDataFolder()));
+                    if (!chatDetectionConfiguration.getChatDetectionValues().entityMetadata()) continue;
+                    string = messageDetection.getPlainMessage(event.getPlayer(), string);
+                    wrappedChatComponent.setJson(new ChatJson(string).convertToJson());
+                    components.add(wrappedChatComponent);
+                }
+                wrappedChatComponent.setJson(new ChatJson(string).convertToJson());
                 components.add(wrappedChatComponent);
             }
         });
         for (WrappedChatComponent component : components) {
             metaData.setMessages(component);
         }
+
     }
 }

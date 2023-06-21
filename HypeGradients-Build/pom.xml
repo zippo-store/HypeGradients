@@ -5,7 +5,7 @@
     <parent>
         <artifactId>HypeGradients</artifactId>
         <groupId>me.doublenico</groupId>
-        <version>1.0.5</version>
+        <version>1.0.6</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -76,7 +76,7 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-        <finalName>HypeGradients 1.0.5</finalName>
+        <finalName>HypeGradients 1.0.6</finalName>
     </build>
 
 
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>me.doublenico</groupId>
             <artifactId>HypeGradients-Dev</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.6</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -94,15 +94,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.PerryPlaysMC</groupId>
-            <artifactId>DynamicJson</artifactId>
-            <version>v2.0.3</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>me.lucko</groupId>
             <artifactId>commodore</artifactId>
             <version>2.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>3.0.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -112,9 +112,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.2</version>
+            <groupId>com.github.PerryPlaysMC</groupId>
+            <artifactId>DynamicJson</artifactId>
+            <version>v2.0.3</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
