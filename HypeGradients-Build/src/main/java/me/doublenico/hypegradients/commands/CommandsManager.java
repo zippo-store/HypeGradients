@@ -1,7 +1,7 @@
 package me.doublenico.hypegradients.commands;
 
 import me.doublenico.hypegradients.HypeGradients;
-import me.doublenico.hypegradients.chat.ColorChat;
+import me.doublenico.hypegradients.api.chat.ColorChat;
 import me.doublenico.hypegradients.commands.impl.ColorsSubCommand;
 import me.doublenico.hypegradients.commands.impl.DebugSubCommand;
 import me.doublenico.hypegradients.commands.impl.PacketsSubCommand;

@@ -4,23 +4,17 @@ import dev.dynamicstudios.json.data.util.CColor;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.doublenico.hypegradients.HypeGradients;
-import me.doublenico.hypegradients.animations.AnimationCache;
-import me.doublenico.hypegradients.animations.AnimationHandler;
-import me.doublenico.hypegradients.chat.ColorChat;
+import me.doublenico.hypegradients.api.chat.ColorChat;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 public class GradientPlaceholder extends PlaceholderExpansion {
     private final HypeGradients plugin;
-    private final AnimationHandler animationHandler = new AnimationHandler();
-    private final HashMap<UUID, AnimationCache> animationCache = new HashMap<>();
 
     public GradientPlaceholder(HypeGradients plugin) {
         this.plugin = plugin;
@@ -76,7 +70,7 @@ public class GradientPlaceholder extends PlaceholderExpansion {
                 gradients = new ArrayList<>();
                 for (String s : hex) {
                     if (plugin.getSettingsConfig().getConfig().getBoolean("colors", true))
-                        s = (new ColorChat(s)).replaceColors(this.plugin);
+                        s = (new ColorChat(s)).replaceColors();
                     if (!s.matches("#[a-fA-F\\d]{6}")) {
                         this.plugin.getLogger().warning("Invalid hex color: " + s);
                         return message;

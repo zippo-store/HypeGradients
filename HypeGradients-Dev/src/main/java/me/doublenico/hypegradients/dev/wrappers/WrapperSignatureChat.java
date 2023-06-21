@@ -2,7 +2,7 @@ package me.doublenico.hypegradients.dev.wrappers;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
-import me.doublenico.hypegradients.api.AbstractPacket;
+import me.doublenico.hypegradients.api.packet.AbstractPacket;
 
 public class WrapperSignatureChat extends AbstractPacket {
 

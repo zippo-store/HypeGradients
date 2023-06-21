@@ -2,8 +2,8 @@ name: HypeGradients
 version: '${project.version}'
 main: me.doublenico.hypegradients.HypeGradients
 api-version: 1.16
-depend: [ PlaceholderAPI ]
 softdepend:
+  - PlaceholderAPI
   - ProtocolLib
 authors: [ DoubleNico, PerryPlaysMC ]
 description: Create gradients with PlaceholderAPI support
@@ -40,6 +40,7 @@ permissions:
       hypegradients.debug.scoreboard: true
       hypegradiebts.debug.bossbar: true
       hypegradients.debug.diagnostics: true
+      hypegradients.debug.actionbar: true
   hypegradients.reload:
     description: Everything about reload
     children:

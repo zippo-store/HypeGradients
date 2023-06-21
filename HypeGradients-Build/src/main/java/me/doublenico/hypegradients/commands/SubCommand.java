@@ -1,7 +1,7 @@
 package me.doublenico.hypegradients.commands;
 
 import me.doublenico.hypegradients.HypeGradients;
-import me.doublenico.hypegradients.chat.ColorChat;
+import me.doublenico.hypegradients.api.chat.ColorChat;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;

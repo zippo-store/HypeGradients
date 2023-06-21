@@ -2,7 +2,7 @@ package me.doublenico.hypegradients.commands.impl;
 
 import dev.perryplaysmc.dynamicconfigurations.IDynamicConfigurationSection;
 import me.doublenico.hypegradients.HypeGradients;
-import me.doublenico.hypegradients.chat.ColorChat;
+import me.doublenico.hypegradients.api.chat.ColorChat;
 import me.doublenico.hypegradients.commands.SubCommand;
 import org.bukkit.command.CommandSender;
 
