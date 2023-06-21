@@ -25,7 +25,7 @@ public class WrapperMetaData extends AbstractPacket {
         handle.getDataValueCollectionModifier().read(0).forEach(wrappedDataValue -> {
             if (!(wrappedDataValue.getValue() instanceof Optional<?> optional)) return;
             if (optional.isPresent()) {
-                WrappedChatComponent component = (WrappedChatComponent) optional.get(); // Thanks Xepos
+                if (!(optional.get() instanceof WrappedChatComponent component)) return;
                 wrappedDataValue.setValue(null);
                 components.add(component);
             }
