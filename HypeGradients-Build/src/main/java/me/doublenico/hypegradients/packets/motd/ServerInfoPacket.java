@@ -5,7 +5,10 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
+import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
 import me.doublenico.hypegradients.HypeGradients;
+import me.doublenico.hypegradients.api.MessageDetection;
+import me.doublenico.hypegradients.api.MessageDetectionManager;
 import me.doublenico.hypegradients.api.chat.ChatGradient;
 import me.doublenico.hypegradients.api.chat.ChatJson;
 import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
@@ -41,6 +44,18 @@ public class ServerInfoPacket extends MessagePacket {
             if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("MOTD", "motd");
+        } else {
+            for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
+                if (!messageDetection.isEnabled(event.getPlayer(), string, message, component)) continue;
+                HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);
+                ChatDetectionConfiguration chatDetectionConfiguration = messageDetection.chatDetectionConfiguration(event.getPlayer(), new DynamicConfigurationDirectory(plugin, plugin.getDataFolder()));
+                if (!chatDetectionConfiguration.getChatDetectionValues().motd()) continue;
+                string = messageDetection.getPlainMessage(event.getPlayer(), string);
+                ping.setMotD(string);
+                wrapper.setServerPing(ping);
+            }
+            ping.setMotD(string);
+            wrapper.setServerPing(ping);
         }
     }
 }

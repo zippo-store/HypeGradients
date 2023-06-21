@@ -5,7 +5,10 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
 import me.doublenico.hypegradients.HypeGradients;
+import me.doublenico.hypegradients.api.MessageDetection;
+import me.doublenico.hypegradients.api.MessageDetectionManager;
 import me.doublenico.hypegradients.api.chat.ChatGradient;
 import me.doublenico.hypegradients.api.chat.ChatJson;
 import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
@@ -43,12 +46,12 @@ public class ScoreboardTeamPacket extends MessagePacket {
         text = text.replace("§f", "");
         String message = new ChatJson(text).convertToJson();
         WrappedChatComponent component = WrappedChatComponent.fromText(text);
-        ChatGradient gradient = new ChatGradient(text);
         MessagePacketEvent messagePacketEvent = new MessagePacketEvent(getMessageType(), text, message, component);
         Bukkit.getPluginManager().callEvent(messagePacketEvent);
         message = messagePacketEvent.getJsonMessage();
         text = messagePacketEvent.getPlainMessage();
         component = messagePacketEvent.getChatComponent();
+        ChatGradient gradient = new ChatGradient(text);
         if (gradient.isGradientTeam() && getChatDetectionConfiguration().getChatDetectionValues().scoreboardTitle()) {
             GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(text, message, gradient.getMessage(), getMessageType());
             Bukkit.getPluginManager().callEvent(gradientModifyEvent);
@@ -59,6 +62,20 @@ public class ScoreboardTeamPacket extends MessagePacket {
             if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Scoreboard", "Team");
+        } else {
+            for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
+                if (!messageDetection.isEnabled(event.getPlayer(), text, message, component)) continue;
+                HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);
+                ChatDetectionConfiguration chatDetectionConfiguration = messageDetection.chatDetectionConfiguration(event.getPlayer(), new DynamicConfigurationDirectory(plugin, plugin.getDataFolder()));
+                if (!chatDetectionConfiguration.getChatDetectionValues().scoreboardLines()) continue;
+                text = messageDetection.getPlainMessage(event.getPlayer(), text);
+                prefix.setJson((new ChatJson(text).convertToJson()));
+                wrapper.setPrefix(prefix);
+                wrapper.setSuffix(WrappedChatComponent.fromText(""));
+            }
+            prefix.setJson((new ChatJson(text).convertToJson()));
+            wrapper.setPrefix(prefix);
+            wrapper.setSuffix(WrappedChatComponent.fromText(""));
         }
     }
 }

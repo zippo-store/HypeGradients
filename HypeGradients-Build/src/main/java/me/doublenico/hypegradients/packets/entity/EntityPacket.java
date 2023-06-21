@@ -4,7 +4,10 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
 import me.doublenico.hypegradients.HypeGradients;
+import me.doublenico.hypegradients.api.MessageDetection;
+import me.doublenico.hypegradients.api.MessageDetectionManager;
 import me.doublenico.hypegradients.api.chat.ChatGradient;
 import me.doublenico.hypegradients.api.chat.ChatJson;
 import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
@@ -36,19 +39,28 @@ public class EntityPacket extends MessagePacket {
         if (entity == null) return;
         String name = entity.getCustomName();
         if (name == null) return;
-        ChatGradient gradient = new ChatGradient(name);
         String json = new ChatJson(name).convertToJson();
         WrappedChatComponent component = WrappedChatComponent.fromText(name);
         MessagePacketEvent messagePacketEvent = new MessagePacketEvent(getMessageType(), name, json, component);
         json = messagePacketEvent.getJsonMessage();
         name = messagePacketEvent.getPlainMessage();
+        ChatGradient gradient = new ChatGradient(name);
         component = messagePacketEvent.getChatComponent();
         if (gradient.isGradient() && getChatDetectionConfiguration().getChatDetectionValues().entity()) {
             GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(name, json, gradient.getMessage(), getMessageType());
             Bukkit.getPluginManager().callEvent(gradientModifyEvent);
             gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
             entity.setCustomName(gradient.translateGradient());
+        } else {
+            for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
+                if (!messageDetection.isEnabled(event.getPlayer(), name, json, component)) continue;
+                HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);
+                ChatDetectionConfiguration chatDetectionConfiguration = messageDetection.chatDetectionConfiguration(event.getPlayer(), new DynamicConfigurationDirectory(plugin, plugin.getDataFolder()));
+                if (!chatDetectionConfiguration.getChatDetectionValues().entity()) continue;
+                name = messageDetection.getPlainMessage(event.getPlayer(), name);
+                entity.setCustomName(name);
+            }
+            entity.setCustomName(name);
         }
-
     }
 }

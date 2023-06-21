@@ -9,8 +9,6 @@ import java.util.List;
 
 public class AnimationHandler {
 
-    private int currentFrame = 0;
-
     public List<Animation> getAnimations() {
         List<Animation> animations = new ArrayList<>();
         IDynamicConfiguration config = ConfigurationManager.getInstance().getConfiguration("animations").getConfig();
@@ -34,16 +32,6 @@ public class AnimationHandler {
             if (animation.name().equalsIgnoreCase(name)) {
                 return animation;
             }
-        }
-        return null;
-    }
-
-    public String getNextFrame(String name) {
-        Animation animation = getAnimation(name);
-        if (animation != null) {
-            if (currentFrame == animation.frames().size() - 1) currentFrame = 0;
-            else currentFrame++;
-            return animation.frames().get(currentFrame);
         }
         return null;
     }

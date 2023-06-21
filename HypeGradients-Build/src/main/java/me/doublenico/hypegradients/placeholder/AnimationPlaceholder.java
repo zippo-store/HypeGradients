@@ -61,7 +61,7 @@ public class AnimationPlaceholder extends PlaceholderExpansion {
         AnimationCache cache = getAnimationCache(player);
         Animation anim = cache.animationHandler().getAnimation(animation);
         if (anim == null) return null;
-        String text = PlaceholderAPI.setBracketPlaceholders(player, cache.animationHandler().getNextFrame(animation));
+        String text = PlaceholderAPI.setBracketPlaceholders(player, cache.getAnimationHolder(anim.name()).getNextFrame(anim.name()));
         if (args.length > 1) {
             if (!text.contains("%text%")) return "Text does not contain %text%";
             for (int i = 1; i < args.length; i++) {
