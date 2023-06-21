@@ -5,7 +5,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.AdventureComponentConverter;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import me.doublenico.hypegradients.api.AbstractPacket;
+import me.doublenico.hypegradients.api.packet.AbstractPacket;
 
 public class NewWrapperSignatureChat extends AbstractPacket {
 

@@ -13,7 +13,6 @@ public class AnimationListener implements Listener {
         this.animationPlaceholder = animationPlaceholder;
     }
 
-
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         animationPlaceholder.removeAnimationCache(event.getPlayer());

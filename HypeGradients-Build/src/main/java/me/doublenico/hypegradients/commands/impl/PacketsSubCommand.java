@@ -1,7 +1,7 @@
 package me.doublenico.hypegradients.commands.impl;
 
 import me.doublenico.hypegradients.HypeGradients;
-import me.doublenico.hypegradients.api.MessagePacketHandler;
+import me.doublenico.hypegradients.api.packet.MessagePacketHandler;
 import me.doublenico.hypegradients.commands.SubCommand;
 import org.bukkit.command.CommandSender;
 

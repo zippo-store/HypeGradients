@@ -2,7 +2,7 @@ package me.doublenico.hypegradients.commands.impl;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import me.doublenico.hypegradients.HypeGradients;
-import me.doublenico.hypegradients.chat.ColorChat;
+import me.doublenico.hypegradients.api.chat.ColorChat;
 import me.doublenico.hypegradients.commands.SubCommand;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;

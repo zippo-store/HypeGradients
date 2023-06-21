@@ -1,14 +1,12 @@
 package me.doublenico.hypegradients.commands.impl;
 
-import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.ListenerPriority;
 import me.doublenico.hypegradients.HypeGradients;
-import me.doublenico.hypegradients.api.MessagePacketHandler;
-import me.doublenico.hypegradients.chat.ColorChat;
+import me.doublenico.hypegradients.api.chat.ColorChat;
+import me.doublenico.hypegradients.api.configuration.ConfigurationManager;
+import me.doublenico.hypegradients.api.packet.MessagePacketHandler;
 import me.doublenico.hypegradients.commands.SubCommand;
-import me.doublenico.hypegradients.packets.*;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
@@ -58,21 +56,27 @@ public class ReloadSubCommand extends SubCommand {
                 case "all" -> {
                     if (!hasPermission(sender, "hypegradients.reload.all")) return;
                     plugin.getColorConfig().checkConfig(plugin);
-                    plugin.getColorConfig().getConfig().reload();
-                    plugin.getSettingsConfig().getConfig().reload();
-                    plugin.getAnimationsConfig().getConfig().reload();
+                    ConfigurationManager.getInstance().getConfigurations().values().forEach(configuration -> configuration.getConfig().reload());
                     reloadPackets(plugin, sender);
                     (new ColorChat("[info]Reloaded everything")).sendMessage(sender);
                 }
-                default -> (new ColorChat("[error]Unknown argument")).sendMessage(sender);
+                default -> {
+                    if (ConfigurationManager.getInstance().getConfiguration(args[1]) != null) {
+                        if (!hasPermission(sender, "hypegradients.reload." + args[1])) return;
+                        ConfigurationManager.getInstance().getConfiguration(args[1]).getConfig().reload();
+                        new ColorChat("[info]Reloaded configuration " + args[1]);
+                    }
+                }
             }
         } else (new ColorChat("[warn]Unknown argument")).sendMessage(sender);
     }
 
 
     public void tabCompleter(HypeGradients plugin, CommandSender sender, String[] args, List<String> completions) {
-        if (args.length == 2)
+        if (args.length == 2) {
             completions.addAll(Arrays.asList("colors", "settings", "all", "animations", "configs"));
+            completions.addAll(ConfigurationManager.getInstance().getConfigurations().keySet());
+        }
     }
 
     private void reloadPackets(HypeGradients plugin, CommandSender sender) {
@@ -82,21 +86,6 @@ public class ReloadSubCommand extends SubCommand {
         MessagePacketHandler.getPackets().clear();
         if (!plugin.getSettingsConfig().getConfig().getBoolean("chat-detection.enabled", true))
             return;
-        if (plugin.isLegacy())
-            new LegacyTitleMessagePacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.TITLE);
-        else {
-            new TitleMessagePacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.SET_TITLE_TEXT);
-            new SubtitleMessagePacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.SET_SUBTITLE_TEXT);
-        }
-        if (plugin.supportsSignature())
-            new SignaturePacket(plugin);
-        else
-            new ChatMessagePacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.CHAT);
-        new GuiMessagePacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.WINDOW_ITEMS);
-        new GuiSlotMessage(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.SET_SLOT);
-        new GuiTitleMessagePacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.OPEN_WINDOW);
-        new ScoreboardTeamPacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.SCOREBOARD_TEAM);
-        new ScoreboardObjectivePacket(plugin, ListenerPriority.MONITOR, PacketType.Play.Server.SCOREBOARD_OBJECTIVE);
         if (handler.registerPacketListener()) {
             new ColorChat("[info]Registered " + handler.getPacketCount() + " packet listeners.").sendMessage(sender);
             new ColorChat("[info]ProtocolLib packet listener is enabled...").sendMessage(sender);
