@@ -162,4 +162,4 @@ If you wanna know more about the API, take a look at the wiki! (TODO)
 
 [license-shield]: https://img.shields.io/github/license/zippo-store/HypeGradients.svg?style=for-the-badge
 
-[license-url]: https://github.com/zippos-tore/HypeGradients/blob/main/LICENSE
+[license-url]: https://github.com/zippo-store/HypeGradients/blob/main/LICENSE
