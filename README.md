@@ -95,25 +95,23 @@ I recommend to use the Build module because it contains everything
 #### Step 1. Add the JitPack repository to your build file
 
 ```xml
-
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 ```
 
 #### Step 2. Add the dependency
 
 ```xml
-
-<dependency>
-    <groupId>com.github.zippo-store.HypeGradients</groupId>
-    <artifactId>HypeGradients-Build</artifactId>
-    <version>1.0.7</version>
-    <scope>provided</scope>
-</dependency>
+    <dependency>
+        <groupId>com.github.zippo-store.HypeGradients</groupId>
+        <artifactId>HypeGradients-Build</artifactId>
+        <version>1.0.7</version>
+        <scope>provided</scope>
+    </dependency>
 ```
 
 ### Gradle
@@ -122,18 +120,18 @@ I recommend to use the Build module because it contains everything
 
 ```groovy
     allprojects {
-    repositories {
-        maven { url 'https://jitpack.io' }
+        repositories {
+            maven { url 'https://jitpack.io' }
+        }
     }
-}
 ```
 
 #### Step 2. Add the dependency
 
 ```groovy
     dependencies {
-    implementation 'com.github.zippo-store.HypeGradients:HypeGradients-Build:1.0.7'
-}
+        implementation 'com.github.zippo-store.HypeGradients:HypeGradients-Build:1.0.7'
+    }
 ```
 
 ### Usage
