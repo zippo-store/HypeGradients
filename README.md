@@ -3,6 +3,9 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![AGPLv3 License][license-shield]][license-url]
+[![bStats Players][bstats-player]][bstats-url]
+[![bStats Servers][bstats-server]][bstats-url]
+
 
 <!-- PROJECT LOGO -->
 <br />
@@ -88,7 +91,7 @@ If you want to use HypeGradients in your project you can use [Maven](#maven) or 
 to [JitPack](https://jitpack.io)!
 I recommend to use the Build module because it contains everything
 
-[![](https://jitpack.io/v/zippo-store/HypeGradients.svg "Check out JitPack for more information")](https://jitpack.io/#zippo-store/HypeGradients)
+[![][jitpack-shield]][jitpack-url]
 
 ### Maven
 
@@ -137,7 +140,7 @@ I recommend to use the Build module because it contains everything
 ### Usage
 
 Check out this example project that uses HypeGradients API
-![Static Badge](https://img.shields.io/badge/HypeGradientsGUI-3?style=plastic&logo=github&logoColor=black&label=Check%20out&link=https%3A%2F%2Fgithub.com%2FDoubleNico%2FHypeGradients-GUI)
+[![Static Badge][hypegradientsgui-shield]][hypegradientsgui-link]
 
 If you wanna know more about the API, take a look at the wiki! (TODO)
 
@@ -163,3 +166,17 @@ If you wanna know more about the API, take a look at the wiki! (TODO)
 [license-shield]: https://img.shields.io/github/license/zippo-store/HypeGradients.svg?style=for-the-badge
 
 [license-url]: https://github.com/zippo-store/HypeGradients/blob/main/LICENSE
+
+[bstats-url]: https://bstats.org/plugin/bukkit/HypeGradients/17671
+
+[bstats-player]: https://img.shields.io/bstats/players/17671?style=for-the-badge&link=https%3A%2F%2Fbstats.org%2Fplugin%2Fbukkit%2FHypeGradients%2F17671
+
+[bstats-server]: https://img.shields.io/bstats/servers/17671?style=for-the-badge&link=https%3A%2F%2Fbstats.org%2Fplugin%2Fbukkit%2FHypeGradients%2F17671
+
+[jitpack-shield]: https://jitpack.io/v/zippo-store/HypeGradients.svg
+
+[jitpack-url]: https://jitpack.io/#zippo-store/HypeGradients
+
+[hypegradientsgui-shield]: https://img.shields.io/badge/HypeGradientsGUI-3?style=plastic&logo=github&logoColor=black&label=Check%20out&link=https%3A%2F%2Fgithub.com%2FDoubleNico%2FHypeGradients-GUI
+
+[hypegradientsgui-link]: https://github.com/DoubleNico/HypeGradients-GUI
