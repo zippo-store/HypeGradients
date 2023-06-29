@@ -108,7 +108,7 @@
         <dependency>
             <groupId>com.github.PerryPlaysMC</groupId>
             <artifactId>DynamicConfigurations</artifactId>
-            <version>1.4.1</version>
+            <version>982d9bcf5c</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
