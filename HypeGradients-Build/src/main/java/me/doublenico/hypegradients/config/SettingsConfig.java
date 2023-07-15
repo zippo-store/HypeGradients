@@ -13,6 +13,7 @@ public class SettingsConfig extends Configuration {
         super(configDirectory, configName, true);
         addInlineDefault("no-found-packet", "disable", "If the packet is not found, stop the server or disable the plugin, values disable or stop");
         addInlineDefault("colors", true, "Enable colors");
+        addInlineDefault("placeholders", true, "Enable placeholders, PlaceholderAPI is required");
         addInlineDefault("chat-packet.enabled", true, "Enable all packets");
         addInlineDefault("chat-packet.chat", true, "Enable chat packet");
         addInlineDefault("chat-packet.title", true, "Enable title packet");

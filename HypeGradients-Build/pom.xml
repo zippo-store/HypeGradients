@@ -5,7 +5,7 @@
     <parent>
         <artifactId>HypeGradients</artifactId>
         <groupId>me.doublenico</groupId>
-        <version>1.0.7</version>
+        <version>1.0.8</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,6 +14,26 @@
 
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>move-file</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <copy file="${project.build.directory}/${project.build.finalName}.jar"
+                                      todir="/Users/doublenico/Documents/Servers/Debug Server 1.20/plugins"
+                                      overwrite="true"/>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -67,7 +87,7 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-        <finalName>HypeGradients 1.0.7</finalName>
+        <finalName>HypeGradients-1.0.8</finalName>
     </build>
 
 
@@ -75,7 +95,7 @@
         <dependency>
             <groupId>me.doublenico</groupId>
             <artifactId>HypeGradients-Dev</artifactId>
-            <version>1.0.7</version>
+            <version>1.0.8</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

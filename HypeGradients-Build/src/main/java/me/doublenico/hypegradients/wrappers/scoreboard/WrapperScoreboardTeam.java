@@ -29,6 +29,7 @@ public class WrapperScoreboardTeam extends AbstractPacket {
      * @return The current Team Display Name
      */
     public Optional<WrappedChatComponent> getDisplayName() {
+        if (handle.getOptionalStructures().read(0) == null) return Optional.empty();
         return handle.getOptionalStructures().read(0).map((structure) -> structure.getChatComponents().read(0));
     }
 

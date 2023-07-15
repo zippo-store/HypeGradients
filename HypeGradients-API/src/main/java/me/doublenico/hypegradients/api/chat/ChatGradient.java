@@ -12,7 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ChatGradient {
-    private final String gradientRegex = "<gradient:((?:(?=#[a-fA-F\\d]{6}[;>])#[a-fA-F\\d]{6}[^>]?)+)>(.+?)<.gradient>";
+    // regex given by @PerryPlaysMC and edited by me Thanks!
+    private final String gradientRegex = "<gradient:((?:(?=#[a-fA-F\\d]{6}[;>])#[a-fA-F\\d]{6}[^>]?)+)>(.+?)<\\/gradient>";
     private String message;
 
     public ChatGradient(String message) {
@@ -24,9 +25,8 @@ public class ChatGradient {
         IDynamicConfiguration settings = ConfigurationManager.getInstance().getConfiguration("settings").getConfig();
         if (settings == null) return new GradientLogger("Settings configuration is null").warn(message);
         if (settings.getBoolean("colors", true)) this.message = (new ColorChat(this.message)).replaceColors();
-
         this.message = ChatColor.translateAlternateColorCodes('&', this.message);
-        Pattern pattern = Pattern.compile(gradientRegex);
+        Pattern pattern = Pattern.compile(getGradientRegex());
         Matcher matcher = pattern.matcher(this.message);
         while (matcher.find()) {
             String gradient = matcher.group(1);
@@ -40,7 +40,14 @@ public class ChatGradient {
                 continue;
             }
             List<CColor> gradients = new ArrayList<>();
-            for (String color : gradient.split(";"))
+            IDynamicConfiguration tags = ConfigurationManager.getInstance().getConfiguration("tags").getConfig();
+            String separator;
+            if (tags == null) {
+                new GradientLogger("Tags configuration is null, we will use default separator").warn();
+                separator = ";";
+            } else if (tags.getBoolean("gradient.useDefault", false)) separator = ";";
+            else separator = tags.getString("gradient.separator", ";");
+            for (String color : gradient.split(separator))
                 gradients.add(CColor.fromHex(color));
             if (gradients.size() < 2) {
                 new GradientLogger("Gradient is not valid!").warn();
@@ -54,9 +61,9 @@ public class ChatGradient {
     public boolean isGradient() {
         if (this.message == null)
             return false;
-        this.message = (new ColorChat(this.message)).replaceColors();
-        Pattern pattern = Pattern.compile(gradientRegex);
-        Matcher matcher = pattern.matcher(this.message);
+        String check = (new ColorChat(this.message)).replaceColors();
+        Pattern pattern = Pattern.compile(getGradientRegex());
+        Matcher matcher = pattern.matcher(check);
         return matcher.find();
     }
 
@@ -64,9 +71,28 @@ public class ChatGradient {
         if (this.message == null)
             return false;
         this.message = (new ColorChat(this.message)).replaceColors();
-        Pattern pattern = Pattern.compile(gradientRegex);
+        Pattern pattern = Pattern.compile(getGradientRegex());
         Matcher matcher = pattern.matcher(ChatColor.stripColor(this.message));
         return matcher.find();
+    }
+
+    private String getGradientRegex() {
+        IDynamicConfiguration tags = ConfigurationManager.getInstance().getConfiguration("tags").getConfig();
+        if (tags == null)
+            return new GradientLogger("Tags configuration is null, we will use default regex").warn(gradientRegex);
+        if (tags.getBoolean("gradient.useDefault", false)) return gradientRegex;
+        String prefix = tags.getString("gradient.prefix", "<gradient:");
+        String prefixEnd = tags.getString("gradient.prefixEnd", ">");
+        String separator = tags.getString("gradient.separator", ";");
+        String suffix = tags.getString("gradient.suffix", "</gradient>");
+        char[] regexSymbols = {'.', '*', '+', '?', '^', '$', '[', ']', '-', '(', ')', '|', '/', '{', '}'};
+        for (char symbol : regexSymbols) {
+            prefix = prefix.replace(String.valueOf(symbol), "\\" + symbol);
+            prefixEnd = prefixEnd.replace(String.valueOf(symbol), "\\" + symbol);
+            separator = separator.replace(String.valueOf(symbol), "\\" + symbol);
+            suffix = suffix.replace(String.valueOf(symbol), "\\" + symbol);
+        }
+        return prefix + "((?:(?=#[a-fA-F\\d]{6}[" + separator + prefixEnd + "].)#[a-fA-F\\d]{6}[^" + prefixEnd + "]?)+)" + prefixEnd + "(.+?)" + suffix;
     }
 
     public String getMessage() {

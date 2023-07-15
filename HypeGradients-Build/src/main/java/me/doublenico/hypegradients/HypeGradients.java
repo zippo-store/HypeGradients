@@ -16,6 +16,7 @@ import me.doublenico.hypegradients.commands.CommodoreHandler;
 import me.doublenico.hypegradients.config.AnimationsConfig;
 import me.doublenico.hypegradients.config.ColorConfig;
 import me.doublenico.hypegradients.config.SettingsConfig;
+import me.doublenico.hypegradients.config.TagConfig;
 import me.doublenico.hypegradients.packets.boss.BossBarPacket;
 import me.doublenico.hypegradients.packets.chat.ChatMessagePacket;
 import me.doublenico.hypegradients.packets.chat.NewSignaturePacket;
@@ -43,6 +44,7 @@ import java.util.Objects;
 
 public final class HypeGradients extends JavaPlugin {
     private SettingsConfig settingsConfig;
+    private TagConfig tagConfig;
 
     private ColorConfig colorConfig;
     private AnimationsConfig animationsConfig;
@@ -62,6 +64,7 @@ public final class HypeGradients extends JavaPlugin {
         if (parent.getConfiguration("animations.yml") == null)
             this.animationsConfig = new AnimationsConfig(parent, "animations", true);
         this.animationsConfig = new AnimationsConfig(parent, "animations", false);
+        this.tagConfig = new TagConfig(parent, "tags", true);
         getLogger().finest("Configurations are loaded!");
         getLogger().info("Loading custom configurations");
         new ChatDetection("gradient", true);
@@ -132,15 +135,18 @@ public final class HypeGradients extends JavaPlugin {
         }
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             placeholderAPI = true;
-            getLogger().finest("Registering PlaceholderAPI placeholders...");
-            new GradientPlaceholder(this).register();
-            getLogger().info("PlaceholderAPI placeholders are enabled...");
-            if (settingsConfig.getConfig().getBoolean("animations.enabled", true)) {
-                getLogger().info("Loading animations...");
-                AnimationPlaceholder animationPlaceholder = new AnimationPlaceholder(this);
-                animationPlaceholder.register();
-                getServer().getPluginManager().registerEvents(new AnimationListener(animationPlaceholder), this);
-                getLogger().finest("Animations are enabled...");
+            if (settingsConfig.getConfig().getBoolean("placeholders", true)) {
+                getLogger().finest("Registering PlaceholderAPI placeholders...");
+
+                new GradientPlaceholder(this).register();
+                getLogger().info("PlaceholderAPI placeholders are enabled...");
+                if (settingsConfig.getConfig().getBoolean("animations.enabled", true)) {
+                    getLogger().info("Loading animations...");
+                    AnimationPlaceholder animationPlaceholder = new AnimationPlaceholder(this);
+                    animationPlaceholder.register();
+                    getServer().getPluginManager().registerEvents(new AnimationListener(animationPlaceholder), this);
+                    getLogger().finest("Animations are enabled...");
+                }
             }
         }
         if (!protocolLib && !placeholderAPI) {
@@ -167,6 +173,10 @@ public final class HypeGradients extends JavaPlugin {
 
     public AnimationsConfig getAnimationsConfig() {
         return animationsConfig;
+    }
+
+    public TagConfig getTagConfig() {
+        return tagConfig;
     }
 
     public MetricsWrapper getMetricsWrapper() {
