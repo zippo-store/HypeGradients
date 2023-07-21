@@ -53,15 +53,6 @@ public record ColorChat(String message) {
                 String suffix = matcher.group(2);
                 message = message.replace(prefix + key + suffix, "#" + color);
             }
-/*            String regexPattern = "(.*)" + key + "(.*)";
-            Pattern pattern = Pattern.compile(regexPattern);
-            Matcher matcher = pattern.matcher(message);
-            if (matcher.find()){
-                String prefix = matcher.group(1);
-                String suffix = matcher.group(2);
-                message = message.replaceAll(prefix + key + suffix, "#" + color);
-            }*/
-
         }
         return message;
     }

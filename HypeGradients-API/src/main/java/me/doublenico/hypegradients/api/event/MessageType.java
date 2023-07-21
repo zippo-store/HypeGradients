@@ -14,8 +14,10 @@ public enum MessageType {
     PLAYER_INFO,
     SCOREBOARD_OBJECTIVE,
     SCOREBOARD_TEAM,
+    SCOREBOARD_SCORE,
     SUBTITLE_TEXT,
-    TITLE_TEXT
+    TITLE_TEXT,
+    SIGN
 
 
 }

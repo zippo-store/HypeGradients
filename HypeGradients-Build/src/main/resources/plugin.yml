@@ -41,6 +41,8 @@ permissions:
       hypegradiebts.debug.bossbar: true
       hypegradients.debug.diagnostics: true
       hypegradients.debug.actionbar: true
+      hypegradients.debug.sign: true
+      hypegradients.debug.item: true
   hypegradients.reload:
     description: Everything about reload
     children:

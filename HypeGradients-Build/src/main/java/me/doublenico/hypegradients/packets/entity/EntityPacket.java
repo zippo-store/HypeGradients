@@ -18,6 +18,7 @@ import me.doublenico.hypegradients.api.packet.MessagePacket;
 import me.doublenico.hypegradients.wrappers.entity.WrapperArmorStand;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class EntityPacket extends MessagePacket {
@@ -39,15 +40,16 @@ public class EntityPacket extends MessagePacket {
         if (entity == null) return;
         String name = entity.getCustomName();
         if (name == null) return;
+        Player player = event.getPlayer();
         String json = new ChatJson(name).convertToJson();
         WrappedChatComponent component = WrappedChatComponent.fromText(name);
-        MessagePacketEvent messagePacketEvent = new MessagePacketEvent(getMessageType(), name, json, component);
+        MessagePacketEvent messagePacketEvent = new MessagePacketEvent(player, getMessageType(), name, json, component);
         json = messagePacketEvent.getJsonMessage();
         name = messagePacketEvent.getPlainMessage();
         ChatGradient gradient = new ChatGradient(name);
         component = messagePacketEvent.getChatComponent();
         if (gradient.isGradient() && getChatDetectionConfiguration().getChatDetectionValues().entity()) {
-            GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(name, json, gradient.getMessage(), getMessageType());
+            GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(player, name, json, gradient.getMessage(), getMessageType());
             Bukkit.getPluginManager().callEvent(gradientModifyEvent);
             gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
             entity.setCustomName(gradient.translateGradient());

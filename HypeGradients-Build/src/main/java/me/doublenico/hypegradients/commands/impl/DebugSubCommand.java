@@ -7,11 +7,15 @@ import me.doublenico.hypegradients.commands.SubCommand;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Sign;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 
@@ -103,6 +107,37 @@ public class DebugSubCommand extends SubCommand {
                         player.sendTitle("§r", message.toString(), 20, 60, 20);
                     } else (new ColorChat("[error]You must be a player to use this command!")).sendMessage(sender);
                 }
+                case "sign" -> {
+                    if (!sender.hasPermission("hypegradients.debug.sign"))
+                        return;
+                    if (sender instanceof Player player) {
+                        StringBuilder message = new StringBuilder();
+                        int i;
+                        for (i = 2; i < args.length; i++)
+                            message.append(args[i]).append(" ");
+                        player.getLocation().getWorld().getBlockAt(player.getLocation()).setType(Material.OAK_SIGN);
+                        Sign sign = (Sign) player.getLocation().getWorld().getBlockAt(player.getLocation()).getState();
+                        sign.setLine(0, message.toString());
+                        sign.update();
+                    } else (new ColorChat("[error]You must be a player to use this command!")).sendMessage(sender);
+
+                }
+                case "item" -> {
+                    if (!sender.hasPermission("hypegradients.debug.item"))
+                        return;
+                    if (sender instanceof Player player) {
+                        StringBuilder message = new StringBuilder();
+                        int i;
+                        for (i = 2; i < args.length; i++)
+                            message.append(args[i]).append(" ");
+                        ItemStack item = new ItemStack(Material.STONE_SWORD);
+                        ItemMeta meta = item.getItemMeta();
+                        meta.setDisplayName(message.toString());
+                        meta.setLore(List.of(message.toString()));
+                        item.setItemMeta(meta);
+                        player.getInventory().addItem(item);
+                    } else (new ColorChat("[error]You must be a player to use this command!")).sendMessage(sender);
+                }
                 case "scoreboard" -> {
                     if (!sender.hasPermission("hypegradients.debug.scoreboard"))
                         return;
@@ -172,6 +207,10 @@ public class DebugSubCommand extends SubCommand {
                 completions.add("diagnostics");
             if (sender.hasPermission("hypegradients.debug.actionbar"))
                 completions.add("actionbar");
+            if (sender.hasPermission("hypegradients.debug.sign"))
+                completions.add("sign");
+            if (sender.hasPermission("hypegradients.debug.item"))
+                completions.add("item");
             return;
         }
         if (args.length == 2)
@@ -199,6 +238,14 @@ public class DebugSubCommand extends SubCommand {
                 case "scoreboard" -> {
                     if (sender.hasPermission("hypegradients.debug.scoreboard"))
                         completions.add("<title/line>");
+                }
+                case "sign" -> {
+                    if (sender.hasPermission("hypegradients.debug.sign"))
+                        completions.add("<message>");
+                }
+                case "item" -> {
+                    if (sender.hasPermission("hypegradients.debug.item"))
+                        completions.add("<message>");
                 }
             }
         if (args.length == 3) {

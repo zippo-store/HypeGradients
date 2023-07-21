@@ -15,6 +15,7 @@ import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
 import me.doublenico.hypegradients.api.event.MessageType;
 import me.doublenico.hypegradients.api.packet.MessagePacket;
 import me.doublenico.hypegradients.wrappers.motd.WrapperServerInfo;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ServerInfoPacket extends MessagePacket {
@@ -35,6 +36,7 @@ public class ServerInfoPacket extends MessagePacket {
         WrappedServerPing ping = wrapper.getServerPing();
         if (component == null)
             return;
+        Player player = event.getPlayer();
         String message = component.getJson();
         String string = (new ChatJson(message)).convertToString();
         ChatGradient gradient = new ChatGradient(string);

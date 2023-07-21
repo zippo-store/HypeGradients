@@ -5,7 +5,7 @@ public record ChatDetectionValues(
         boolean subtitle, boolean guiItem, boolean guiTitle,
         boolean scoreboardTitle, boolean scoreboardLines, boolean bossbar,
         boolean entity, boolean entityMetadata, boolean motd,
-        boolean footer, boolean header, boolean playerInfo) {
+        boolean footer, boolean header, boolean playerInfo, boolean sign) {
 
     @Override
     public boolean enabled() {
@@ -80,5 +80,10 @@ public record ChatDetectionValues(
     @Override
     public boolean playerInfo() {
         return playerInfo || enabled;
+    }
+
+    @Override
+    public boolean sign() {
+        return sign || enabled;
     }
 }

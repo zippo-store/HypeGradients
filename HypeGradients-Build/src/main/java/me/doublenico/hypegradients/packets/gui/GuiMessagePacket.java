@@ -19,6 +19,7 @@ import me.doublenico.hypegradients.api.packet.MessagePacket;
 import me.doublenico.hypegradients.wrappers.gui.WrapperGuiMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -40,6 +41,7 @@ public class GuiMessagePacket extends MessagePacket {
     public void onPacketSending(PacketEvent event) {
         PacketContainer packet = event.getPacket();
         WrapperGuiMessage wrapper = new WrapperGuiMessage(packet);
+        Player player = event.getPlayer();
         for (ItemStack item : wrapper.getSlotData()) {
             if (item == null || item.getType() == Material.AIR || item.getItemMeta() == null) continue;
             ItemMeta meta = item.getItemMeta();
@@ -47,14 +49,14 @@ public class GuiMessagePacket extends MessagePacket {
                 String string = meta.getDisplayName();
                 String message = new ChatJson(string).convertToJson();
                 WrappedChatComponent component = WrappedChatComponent.fromText(string);
-                MessagePacketEvent messagePacketEvent = new MessagePacketEvent(getMessageType(), string, message, component);
+                MessagePacketEvent messagePacketEvent = new MessagePacketEvent(player, getMessageType(), string, message, component);
                 Bukkit.getPluginManager().callEvent(messagePacketEvent);
                 message = messagePacketEvent.getJsonMessage();
                 string = messagePacketEvent.getPlainMessage();
                 component = messagePacketEvent.getChatComponent();
                 ChatGradient gradient = new ChatGradient(string);
                 if (gradient.isGradient() && getChatDetectionConfiguration().getChatDetectionValues().guiItem()) {
-                    GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(string, message, gradient.getMessage(), getMessageType());
+                    GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(player, string, message, gradient.getMessage(), getMessageType());
                     Bukkit.getPluginManager().callEvent(gradientModifyEvent);
                     gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
                     meta.setDisplayName(gradient.translateGradient());
@@ -65,17 +67,18 @@ public class GuiMessagePacket extends MessagePacket {
                 for (String s : meta.getLore()) {
                     String message = new ChatJson(s).convertToJson();
                     WrappedChatComponent component = WrappedChatComponent.fromText(s);
-                    MessagePacketEvent messagePacketEvent = new MessagePacketEvent(getMessageType(), s, message, component);
+                    MessagePacketEvent messagePacketEvent = new MessagePacketEvent(player, getMessageType(), s, message, component);
                     Bukkit.getPluginManager().callEvent(messagePacketEvent);
                     message = messagePacketEvent.getJsonMessage();
                     s = messagePacketEvent.getPlainMessage();
                     component = messagePacketEvent.getChatComponent();
                     ChatGradient gradient = new ChatGradient(s);
                     if (gradient.isGradient() && getChatDetectionConfiguration().getChatDetectionValues().guiItem()) {
-                        GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(s, message, gradient.getMessage(), getMessageType());
+                        GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(player, s, message, gradient.getMessage(), getMessageType());
                         Bukkit.getPluginManager().callEvent(gradientModifyEvent);
                         gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
                         s = gradient.translateGradient();
+                        lore.add(s);
                     } else {
                         for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
                             if (!messageDetection.isEnabled(event.getPlayer(), s, message, component)) continue;

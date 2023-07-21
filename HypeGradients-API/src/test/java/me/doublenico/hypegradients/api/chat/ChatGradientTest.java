@@ -30,6 +30,6 @@ public class ChatGradientTest {
         String test = "<gradient:#ff0000;#00ff00;#0000ff]Hello World!</gradient>";
         assertTrue(test.matches(regex));
     }
-    
+
 
 }

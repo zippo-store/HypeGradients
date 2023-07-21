@@ -24,6 +24,7 @@ public class ChatDetectionConfiguration extends Configuration {
         addInlineDefault("chat-detection.tab.footer", true, "Enable detection for tab footer for " + configName);
         addInlineDefault("chat-detection.tab.header", true, "Enable detection for tab header for " + configName);
         addInlineDefault("chat-detection.tab.player-info", true, "Enable detection for tab player info for" + configName);
+        addInlineDefault("chat-detection.sign", true, "Enable detection for sign for " + configName);
 
         chatDetectionValues = new ChatDetectionValues(
                 getConfig().getBoolean("chat-detection.enabled", true),
@@ -40,7 +41,8 @@ public class ChatDetectionConfiguration extends Configuration {
                 getConfig().getBoolean("chat-detection.motd", true),
                 getConfig().getBoolean("chat-detection.tab.footer", true),
                 getConfig().getBoolean("chat-detection.tab.header", true),
-                getConfig().getBoolean("chat-detection.tab.player-info", true)
+                getConfig().getBoolean("chat-detection.tab.player-info", true),
+                getConfig().getBoolean("chat-detection.sign", true)
 
         );
         ChatDetectionManager.getInstance().addConfiguration(configName, this);

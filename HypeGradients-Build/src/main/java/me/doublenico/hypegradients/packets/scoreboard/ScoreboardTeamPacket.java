@@ -18,6 +18,7 @@ import me.doublenico.hypegradients.api.event.MessageType;
 import me.doublenico.hypegradients.api.packet.MessagePacket;
 import me.doublenico.hypegradients.wrappers.scoreboard.WrapperScoreboardTeam;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ScoreboardTeamPacket extends MessagePacket {
@@ -42,18 +43,19 @@ public class ScoreboardTeamPacket extends MessagePacket {
         String suffixText = new ChatJson(suffix.getJson()).convertToString();
         if (prefixText == null || suffixText == null)
             return;
+        Player player = event.getPlayer();
         String text = prefixText + suffixText;
         text = text.replace("§f", "");
         String message = new ChatJson(text).convertToJson();
         WrappedChatComponent component = WrappedChatComponent.fromText(text);
-        MessagePacketEvent messagePacketEvent = new MessagePacketEvent(getMessageType(), text, message, component);
+        MessagePacketEvent messagePacketEvent = new MessagePacketEvent(player, getMessageType(), text, message, component);
         Bukkit.getPluginManager().callEvent(messagePacketEvent);
         message = messagePacketEvent.getJsonMessage();
         text = messagePacketEvent.getPlainMessage();
         component = messagePacketEvent.getChatComponent();
         ChatGradient gradient = new ChatGradient(text);
         if (gradient.isGradientTeam() && getChatDetectionConfiguration().getChatDetectionValues().scoreboardTitle()) {
-            GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(text, message, gradient.getMessage(), getMessageType());
+            GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(player, text, message, gradient.getMessage(), getMessageType());
             Bukkit.getPluginManager().callEvent(gradientModifyEvent);
             gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
             prefix.setJson((new ChatJson(gradient.translateGradient()).convertToJson()));

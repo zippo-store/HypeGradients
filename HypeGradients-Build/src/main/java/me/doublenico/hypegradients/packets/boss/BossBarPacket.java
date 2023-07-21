@@ -17,6 +17,7 @@ import me.doublenico.hypegradients.api.event.MessageType;
 import me.doublenico.hypegradients.api.packet.MessagePacket;
 import me.doublenico.hypegradients.wrappers.boss.WrapperBossBar;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class BossBarPacket extends MessagePacket {
@@ -35,16 +36,17 @@ public class BossBarPacket extends MessagePacket {
         WrapperBossBar wrapper = new WrapperBossBar(event.getPacket());
         WrappedChatComponent component = wrapper.getTitle();
         if (component == null) return;
+        Player player = event.getPlayer();
         String message = component.getJson();
         String string = (new ChatJson(message)).convertToString();
-        MessagePacketEvent messagePacketEvent = new MessagePacketEvent(getMessageType(), string, message, component);
+        MessagePacketEvent messagePacketEvent = new MessagePacketEvent(player, getMessageType(), string, message, component);
         Bukkit.getPluginManager().callEvent(messagePacketEvent);
         message = messagePacketEvent.getJsonMessage();
         string = messagePacketEvent.getPlainMessage();
         ChatGradient gradient = new ChatGradient(string);
         component = messagePacketEvent.getChatComponent();
         if (gradient.isGradient() && getChatDetectionConfiguration().getChatDetectionValues().bossbar()) {
-            GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(string, message, gradient.getMessage(), getMessageType());
+            GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(player, string, message, gradient.getMessage(), getMessageType());
             Bukkit.getPluginManager().callEvent(gradientModifyEvent);
             gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
             component.setJson((new ChatJson(gradient.translateGradient())).convertToJson());

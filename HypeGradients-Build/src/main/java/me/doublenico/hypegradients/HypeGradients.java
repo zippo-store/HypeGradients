@@ -27,8 +27,11 @@ import me.doublenico.hypegradients.packets.gui.GuiMessagePacket;
 import me.doublenico.hypegradients.packets.gui.GuiSlotMessage;
 import me.doublenico.hypegradients.packets.gui.GuiTitleMessagePacket;
 import me.doublenico.hypegradients.packets.motd.ServerInfoPacket;
+import me.doublenico.hypegradients.packets.scoreboard.ScoreboardLinePacket;
 import me.doublenico.hypegradients.packets.scoreboard.ScoreboardObjectivePacket;
 import me.doublenico.hypegradients.packets.scoreboard.ScoreboardTeamPacket;
+import me.doublenico.hypegradients.packets.sign.SignLinesPacket;
+import me.doublenico.hypegradients.packets.sign.SignUpdatePacket;
 import me.doublenico.hypegradients.packets.tab.HeaderFooterPacket;
 import me.doublenico.hypegradients.packets.tab.PlayerInfoPacket;
 import me.doublenico.hypegradients.packets.title.LegacyTitleMessagePacket;
@@ -113,6 +116,9 @@ public final class HypeGradients extends JavaPlugin {
                     new GuiTitleMessagePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.OPEN_WINDOW, MessageType.GUI_TITLE);
                     new ScoreboardTeamPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.SCOREBOARD_TEAM, MessageType.SCOREBOARD_TEAM);
                     new ScoreboardObjectivePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.SCOREBOARD_OBJECTIVE, MessageType.SCOREBOARD_OBJECTIVE);
+                    new ScoreboardLinePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.SCOREBOARD_SCORE, MessageType.SCOREBOARD_SCORE);
+                    new SignLinesPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.TILE_ENTITY_DATA, MessageType.SIGN);
+                    new SignUpdatePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.MAP_CHUNK, MessageType.SIGN);
                 } catch (NoSuchFieldError e) {
                     getLogger().severe("Report this error to the developer: " + e.getMessage());
                     throwError();

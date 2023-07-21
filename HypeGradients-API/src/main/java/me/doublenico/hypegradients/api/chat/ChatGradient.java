@@ -12,8 +12,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ChatGradient {
-    // regex given by @PerryPlaysMC and edited by me Thanks!
-    private final String gradientRegex = "<gradient:((?:(?=#[a-fA-F\\d]{6}[;>])#[a-fA-F\\d]{6}[^>]?)+)>(.+?)<\\/gradient>";
     private String message;
 
     public ChatGradient(String message) {
@@ -78,6 +76,8 @@ public class ChatGradient {
 
     private String getGradientRegex() {
         IDynamicConfiguration tags = ConfigurationManager.getInstance().getConfiguration("tags").getConfig();
+        // regex given by @PerryPlaysMC and edited by me Thanks!
+        String gradientRegex = "<gradient:((?:(?=#[a-fA-F\\d]{6}[;>])#[a-fA-F\\d]{6}[^>]?)+)>(.+?)<\\/gradient>";
         if (tags == null)
             return new GradientLogger("Tags configuration is null, we will use default regex").warn(gradientRegex);
         if (tags.getBoolean("gradient.useDefault", false)) return gradientRegex;

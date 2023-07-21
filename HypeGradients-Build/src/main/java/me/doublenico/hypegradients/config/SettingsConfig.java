@@ -29,6 +29,7 @@ public class SettingsConfig extends Configuration {
         addInlineDefault("chat-packet.tab.footer", true, "Enable packet for tab footer");
         addInlineDefault("chat-packet.tab.header", true, "Enable packet for tab header");
         addInlineDefault("chat-packet.tab.player-info", true, "Enable packet for tab player info");
+        addInlineDefault("chat-packet.sign", true, "Enable packet for sign");
         addInlineDefault("bstats.enabled", true, "Enable bStats");
         addInlineDefault("animations.enabled", true, "Enable animations");
         addInlineDefault("translators.warn", "AF1212", "This color will show when a warn message is sent");
@@ -55,8 +56,8 @@ public class SettingsConfig extends Configuration {
                 getConfig().getBoolean("chat-packet.motd", true),
                 getConfig().getBoolean("chat-packet.tab.footer", true),
                 getConfig().getBoolean("chat-packet.tab.header", true),
-                getConfig().getBoolean("chat-packet.tab.player-info", true)
-
+                getConfig().getBoolean("chat-packet.tab.player-info", true),
+                getConfig().getBoolean("chat-packet.sign", true)
         );
     }
 

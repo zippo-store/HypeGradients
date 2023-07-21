@@ -1,17 +1,20 @@
 package me.doublenico.hypegradients.api.event;
 
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class MessagePacketEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
     private final MessageType messageType;
+    private final Player player;
     private String plainMessage;
     private String jsonMessage;
     private WrappedChatComponent chatComponent;
 
-    public MessagePacketEvent(MessageType messageType, String plainMessage, String jsonMessage, WrappedChatComponent chatComponent) {
+    public MessagePacketEvent(Player player, MessageType messageType, String plainMessage, String jsonMessage, WrappedChatComponent chatComponent) {
+        this.player = player;
         this.messageType = messageType;
         this.plainMessage = plainMessage;
         this.jsonMessage = jsonMessage;
@@ -48,6 +51,10 @@ public class MessagePacketEvent extends Event {
 
     public void setChatComponent(WrappedChatComponent chatComponent) {
         this.chatComponent = chatComponent;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     @Override
