@@ -113,7 +113,7 @@ I recommend to use the Build module because it contains everything
     <dependency>
         <groupId>com.github.zippo-store.HypeGradients</groupId>
         <artifactId>HypeGradients-Build</artifactId>
-        <version>1.0.7</version>
+        <version>1.0.9</version>
         <scope>provided</scope>
     </dependency>
 ```
