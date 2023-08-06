@@ -1,0 +1,32 @@
+name: Greetings
+
+on: [ pull_request_target, issues ]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: >
+            "🥳 Hey there! Thank you for your first issue in this project, you're AWESOME! 💯
+            
+            Your contribution "ROCKS" 🚀 and it's greatly appreciated! Our community is lucky to have you. Remember, we are here to help. Don't hesitate to ask if you have any questions. 😊
+            
+            Keep being amazing. Happy Coding! 🎈
+            
+            Don't forget to drink beer! 🍻"
+          pr-message: >
+            "💃 WOW! Congratulations on submitting your very first PR! 🕺
+            
+            You're making an impact! 🌟 Your efforts and dedication are making this project shine. 😇 We appreciate every bit of your help. 
+            
+            Remember, there's no such thing as a small contribution. 🚀 Every pull request is a big deal. Keep up the great work and here's to many more! 🥂 
+            
+            Happy Coding! 🎉
+            
+            Don't forget to drink beer! 🍻"
