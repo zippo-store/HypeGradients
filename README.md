@@ -113,7 +113,7 @@ I recommend to use the Build module because it contains everything
     <dependency>
         <groupId>com.github.zippo-store.HypeGradients</groupId>
         <artifactId>HypeGradients-Build</artifactId>
-        <version>1.0.9</version>
+        <version>1.1.0</version>
         <scope>provided</scope>
     </dependency>
 ```
@@ -134,7 +134,7 @@ I recommend to use the Build module because it contains everything
 
 ```groovy
     dependencies {
-        implementation 'com.github.zippo-store.HypeGradients:HypeGradients-Build:1.0.7'
+        implementation 'com.github.zippo-store.HypeGradients:HypeGradients-Build:1.1.0'
     }
 ```
 
