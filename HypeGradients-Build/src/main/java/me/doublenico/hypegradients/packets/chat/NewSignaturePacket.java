@@ -15,6 +15,7 @@ import me.doublenico.hypegradients.api.event.MessagePacketEvent;
 import me.doublenico.hypegradients.api.event.MessageType;
 import me.doublenico.hypegradients.api.packet.MessagePacket;
 import me.doublenico.hypegradients.dev.packets.NewSignatureChatMessagePacket;
+import me.doublenico.hypegradients.dev.util.AdventureComponent;
 import me.doublenico.hypegradients.dev.wrappers.NewWrapperSignatureChat;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -41,7 +42,11 @@ public class NewSignaturePacket extends MessagePacket {
         if (component == null) return;
         Player player = event.getPlayer();
         String message = component.getJson();
-        String string = (new ChatJson(message)).convertToString();
+        String string;
+        if (!wrapper.isPaper())
+            string = (new ChatJson(message)).convertToString();
+        else
+            string = new AdventureComponent().convertToString(message);
         MessagePacketEvent messagePacketEvent = new MessagePacketEvent(player, getMessageType(), string, message, component);
         Bukkit.getPluginManager().callEvent(messagePacketEvent);
         message = messagePacketEvent.getJsonMessage();
@@ -52,7 +57,10 @@ public class NewSignaturePacket extends MessagePacket {
             GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(player, string, message, gradient.getMessage(), getMessageType());
             Bukkit.getPluginManager().callEvent(gradientModifyEvent);
             gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
-            wrapper.setMessage(new ChatJson(gradient.translateGradient()).convertToJson());
+            if (!wrapper.isPaper())
+                wrapper.setMessage(new ChatJson(gradient.translateGradient()).convertToJson());
+            else
+                wrapper.setMessage(new AdventureComponent().convertToJson(gradient.translateGradient()));
             if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Signature", "Chat");
