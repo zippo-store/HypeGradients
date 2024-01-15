@@ -52,9 +52,7 @@ public class SignaturePacket extends MessagePacket {
         if (gradient.isGradient() && getChatDetectionConfiguration().getChatDetectionValues().chat()) {
             GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(player, string, message, gradient.getMessage(), getMessageType());
             Bukkit.getPluginManager().callEvent(gradientModifyEvent);
-            System.out.println("afagagsdad");
             gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
-            System.out.println("afagag");
             wrapper.setMessage(new ChatJson(gradient.translateGradient()).convertToJson());
             if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
