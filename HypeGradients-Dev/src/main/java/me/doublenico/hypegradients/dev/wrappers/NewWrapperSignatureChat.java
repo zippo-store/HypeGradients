@@ -25,33 +25,31 @@ public class NewWrapperSignatureChat extends AbstractPacket {
             StructureModifier<Object> adventureModifier = handle.getModifier().withType(AdventureComponentConverter.getComponentClass());
             if (!adventureModifier.getFields().isEmpty()) {
                 Component comp = (Component) adventureModifier.read(0);
-                adventureModifier.write(0, null);
-                component = AdventureComponentConverter.fromComponent(comp);
+                if (comp != null) {
+                    component = AdventureComponentConverter.fromComponent(comp);
+                    adventureModifier.write(0, null);
+                    handle.getStrings().write(0, component.getJson());
+                    return component;
+                }
             }
         } catch (Throwable ignored) {
         }
 
-
-        if (structureModifier != null && structureModifier.readSafely(0) != null){
+        if (isPaper() && structureModifier.readSafely(0) != null){
             Component comp = (Component) structureModifier.read(0);
             structureModifier.write(0, null);
-            //TODO: IMPLEMENT FOR NEW HOVER
             component = WrappedChatComponent.fromJson(JSONComponentSerializer.builder().build().serialize(comp));
         } else {
             if (component == null && handle.getStrings().readSafely(0) != null) component = WrappedChatComponent.fromJson(handle.getStrings().read(0));
-            else {
-                component = handle.getChatComponents().read(0);
-                return component;
-            }
-            handle.getStrings().write(0, component.getJson());
+            else component = handle.getChatComponents().readSafely(0);
+          return component;
         }
-
         return component;
     }
 
 
     public void setMessage(String json) {
-        if (structureModifier != null && structureModifier.readSafely(0) != null)
+        if (isPaper() && structureModifier.readSafely(0) != null)
             structureModifier.write(0, AdventureComponentConverter.fromWrapper(WrappedChatComponent.fromJson(json)));
         else if (handle.getStrings().readSafely(0) != null) handle.getStrings().write(0, json);
         else handle.getChatComponents().write(0, WrappedChatComponent.fromJson(json));
