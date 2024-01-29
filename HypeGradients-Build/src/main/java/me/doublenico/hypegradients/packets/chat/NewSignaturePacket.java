@@ -73,7 +73,10 @@ public class NewSignaturePacket extends MessagePacket {
                 string = messageDetection.getPlainMessage(event.getPlayer(), string);
                 wrapper.setMessage(new ChatJson(string).convertToJson());
             }
-            wrapper.setMessage(new ChatJson(string).convertToJson());
+            if (!wrapper.isPaper())
+                wrapper.setMessage(new ChatJson(string).convertToJson());
+            else
+                wrapper.setMessage(new AdventureComponent().convertToJson(string));
         }
     }
 }
