@@ -38,7 +38,7 @@ public class NewWrapperSignatureChat extends AbstractPacket {
         if (isPaper() && structureModifier.readSafely(0) != null){
             Component comp = (Component) structureModifier.read(0);
             structureModifier.write(0, null);
-            component = WrappedChatComponent.fromJson(JSONComponentSerializer.builder().build().serialize(comp));
+            component = WrappedChatComponent.fromJson(JSONComponentSerializer.json().serialize(comp));
         } else {
             if (component == null && handle.getStrings().readSafely(0) != null) component = WrappedChatComponent.fromJson(handle.getStrings().read(0));
             else component = handle.getChatComponents().readSafely(0);

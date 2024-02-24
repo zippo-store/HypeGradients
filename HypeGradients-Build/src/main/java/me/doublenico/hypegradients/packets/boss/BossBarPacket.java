@@ -11,6 +11,7 @@ import me.doublenico.hypegradients.api.MessageDetectionManager;
 import me.doublenico.hypegradients.api.chat.ChatGradient;
 import me.doublenico.hypegradients.api.chat.ChatJson;
 import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
+import me.doublenico.hypegradients.api.detection.ChatDetectionManager;
 import me.doublenico.hypegradients.api.event.GradientModifyEvent;
 import me.doublenico.hypegradients.api.event.MessagePacketEvent;
 import me.doublenico.hypegradients.api.event.MessageType;
@@ -54,7 +55,8 @@ public class BossBarPacket extends MessagePacket {
             if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Bossbar", "Title");
-        } else {
+        }
+        if (((HypeGradients) getPlugin()).getMessageDetectionConfig().getChatDetectionValues().bossbar()){
             for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
                 if (!messageDetection.isEnabled(event.getPlayer(), string, message, component)) continue;
                 HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);

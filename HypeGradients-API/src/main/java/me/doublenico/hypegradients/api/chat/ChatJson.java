@@ -1,5 +1,6 @@
 package me.doublenico.hypegradients.api.chat;
 
+import dev.dynamicstudios.json.DynamicJText;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -29,7 +30,7 @@ public class ChatJson {
     public String convertToJson() {
         if (this.message == null)
             return "";
-        return ComponentSerializer.toString(TextComponent.fromLegacyText(this.message));
+        return ComponentSerializer.toString(TextComponent.fromLegacy(this.message));
     }
 
     /**

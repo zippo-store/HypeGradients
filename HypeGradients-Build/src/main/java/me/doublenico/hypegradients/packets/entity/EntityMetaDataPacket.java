@@ -55,7 +55,8 @@ public class EntityMetaDataPacket extends MessagePacket {
                 gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
                 wrappedChatComponent.setJson((new ChatJson(gradient.translateGradient())).convertToJson());
                 components.add(wrappedChatComponent);
-            } else {
+            }
+            if (((HypeGradients) getPlugin()).getMessageDetectionConfig().getChatDetectionValues().entityMetadata()) {
                 for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
                     if (!messageDetection.isEnabled(event.getPlayer(), string, message, wrappedChatComponent)) continue;
                     HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);

@@ -58,7 +58,8 @@ public class LegacyTitleMessagePacket extends MessagePacket {
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Legacy", "Title");
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Legacy", "Subtitle");
-        } else {
+        }
+        if (((HypeGradients) getPlugin()).getMessageDetectionConfig().getChatDetectionValues().title()){
             for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
                 if (!messageDetection.isEnabled(event.getPlayer(), string, message, component)) continue;
                 HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);

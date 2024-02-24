@@ -63,7 +63,8 @@ public class HeaderFooterPacket extends MessagePacket {
             if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Tab", "Footer");
-        } else {
+        }
+        if (((HypeGradients) getPlugin()).getMessageDetectionConfig().getChatDetectionValues().footer()){
             for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
                 if (!messageDetection.isEnabled(event.getPlayer(), string, message, component)) continue;
                 HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);
@@ -100,7 +101,8 @@ public class HeaderFooterPacket extends MessagePacket {
             if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Tab", "Header");
-        } else {
+        }
+        if (((HypeGradients) getPlugin()).getMessageDetectionConfig().getChatDetectionValues().header()){
             for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
                 if (!messageDetection.isEnabled(event.getPlayer(), string, message, component)) continue;
                 HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);

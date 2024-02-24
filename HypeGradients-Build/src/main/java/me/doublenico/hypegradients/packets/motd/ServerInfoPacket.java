@@ -46,7 +46,8 @@ public class ServerInfoPacket extends MessagePacket {
             if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("MOTD", "motd");
-        } else {
+        }
+        if (((HypeGradients) getPlugin()).getMessageDetectionConfig().getChatDetectionValues().motd()){
             for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
                 if (!messageDetection.isEnabled(event.getPlayer(), string, message, component)) continue;
                 HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);

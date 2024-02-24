@@ -79,7 +79,8 @@ public class GuiMessagePacket extends MessagePacket {
                         gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
                         s = gradient.translateGradient();
                         lore.add(s);
-                    } else {
+                    }
+                    if (((HypeGradients) getPlugin()).getMessageDetectionConfig().getChatDetectionValues().guiItem()){
                         for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
                             if (!messageDetection.isEnabled(event.getPlayer(), s, message, component)) continue;
                             HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);
