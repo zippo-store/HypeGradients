@@ -25,7 +25,9 @@ import java.util.List;
 public class SignPacketUtil {
 
     public void editSign(NbtCompound compound, String side, PacketEvent event, MessageType messageType, Plugin gradients, ChatDetectionConfiguration mainChatDetectionConfiguration) {
-        NbtList<Object> lines = compound.getCompound(side).getList("messages");
+        if (!compound.containsKey(side))
+            return;
+        NbtList<Object> lines = compound.getCompound(side).getListOrDefault("messages");
         List<String> list = new ArrayList<>();
         Player player = event.getPlayer();
         for (int i = 0; i < lines.size(); i++) {
@@ -48,7 +50,8 @@ public class SignPacketUtil {
                 if (((HypeGradients) gradients).getMetricsWrapper() == null) return;
                 ((HypeGradients) gradients).getMetricsWrapper().gradientChart();
                 ((HypeGradients) gradients).getMetricsWrapper().gradientDetectionChart("Sign", "Line");
-            } else {
+            }
+            if (((HypeGradients) gradients).getMessageDetectionConfig().getChatDetectionValues().sign()){
                 for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
                     if (!messageDetection.isEnabled(event.getPlayer(), string, message, component)) continue;
                     HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);

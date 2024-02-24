@@ -20,14 +20,15 @@ public class TagConfig extends Configuration {
         addInlineDefault("gradient.separator", ";", "The separator is used to separate the colors in the gradient, example: color1;color2;color3 <---- the ; is the separator");
         addInlineDefault("gradient.prefixEnd", ">", "The prefixEnd is used to end the prefix and colors, example: <gradient:color1;color2;color3> <---- the > is the prefixEnd");
         addInlineDefault("gradient.suffix", "</gradient>", "The suffix is used to end the gradient, example: <gradient:color1;color2;color3>{text}</gradient> <---- the </gradient> is the suffix");
-        addInlineDefault("color.useDefault", false, "If the plugin should use the default color tag");
         addDefault("color.tag", "<%tag%>");
         getConfig().comment("This is how the colors will be checked, the %tag% will be replaced with color",
-                "The system works like this, prefix%tag%suffix",
-                "The prefix is the start of the color tag and it's required",
-                "The suffix is the end of the color tag and it's not required so you can leave it empty",
-                "example: <%tag%> <---- the %tag% will be replaced with red, so it will be <red>",
-                "example: -%tag% <---- the %tag% will be replaced with red, so it will be -red");
+            "The system works like this, prefix%tag%suffix",
+            "The prefix is the start of the color tag and it's required",
+            "The suffix is the end of the color tag and it's not required so you can leave it empty",
+            "example: <%tag%> <---- the %tag% will be replaced with red, so it will be <red>",
+            "example: -%tag% <---- the %tag% will be replaced with red, so it will be -red");
+        addInlineDefault("color.useDefault", false, "If the plugin should use the default color tag");
+
 
     }
 }

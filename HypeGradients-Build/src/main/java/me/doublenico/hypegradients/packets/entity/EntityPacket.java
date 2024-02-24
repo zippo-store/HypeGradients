@@ -53,7 +53,8 @@ public class EntityPacket extends MessagePacket {
             Bukkit.getPluginManager().callEvent(gradientModifyEvent);
             gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
             entity.setCustomName(gradient.translateGradient());
-        } else {
+        }
+        if (((HypeGradients) getPlugin()).getMessageDetectionConfig().getChatDetectionValues().entity()){
             for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
                 if (!messageDetection.isEnabled(event.getPlayer(), name, json, component)) continue;
                 HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);

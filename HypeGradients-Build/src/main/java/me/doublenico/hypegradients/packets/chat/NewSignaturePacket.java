@@ -64,7 +64,9 @@ public class NewSignaturePacket extends MessagePacket {
             if (((HypeGradients) getPlugin()).getMetricsWrapper() == null) return;
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientChart();
             ((HypeGradients) getPlugin()).getMetricsWrapper().gradientDetectionChart("Signature", "Chat");
-        } else {
+            return;
+        }
+        if (((HypeGradients) getPlugin()).getMessageDetectionConfig().getChatDetectionValues().chat()) {
             for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
                 if (!messageDetection.isEnabled(event.getPlayer(), string, message, component)) continue;
                 HypeGradients plugin = JavaPlugin.getPlugin(HypeGradients.class);
@@ -77,6 +79,6 @@ public class NewSignaturePacket extends MessagePacket {
                 wrapper.setMessage(new ChatJson(string).convertToJson());
             else
                 wrapper.setMessage(new AdventureComponent().convertToJson(string));
-        }
+        } else wrapper.setMessage(message);
     }
 }

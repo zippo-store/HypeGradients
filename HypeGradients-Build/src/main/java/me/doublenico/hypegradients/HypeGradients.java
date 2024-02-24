@@ -13,10 +13,7 @@ import me.doublenico.hypegradients.api.packet.MessagePacketHandler;
 import me.doublenico.hypegradients.bstats.MetricsWrapper;
 import me.doublenico.hypegradients.commands.CommandsManager;
 import me.doublenico.hypegradients.commands.CommodoreHandler;
-import me.doublenico.hypegradients.config.AnimationsConfig;
-import me.doublenico.hypegradients.config.ColorConfig;
-import me.doublenico.hypegradients.config.SettingsConfig;
-import me.doublenico.hypegradients.config.TagConfig;
+import me.doublenico.hypegradients.config.*;
 import me.doublenico.hypegradients.packets.boss.BossBarPacket;
 import me.doublenico.hypegradients.packets.chat.ChatMessagePacket;
 import me.doublenico.hypegradients.packets.chat.NewSignaturePacket;
@@ -46,6 +43,7 @@ import java.util.Objects;
 
 public final class HypeGradients extends JavaPlugin {
     private SettingsConfig settingsConfig;
+    private MessageDetectionConfig messageDetectionConfig;
     private TagConfig tagConfig;
 
     private ColorConfig colorConfig;
@@ -67,6 +65,7 @@ public final class HypeGradients extends JavaPlugin {
             this.animationsConfig = new AnimationsConfig(parent, "animations", true);
         this.animationsConfig = new AnimationsConfig(parent, "animations", false);
         this.tagConfig = new TagConfig(parent, "tags", true);
+        this.messageDetectionConfig = new MessageDetectionConfig(parent, "messageDetection");
         getLogger().finest("Configurations are loaded!");
         getLogger().info("Loading custom configurations");
         new ChatDetection("gradient", true);
@@ -79,9 +78,11 @@ public final class HypeGradients extends JavaPlugin {
             if (settingsConfig.getConfig().getString("no-found-packet", "disable").equalsIgnoreCase("disable")) {
                 getLogger().severe("CANNOT FIND GRADIENT CONFIGURATION, DISABLING PLUGIN");
                 Bukkit.getPluginManager().disablePlugin(this);
+                return;
             } else if (settingsConfig.getConfig().getString("no-found-packet", "disable").equalsIgnoreCase("stop")) {
                 getLogger().severe("CANNOT FIND GRADIENT CONFIGURATION, CLOSING THE SERVER");
                 Bukkit.shutdown();
+                return;
             }
         }
         getLogger().finest("Custom Configurations are loaded!");
@@ -166,6 +167,9 @@ public final class HypeGradients extends JavaPlugin {
 
     }
 
+    public MessageDetectionConfig getMessageDetectionConfig() {
+        return this.messageDetectionConfig;
+    }
 
     public SettingsConfig getSettingsConfig() {
         return this.settingsConfig;

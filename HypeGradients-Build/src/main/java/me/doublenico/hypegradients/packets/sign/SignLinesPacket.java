@@ -22,6 +22,7 @@ public class SignLinesPacket extends MessagePacket {
 
     @Override
     public void onPacketSending(PacketEvent event) {
+        if (event.getPacket().getNbtModifier().readSafely(0) == null) return;
         new SignPacketUtil().editSign(NbtFactory.asCompound(event.getPacket().getNbtModifier().read(0)), "front_text", event, getMessageType(), getPlugin(), getChatDetectionConfiguration());
         new SignPacketUtil().editSign(NbtFactory.asCompound(event.getPacket().getNbtModifier().read(0)), "back_text", event, getMessageType(), getPlugin(), getChatDetectionConfiguration());
     }

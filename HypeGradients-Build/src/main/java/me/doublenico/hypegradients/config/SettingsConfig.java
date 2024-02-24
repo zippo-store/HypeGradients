@@ -12,9 +12,10 @@ public class SettingsConfig extends Configuration {
     public SettingsConfig(DynamicConfigurationDirectory configDirectory, String configName) {
         super(configDirectory, configName, true);
         addInlineDefault("no-found-packet", "disable", "If the packet is not found, stop the server or disable the plugin, values disable or stop");
-        addInlineDefault("colors", true, "Enable colors");
+        addInlineDefault("colors", true, "Enable colors");;
         addInlineDefault("placeholders", true, "Enable placeholders, PlaceholderAPI is required");
-        addInlineDefault("chat-packet.enabled", true, "Enable all packets");
+        addDefault("chat-packet.enabled", true);
+        getConfig().comment("This will handle all the incoming chat packets, if you disable this, everything that the plugin checks(gradient, color, message detection) will be disabled");
         addInlineDefault("chat-packet.chat", true, "Enable chat packet");
         addInlineDefault("chat-packet.title", true, "Enable title packet");
         addInlineDefault("chat-packet.subtitle", true, "Enable subtitle packet");
@@ -40,7 +41,6 @@ public class SettingsConfig extends Configuration {
         addInlineDefault("translators.optional", "5560AF", "This color will show when a optional message is sent");
         addInlineDefault("translators.required", "231274", "This color will show when a required message is sent");
         addInlineDefault("translators.description", "323232", "This color will show when a description message is sent");
-
         chatDetectionValues = new ChatDetectionValues(
                 getConfig().getBoolean("chat-packet.enabled", true),
                 getConfig().getBoolean("chat-packet.chat", true),

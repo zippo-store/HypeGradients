@@ -14,76 +14,92 @@ public record ChatDetectionValues(
 
     @Override
     public boolean chat() {
-        return chat || enabled;
+        if (!enabled) return false;
+        return chat;
     }
 
     @Override
     public boolean title() {
-        return title || enabled;
+        if (!enabled) return false;
+        return title;
     }
 
     @Override
     public boolean subtitle() {
-        return subtitle || enabled;
+        if (!enabled) return false;
+        return subtitle;
     }
 
     @Override
     public boolean guiItem() {
-        return guiItem || enabled;
+        if (!enabled) return false;
+        return guiItem;
     }
 
     @Override
     public boolean guiTitle() {
-        return guiTitle || enabled;
+        if (!enabled) return false;
+        return guiTitle;
     }
 
     @Override
     public boolean scoreboardTitle() {
-        return scoreboardTitle || enabled;
+        if (!enabled) return false;
+        return scoreboardTitle;
     }
 
     @Override
     public boolean scoreboardLines() {
-        return scoreboardLines || enabled;
+        if (!enabled) return false;
+
+        return scoreboardLines;
     }
 
     @Override
     public boolean bossbar() {
-        return bossbar || enabled;
+        if (!enabled) return false;
+        return bossbar;
     }
 
     @Override
     public boolean entity() {
-        return entity || enabled;
+        if (!enabled) return false;
+        return entity;
     }
 
     @Override
     public boolean entityMetadata() {
-        return entityMetadata || enabled;
+        if (!enabled) return false;
+        return entityMetadata;
     }
 
     @Override
     public boolean motd() {
-        return motd || enabled;
+        if (!enabled) return false;
+        return motd;
     }
 
     @Override
     public boolean footer() {
-        return footer || enabled;
+        if (!enabled) return false;
+        return footer;
     }
 
     @Override
     public boolean header() {
-        return header || enabled;
+        if (!enabled) return false;
+        return header;
     }
 
     @Override
     public boolean playerInfo() {
-        return playerInfo || enabled;
+        if (!enabled) return false;
+        return playerInfo;
     }
 
     @Override
     public boolean sign() {
-        return sign || enabled;
+        if (!enabled) return false;
+        return sign;
     }
 }
