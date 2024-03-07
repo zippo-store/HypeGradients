@@ -64,11 +64,7 @@ Check out the [roadmap](#roadmap) for what features will be coming next!
 
 ## Roadmap
 
-- [ ] Make a better system for animations
-- [ ] Add a easy way to add colors and a page list
-- [ ] Create a documentation for the api
-- [ ] Check if 1.20 packets does not have any problems
-- [ ] Make a reload system for every custom packet
+Check current [projects](https://github.com/zippo-store/HypeGradients/projects)
 
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create.  
 Any contributions you make are **greatly appreciated**!  
