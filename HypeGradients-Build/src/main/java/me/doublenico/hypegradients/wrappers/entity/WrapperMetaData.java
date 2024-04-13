@@ -22,11 +22,13 @@ public class WrapperMetaData extends AbstractPacket {
 
     public List<WrappedChatComponent> getMessages() {
         List<WrappedChatComponent> components = new ArrayList<>();
+        if (handle.getDataValueCollectionModifier().readSafely(0) == null) return components;
+        if (handle.getDataValueCollectionModifier().read(0).isEmpty()) return components;
         handle.getDataValueCollectionModifier().read(0).forEach(wrappedDataValue -> {
             if (!(wrappedDataValue.getValue() instanceof Optional<?> optional)) return;
             if (optional.isPresent()) {
                 if (!(optional.get() instanceof WrappedChatComponent component)) return;
-                wrappedDataValue.setValue(null);
+                wrappedDataValue.setValue(Optional.empty());
                 components.add(component);
             }
         });
@@ -35,7 +37,8 @@ public class WrapperMetaData extends AbstractPacket {
 
     public void setMessages(WrappedChatComponent component) {
         handle.getDataValueCollectionModifier().read(0).forEach(wrappedDataValue -> {
-            if (wrappedDataValue.getValue() == null) wrappedDataValue.setValue(Optional.of(component));
+            if (!(wrappedDataValue.getValue() instanceof Optional<?> optional)) return;
+            if (optional.isEmpty()) wrappedDataValue.setValue(Optional.of(component));
         });
     }
 
