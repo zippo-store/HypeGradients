@@ -40,6 +40,7 @@ public class EntityMetaDataPacket extends MessagePacket {
         Player player = event.getPlayer();
         List<WrappedChatComponent> components = new ArrayList<>();
         List<WrappedChatComponent> metaComponents = metaData.getMessages();
+        if (metaComponents.isEmpty()) return;
         metaComponents.forEach(wrappedChatComponent -> {
             String message = wrappedChatComponent.getJson();
             String string = (new ChatJson(message)).convertToString();
@@ -68,7 +69,7 @@ public class EntityMetaDataPacket extends MessagePacket {
                 }
                 wrappedChatComponent.setJson(new ChatJson(string).convertToJson());
                 components.add(wrappedChatComponent);
-            }
+            } else components.add(wrappedChatComponent);
         });
         for (WrappedChatComponent component : components) {
             metaData.setMessages(component);
