@@ -80,7 +80,6 @@ public class GuiSlotMessage extends MessagePacket {
                     Bukkit.getPluginManager().callEvent(gradientModifyEvent);
                     gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
                     s = gradient.translateGradient();
-                    lore.add(s);
                 }
                 if (((HypeGradients) getPlugin()).getMessageDetectionConfig().getChatDetectionValues().guiItem()){
                     for (MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()) {
@@ -91,7 +90,7 @@ public class GuiSlotMessage extends MessagePacket {
                         s = messageDetection.getPlainMessage(event.getPlayer(), s);
                     }
                     lore.add(s);
-                }
+                } else lore.add(s);
             }
             meta.setLore(lore);
         }
