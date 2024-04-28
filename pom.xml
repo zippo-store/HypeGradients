@@ -6,7 +6,7 @@
 
     <groupId>me.doublenico</groupId>
     <artifactId>HypeGradients</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <modules>
         <module>HypeGradients-Dev</module>
         <module>HypeGradients-API</module>
