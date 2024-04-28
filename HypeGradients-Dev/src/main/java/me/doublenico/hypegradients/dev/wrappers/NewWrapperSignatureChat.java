@@ -11,11 +11,13 @@ import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 
 public class NewWrapperSignatureChat extends AbstractPacket {
 
-    private final StructureModifier<Object> structureModifier = handle.getStructures().readSafely(0).getModifier().withType(AdventureComponentConverter.getComponentClass());
+    private final StructureModifier<Object> structureModifier;
 
 
     public NewWrapperSignatureChat(PacketContainer packet) {
         super(packet, PacketType.Play.Server.SYSTEM_CHAT);
+        if (isClass("net.kyori.adventure.text.Component")) structureModifier = handle.getStructures().readSafely(0).getModifier().withType(AdventureComponentConverter.getComponentClass());
+        else structureModifier = null;
     }
 
     public WrappedChatComponent getMessage() {
@@ -63,5 +65,13 @@ public class NewWrapperSignatureChat extends AbstractPacket {
         return handle.getBooleans().read(0);
     }
 
+    public boolean isClass(String className) {
+        try {
+            Class.forName(className);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
 
 }

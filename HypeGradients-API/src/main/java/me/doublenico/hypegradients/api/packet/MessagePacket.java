@@ -16,7 +16,7 @@ public abstract class MessagePacket {
     private final MessageType messageType;
     private final ChatDetectionConfiguration chatDetectionConfiguration;
 
-    public MessagePacket(JavaPlugin plugin, ChatDetectionConfiguration chatDetectionConfiguration, ListenerPriority priority, PacketType type, MessageType messageType) {
+    protected MessagePacket(JavaPlugin plugin, ChatDetectionConfiguration chatDetectionConfiguration, ListenerPriority priority, PacketType type, MessageType messageType) {
         this.plugin = plugin;
         this.priority = priority;
         this.type = type;
@@ -25,8 +25,10 @@ public abstract class MessagePacket {
         MessagePacketHandler.getPackets().add(this);
         if (new MessagePacketHandler().registerPacketListener(this))
             plugin.getLogger().finest("Registered packet listener for " + type.name());
-        else
-            plugin.getLogger().warning("Failed to register packet listener for " + type.name());
+        else {
+            if (register())
+                plugin.getLogger().warning("Failed to register packet listener for " + type.name());
+        }
     }
 
     public JavaPlugin getPlugin() {

@@ -34,6 +34,7 @@ public class ReloadSubCommand extends SubCommand {
                     plugin.getColorConfig().getConfig().reload();
                     plugin.getSettingsConfig().getConfig().reload();
                     plugin.getAnimationsConfig().getConfig().reload();
+                    plugin.getMessageDetectionConfig().getConfig().reload();
                     (new ColorChat("[info]Reloaded configs")).sendMessage(sender);
                 }
                 case "animations" -> {

@@ -87,7 +87,7 @@ public final class HypeGradients extends JavaPlugin {
         }
         getLogger().finest("Custom Configurations are loaded!");
         if (settingsConfig.getChatDetectionValues().enabled()) {
-            if (Bukkit.getPluginManager().getPlugin("ProtocolLib") == null)
+            if (getServer().getPluginManager().getPlugin("ProtocolLib") == null)
                 getLogger().warning("Could not find ProtocolLib! Disabling gradient chat detection.");
             else {
                 try {
@@ -138,7 +138,7 @@ public final class HypeGradients extends JavaPlugin {
             this.metricsWrapper = new MetricsWrapper(this, 17671);
             getLogger().finest("bStats metrics are enabled...");
         }
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             placeholderAPI = true;
             if (settingsConfig.getConfig().getBoolean("placeholders", true)) {
                 getLogger().finest("Registering PlaceholderAPI placeholders...");
@@ -162,9 +162,8 @@ public final class HypeGradients extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (MessagePacketHandler.getPackets() != null)
-            MessagePacketHandler.getPackets().clear();
-
+        if (this.getServer().getPluginManager().getPlugin("ProtocolLib") != null)
+            if (MessagePacketHandler.getPackets() != null) MessagePacketHandler.getPackets().clear();
     }
 
     public MessageDetectionConfig getMessageDetectionConfig() {
@@ -204,16 +203,7 @@ public final class HypeGradients extends JavaPlugin {
     }
 
     public boolean isNewSignature() {
-        if (supportsSignature()) {
-            switch (getNMSVersion()) {
-                case "v1_19_R1", "v1_19_R2" -> {
-                    return false;
-                }
-                default -> {
-                    return true;
-                }
-            }
-        }
+        if (supportsSignature()) return !getNMSVersion().equals("v1_19_R1") && !getNMSVersion().equals("v1_19_R2");
         return false;
     }
 
@@ -228,13 +218,13 @@ public final class HypeGradients extends JavaPlugin {
         if (settingsConfig.getConfig().getString("no-found-packet", "disable").equalsIgnoreCase("disable")) {
             getLogger().severe("The packet is not found, disabling the plugin...");
             getLogger().severe("This could be a problem with the ProtocolLib version, please update it or downgrade the version.");
-            getLogger().severe("If the problem persists, please contact Zippo™ - Store | 2023.");
+            getLogger().severe("If the problem persists, please contact Zippo™ - Store | 2024.");
             getLogger().severe("Join this discord and create a ticket, https://discord.com/invite/j5Fb3jj2Sq");
             Bukkit.getPluginManager().disablePlugin(this);
         } else if (settingsConfig.getConfig().getString("no-found-packet", "disable").equalsIgnoreCase("stop")) {
             getLogger().severe("The packet is not found, shutting down the server...");
             getLogger().severe("This could be a problem with the ProtocolLib version, please update it or downgrade the version.");
-            getLogger().severe("If the problem persists, please contact Zippo™ - Store | 2023.");
+            getLogger().severe("If the problem persists, please contact Zippo™ - Store | 2024.");
             getLogger().severe("Join this discord and create a ticket, https://discord.com/invite/j5Fb3jj2Sq");
             Bukkit.shutdown();
         }
