@@ -25,9 +25,9 @@ import java.util.List;
 public class SignPacketUtil {
 
     public void editSign(NbtCompound compound, String side, PacketEvent event, MessageType messageType, Plugin gradients, ChatDetectionConfiguration mainChatDetectionConfiguration) {
-        if (!compound.containsKey(side))
-            return;
-        NbtList<Object> lines = compound.getCompound(side).getListOrDefault("messages");
+        if (!compound.containsKey(side)) return;
+        NbtList<Object> lines = compound.getCompound(side).getList("messages");
+        if (lines == null) return;
         List<String> list = new ArrayList<>();
         Player player = event.getPlayer();
         for (int i = 0; i < lines.size(); i++) {

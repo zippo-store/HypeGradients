@@ -73,12 +73,14 @@ public class NewSignaturePacket extends MessagePacket {
                 ChatDetectionConfiguration chatDetectionConfiguration = messageDetection.chatDetectionConfiguration(event.getPlayer(), new DynamicConfigurationDirectory(plugin, plugin.getDataFolder()));
                 if (!chatDetectionConfiguration.getChatDetectionValues().chat()) continue;
                 string = messageDetection.getPlainMessage(event.getPlayer(), string);
-                wrapper.setMessage(new ChatJson(string).convertToJson());
+                if (!wrapper.isPaper())
+                    wrapper.setMessage(new ChatJson(string).convertToJson());
+                else
+                    wrapper.setMessage(new AdventureComponent().convertToJson(string));
             }
-            if (!wrapper.isPaper())
-                wrapper.setMessage(new ChatJson(string).convertToJson());
-            else
-                wrapper.setMessage(new AdventureComponent().convertToJson(string));
-        } else wrapper.setMessage(message);
+            return;
+        }
+        wrapper.setMessage(message);
     }
+
 }
