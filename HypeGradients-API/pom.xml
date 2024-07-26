@@ -5,7 +5,7 @@
     <parent>
         <artifactId>HypeGradients</artifactId>
         <groupId>me.doublenico</groupId>
-        <version>1.1.1</version>
+        <version>1.1.2</version>
     </parent>
     <artifactId>HypeGradients-API</artifactId>
     <modelVersion>4.0.0</modelVersion>
