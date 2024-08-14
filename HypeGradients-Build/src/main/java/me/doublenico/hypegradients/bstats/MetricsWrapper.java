@@ -20,14 +20,13 @@ public class MetricsWrapper {
         metrics.addCustomChart(new SingleLineChart("gradients", () -> 1));
     }
 
-    public void gradientDetectionChart(String e, String type) {
+    public void gradientDetectionChart(String event, String detectionType) {
         metrics.addCustomChart(new DrilldownPie("gradient_detection_type", () -> {
-            Map<String, Map<String, Integer>> map = new HashMap<>();
-            Map<String, Integer> entry = new HashMap<>();
-            entry.put(e, 1);
-            map.put(type, entry);
-            return map;
+            Map<String, Map<String, Integer>> detectionMap = new HashMap<>();
+            Map<String, Integer> eventMap = new HashMap<>();
+            eventMap.put(event, 1);
+            detectionMap.put(detectionType, eventMap);
+            return detectionMap;
         }));
-
     }
 }
