@@ -16,7 +16,7 @@ public abstract class MessagePacket {
     private final MessageType messageType;
     private final ChatDetectionConfiguration chatDetectionConfiguration;
 
-    protected MessagePacket(JavaPlugin plugin, ChatDetectionConfiguration chatDetectionConfiguration, ListenerPriority priority, PacketType type, MessageType messageType) {
+    public MessagePacket(JavaPlugin plugin, ChatDetectionConfiguration chatDetectionConfiguration, ListenerPriority priority, PacketType type, MessageType messageType) {
         this.plugin = plugin;
         this.priority = priority;
         this.type = type;
