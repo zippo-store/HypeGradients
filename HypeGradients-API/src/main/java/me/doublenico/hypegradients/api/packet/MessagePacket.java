@@ -3,11 +3,19 @@ package me.doublenico.hypegradients.api.packet;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import me.doublenico.hypegradients.api.chat.ChatGradient;
+import me.doublenico.hypegradients.api.chat.ChatJson;
 import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
+import me.doublenico.hypegradients.api.event.GradientModifyEvent;
 import me.doublenico.hypegradients.api.event.MessageType;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Base class for all message packets
+ */
 public abstract class MessagePacket {
 
     private final JavaPlugin plugin;
@@ -31,6 +39,20 @@ public abstract class MessagePacket {
         }
     }
 
+    /**
+     * Checks for conditions, and if true, it will register the packet listener. {@link MessagePacketHandler#registerPacketListener()}
+     *
+     * @return if the packet should run or not
+     */
+    public abstract boolean register();
+
+    /**
+     * Called when the packet is sent.
+     *
+     * @param event the packet event
+     */
+    public abstract void onPacketSending(PacketEvent event);
+
     public JavaPlugin getPlugin() {
         return plugin;
     }
@@ -47,6 +69,9 @@ public abstract class MessagePacket {
         return messageType;
     }
 
+    /**
+     * @return the {@link ChatDetectionConfiguration} that contains the chat detection values for every message type
+     */
     public ChatDetectionConfiguration getChatDetectionConfiguration() {
         return chatDetectionConfiguration;
     }
@@ -56,6 +81,10 @@ public abstract class MessagePacket {
         return v.substring(v.lastIndexOf('.') + 1);
     }
 
+    /**
+     * This method checks if the server version supports the signature chat, the signature chat appeared in 1.19
+     * @return if the server version supports the signature chat
+     */
     public boolean supportsSignature() {
         return switch (getNMSVersion()) {
             case "v1_16_R1", "v1_16_R2", "v1_16_R3", "v1_17_R1", "v1_18_R1", "v1_18_R2" -> false;
@@ -63,6 +92,10 @@ public abstract class MessagePacket {
         };
     }
 
+    /**
+     * This method checks if the server version supports the new signature chat which is a modified version of the first one, the new signature chat appeared in 1.20
+     * @return if the server version supports the new signature chat
+     */
     public boolean isNewSignature() {
         if (supportsSignature()) {
             switch (getNMSVersion()) {
@@ -78,18 +111,32 @@ public abstract class MessagePacket {
     }
 
     /**
-     * Checks for conditions, and if true, it will register the packet listener. {@link MessagePacketHandler#registerPacketListener()}
-     *
-     * @return if the packet should run or not
+     * Sets the gradient for the component
+     * @param player the player
+     * @param gradient the gradient message, see {@link ChatGradient}
+     * @param component the chat component where the gradient was found see {@link WrappedChatComponent}
+     * @param jsonMessage the json message of the component
+     * @param plainMessage the plain message of the component
+     * @return the component with the gradient
      */
-    public abstract boolean register();
+    public WrappedChatComponent setGradient(Player player, ChatGradient gradient, WrappedChatComponent component, String jsonMessage, String plainMessage){
+        GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(player, plainMessage, jsonMessage, gradient.getMessage(), getMessageType());
+        Bukkit.getPluginManager().callEvent(gradientModifyEvent);
+        if (gradientModifyEvent.isCancelled()) return component;
+        gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
+        component.setJson((new ChatJson(gradient.translateGradient())).convertToJson());
+
+        return component;
+    }
 
     /**
-     * Called when the packet is sent.
-     *
-     * @param event the packet event
+     * Checks if the component is a gradient and if the chat detection is enabled
+     * @param gradient the gradient message, see {@link ChatGradient}
+     * @param chatDetection if the chat detection is enabled
+     * @return if the component is a gradient
      */
-    public abstract void onPacketSending(PacketEvent event);
-
+    public boolean isGradient(ChatGradient gradient, boolean chatDetection){
+        return gradient.isGradient() && chatDetection;
+    }
 
 }

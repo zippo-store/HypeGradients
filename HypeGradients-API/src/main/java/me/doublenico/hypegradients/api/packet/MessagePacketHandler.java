@@ -56,7 +56,7 @@ public class MessagePacketHandler {
     /**
      * This will add the packet to the ProtocolLib packet listener
      *
-     * @param packet the packet to add
+     * @param packet the packet to add, see {@link MessagePacket}
      * @return true if the packet was added
      */
     public boolean registerPacketListener(MessagePacket packet) {
