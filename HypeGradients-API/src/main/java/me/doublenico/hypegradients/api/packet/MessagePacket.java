@@ -114,7 +114,7 @@ public abstract class MessagePacket {
      * Sets the gradient for the component
      * @param player the player
      * @param gradient the gradient message, see {@link ChatGradient}
-     * @param component the chat component where the gradient was found see {@link WrappedChatComponent}
+     * @param component the chat component where the gradient was found, see {@link WrappedChatComponent}
      * @param jsonMessage the json message of the component
      * @param plainMessage the plain message of the component
      * @return the component with the gradient
@@ -130,7 +130,7 @@ public abstract class MessagePacket {
     }
 
     /**
-     * Checks if the component is a gradient and if the chat detection is enabled
+     * Checks if the component is a gradient and if the chat detection for the packet is enabled
      * @param gradient the gradient message, see {@link ChatGradient}
      * @param chatDetection if the chat detection is enabled
      * @return if the component is a gradient
