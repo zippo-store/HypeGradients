@@ -7,9 +7,8 @@
         <groupId>me.doublenico</groupId>
         <version>1.1.2</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-
     <artifactId>HypeGradients-Build</artifactId>
+    <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
 
     <build>
@@ -44,7 +43,7 @@
                             <shadedPattern>me.doublenico.hypegradients.commodore</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>dev.dynamicstudios.json.data.util</pattern>
+                            <pattern>dev.dynamicstudios.json</pattern>
                             <shadedPattern>me.doublenico.hypegradients.json</shadedPattern>
                         </relocation>
                         <relocation>
@@ -67,15 +66,33 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-        <finalName>HypeGradients-1.1.2</finalName>
+        <finalName>HypeGradients-${project.version}</finalName>
     </build>
 
+    <repositories>
+        <repository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>minecraft-repo</id>
+            <url>https://libraries.minecraft.net/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
             <groupId>me.doublenico</groupId>
             <artifactId>HypeGradients-Dev</artifactId>
-            <version>1.1.2</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -100,7 +117,7 @@
             <groupId>com.github.PerryPlaysMC</groupId>
             <artifactId>DynamicConfigurations</artifactId>
             <version>1.4.2</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.PerryPlaysMC</groupId>
@@ -109,23 +126,4 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>sonatype</id>
-            <url>https://oss.sonatype.org/content/groups/public/</url>
-        </repository>
-        <repository>
-            <id>placeholderapi</id>
-            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>minecraft-repo</id>
-            <url>https://libraries.minecraft.net/</url>
-        </repository>
-    </repositories>
 </project>
