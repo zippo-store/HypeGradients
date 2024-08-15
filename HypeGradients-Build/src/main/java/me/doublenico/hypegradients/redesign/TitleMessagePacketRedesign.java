@@ -9,10 +9,10 @@ import me.doublenico.hypegradients.HypeGradients;
 import me.doublenico.hypegradients.api.chat.ChatGradient;
 import me.doublenico.hypegradients.api.chat.ChatJson;
 import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
-import me.doublenico.hypegradients.api.event.GradientModifyEvent;
 import me.doublenico.hypegradients.api.event.MessagePacketEvent;
 import me.doublenico.hypegradients.api.event.MessageType;
 import me.doublenico.hypegradients.api.packet.MessagePacket;
+import me.doublenico.hypegradients.bstats.Metrics;
 import me.doublenico.hypegradients.wrappers.title.WrapperPlayServerTitle;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -48,28 +48,9 @@ public class TitleMessagePacketRedesign extends MessagePacket {
         ChatGradient gradient = new ChatGradient(string);
         if (isGradient(gradient, getChatDetectionConfiguration().getChatDetectionValues().title())) {
             component = setGradient(player, gradient, component, message, string);
+            new Metrics().setMetrics((HypeGradients) getPlugin(), "Title", "Title");
         }
         wrapper.setTitle(component);
     }
 
-    public WrappedChatComponent setGradient(Player player, ChatGradient gradient, WrappedChatComponent component, String jsonMessage, String plainMessage){
-        GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(player, plainMessage, jsonMessage, gradient.getMessage(), getMessageType());
-        Bukkit.getPluginManager().callEvent(gradientModifyEvent);
-        if (gradientModifyEvent.isCancelled()) return component;
-        gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
-        component.setJson((new ChatJson(gradient.translateGradient())).convertToJson());
-        setMetrics((HypeGradients) getPlugin(), "Title", "Title");
-
-        return component;
-    }
-
-    public boolean isGradient(ChatGradient gradient, boolean title){
-        return gradient.isGradient() && title;
-    }
-
-    public void setMetrics(HypeGradients plugin, String event, String detectionType){
-        if (plugin.getMetricsWrapper() == null) return;
-        plugin.getMetricsWrapper().gradientChart();
-        plugin.getMetricsWrapper().gradientDetectionChart(event, detectionType);
-    }
 }
