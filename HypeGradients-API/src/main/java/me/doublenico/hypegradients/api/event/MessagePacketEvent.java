@@ -1,7 +1,6 @@
 package me.doublenico.hypegradients.api.event;
 
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import me.doublenico.hypegradients.api.packet.MessagePacketComponents;
+import me.doublenico.hypegradients.api.packet.components.MessagePacketComponents;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
