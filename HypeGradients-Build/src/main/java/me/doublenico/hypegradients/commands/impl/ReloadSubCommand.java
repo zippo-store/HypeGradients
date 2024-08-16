@@ -5,6 +5,7 @@ import com.comphenix.protocol.ProtocolManager;
 import me.doublenico.hypegradients.HypeGradients;
 import me.doublenico.hypegradients.api.chat.ColorChat;
 import me.doublenico.hypegradients.api.configuration.ConfigurationManager;
+import me.doublenico.hypegradients.api.detection.ChatDetectionManager;
 import me.doublenico.hypegradients.api.packet.MessagePacketHandler;
 import me.doublenico.hypegradients.commands.SubCommand;
 import org.bukkit.command.CommandSender;
@@ -35,6 +36,7 @@ public class ReloadSubCommand extends SubCommand {
                     plugin.getSettingsConfig().getConfig().reload();
                     plugin.getAnimationsConfig().getConfig().reload();
                     plugin.getMessageDetectionConfig().getConfig().reload();
+                    plugin.getTagConfig().getConfig().reload();
                     (new ColorChat("[info]Reloaded configs")).sendMessage(sender);
                 }
                 case "animations" -> {
@@ -47,6 +49,11 @@ public class ReloadSubCommand extends SubCommand {
                     plugin.getColorConfig().checkConfig(plugin);
                     plugin.getColorConfig().getConfig().reload();
                     (new ColorChat("[info]Reloaded colors list")).sendMessage(sender);
+                }
+                case "tags" -> {
+                    if (!hasPermission(sender, "hypegradients.reload.tags")) return;
+                    plugin.getTagConfig().getConfig().reload();
+                    (new ColorChat("[info]Reloaded tags")).sendMessage(sender);
                 }
                 case "settings" -> {
                     if (!hasPermission(sender, "hypegradients.reload.settings")) return;
@@ -75,7 +82,7 @@ public class ReloadSubCommand extends SubCommand {
 
     public void tabCompleter(HypeGradients plugin, CommandSender sender, String[] args, List<String> completions) {
         if (args.length == 2) {
-            completions.addAll(Arrays.asList("colors", "settings", "all", "animations", "configs"));
+            completions.addAll(Arrays.asList("colors", "settings", "all", "animations", "configs", "tags"));
             completions.addAll(ConfigurationManager.getInstance().getConfigurations().keySet());
         }
     }
@@ -85,6 +92,7 @@ public class ReloadSubCommand extends SubCommand {
         manager.removePacketListeners(plugin);
         MessagePacketHandler handler = new MessagePacketHandler();
         MessagePacketHandler.getPackets().clear();
+        ChatDetectionManager.getInstance().getChatDetections().forEach(config -> ChatDetectionManager.getInstance().getConfiguration(config.configName()).getConfig().reload());
         if (!plugin.getSettingsConfig().getConfig().getBoolean("chat-detection.enabled", true))
             return;
         if (handler.registerPacketListener()) {
