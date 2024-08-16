@@ -6,10 +6,11 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import me.doublenico.hypegradients.api.chat.ChatGradient;
 import me.doublenico.hypegradients.api.chat.ChatJson;
-import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
 import me.doublenico.hypegradients.api.event.GradientModifyEvent;
 import me.doublenico.hypegradients.api.event.MessagePacketEvent;
 import me.doublenico.hypegradients.api.event.MessageType;
+import me.doublenico.hypegradients.api.packet.components.MessagePacketComponents;
+import me.doublenico.hypegradients.api.packet.components.MessagePacketConfigurations;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,14 +24,14 @@ public abstract class MessagePacket {
     private final ListenerPriority priority;
     private final PacketType type;
     private final MessageType messageType;
-    private final ChatDetectionConfiguration chatDetectionConfiguration;
+    private final MessagePacketConfigurations messagePacketConfigurations;
 
-    public MessagePacket(JavaPlugin plugin, ChatDetectionConfiguration chatDetectionConfiguration, ListenerPriority priority, PacketType type, MessageType messageType) {
+    public MessagePacket(JavaPlugin plugin, MessagePacketConfigurations messagePacketConfigurations, ListenerPriority priority, PacketType type, MessageType messageType) {
         this.plugin = plugin;
         this.priority = priority;
         this.type = type;
         this.messageType = messageType;
-        this.chatDetectionConfiguration = chatDetectionConfiguration;
+        this.messagePacketConfigurations = messagePacketConfigurations;
         MessagePacketHandler.getPackets().add(this);
         if (new MessagePacketHandler().registerPacketListener(this))
             plugin.getLogger().finest("Registered packet listener for " + type.name());
@@ -70,11 +71,8 @@ public abstract class MessagePacket {
         return messageType;
     }
 
-    /**
-     * @return the {@link ChatDetectionConfiguration} that contains the chat detection values for every message type
-     */
-    public ChatDetectionConfiguration getChatDetectionConfiguration() {
-        return chatDetectionConfiguration;
+    public MessagePacketConfigurations getMessagePacketConfigurations() {
+        return messagePacketConfigurations;
     }
 
     public String getNMSVersion() {
