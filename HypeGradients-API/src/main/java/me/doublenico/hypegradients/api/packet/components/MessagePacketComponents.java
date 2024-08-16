@@ -1,4 +1,4 @@
-package me.doublenico.hypegradients.api.packet;
+package me.doublenico.hypegradients.api.packet.components;
 
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 
