@@ -8,6 +8,7 @@ import me.doublenico.hypegradients.api.chat.ChatGradient;
 import me.doublenico.hypegradients.api.chat.ChatJson;
 import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
 import me.doublenico.hypegradients.api.event.GradientModifyEvent;
+import me.doublenico.hypegradients.api.event.MessagePacketEvent;
 import me.doublenico.hypegradients.api.event.MessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -137,6 +138,19 @@ public abstract class MessagePacket {
      */
     public boolean isGradient(ChatGradient gradient, boolean chatDetection){
         return gradient.isGradient() && chatDetection;
+    }
+
+    /**
+     * Gets the initial components of the message packet and modify them in the {@link MessagePacketEvent} event, see {@link MessagePacketComponents}
+     * @param player The player
+     * @param components The initial components of the message packet
+     * @return the modified components after the event or null if the event is cancelled
+     */
+    public MessagePacketComponents getMessageEvent(Player player, MessagePacketComponents components){
+        MessagePacketEvent messagePacketEvent = new MessagePacketEvent(player, getMessageType(), components);
+        Bukkit.getPluginManager().callEvent(messagePacketEvent);
+        if (messagePacketEvent.isCancelled()) return components;
+        return new MessagePacketComponents(messagePacketEvent.getComponents().getWrappedChatComponent(), messagePacketEvent.getComponents().getJsonMessage(), messagePacketEvent.getComponents().getPlainMessage());
     }
 
 }
