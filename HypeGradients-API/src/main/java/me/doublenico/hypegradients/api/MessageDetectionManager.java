@@ -1,6 +1,10 @@
 package me.doublenico.hypegradients.api;
 
+import me.doublenico.hypegradients.api.packet.enums.DetectionPriority;
+import me.doublenico.hypegradients.api.packet.annotations.Priority;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class MessageDetectionManager {
@@ -27,6 +31,7 @@ public class MessageDetectionManager {
      */
     public void addMessageDetection(MessageDetection messageDetection) {
         messageDetectionList.add(messageDetection);
+        messageDetectionList.sort(Comparator.comparingInt(this::getPriority));
     }
 
     /**
@@ -48,6 +53,13 @@ public class MessageDetectionManager {
                 return messageDetection;
         }
         return null;
+    }
+
+    private int getPriority(MessageDetection detection) {
+        Priority priority = detection.getClass().getAnnotation(Priority.class);
+        if (priority != null) return priority.value().getSlot();
+
+        return DetectionPriority.NORMAL.getSlot();
     }
 
     private static final class InstanceHolder {
