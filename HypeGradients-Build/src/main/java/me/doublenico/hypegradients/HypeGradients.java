@@ -10,31 +10,14 @@ import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
 import me.doublenico.hypegradients.api.detection.ChatDetectionManager;
 import me.doublenico.hypegradients.api.event.MessageType;
 import me.doublenico.hypegradients.api.packet.MessagePacketHandler;
+import me.doublenico.hypegradients.api.packet.components.MessagePacketConfigurations;
 import me.doublenico.hypegradients.bstats.MetricsWrapper;
 import me.doublenico.hypegradients.commands.CommandsManager;
 import me.doublenico.hypegradients.commands.CommodoreHandler;
 import me.doublenico.hypegradients.config.*;
-import me.doublenico.hypegradients.packets.boss.BossBarPacket;
-import me.doublenico.hypegradients.packets.chat.ChatMessagePacket;
-import me.doublenico.hypegradients.packets.chat.NewSignaturePacket;
-import me.doublenico.hypegradients.packets.chat.SignaturePacket;
-import me.doublenico.hypegradients.packets.entity.EntityMetaDataPacket;
-import me.doublenico.hypegradients.packets.entity.EntityPacket;
-import me.doublenico.hypegradients.packets.gui.GuiMessagePacket;
-import me.doublenico.hypegradients.packets.gui.GuiSlotMessage;
-import me.doublenico.hypegradients.packets.gui.GuiTitleMessagePacket;
-import me.doublenico.hypegradients.packets.motd.ServerInfoPacket;
-import me.doublenico.hypegradients.packets.scoreboard.ScoreboardObjectivePacket;
-import me.doublenico.hypegradients.packets.scoreboard.ScoreboardTeamPacket;
-import me.doublenico.hypegradients.packets.sign.SignLinesPacket;
-import me.doublenico.hypegradients.packets.sign.SignUpdatePacket;
-import me.doublenico.hypegradients.packets.tab.HeaderFooterPacket;
-import me.doublenico.hypegradients.packets.tab.PlayerInfoPacket;
-import me.doublenico.hypegradients.packets.title.LegacyTitleMessagePacket;
-import me.doublenico.hypegradients.packets.title.SubtitleMessagePacket;
-import me.doublenico.hypegradients.packets.title.TitleMessagePacket;
 import me.doublenico.hypegradients.placeholder.AnimationPlaceholder;
 import me.doublenico.hypegradients.placeholder.GradientPlaceholder;
+import me.doublenico.hypegradients.redesign.TitleMessagePacketRedesign;
 import me.lucko.commodore.CommodoreProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -92,32 +75,33 @@ public final class HypeGradients extends JavaPlugin {
             else {
                 try {
                     getLogger().info("Registering ProtocolLib packet listener...");
-                    if (isLegacy()) {
-                        new LegacyTitleMessagePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.TITLE, MessageType.TITLE);
-                    } else {
-                        new TitleMessagePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.SET_TITLE_TEXT, MessageType.TITLE_TEXT);
-                        new SubtitleMessagePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.SET_SUBTITLE_TEXT, MessageType.SUBTITLE_TEXT);
-                    }
-                    if (supportsSignature() && !isNewSignature()) {
-                        new SignaturePacket(this, MessageType.CHAT, gradientConfiguration);
-                    } else if (isNewSignature()) {
-                        new NewSignaturePacket(this, MessageType.CHAT, gradientConfiguration);
-                    } else {
-                        new ChatMessagePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.CHAT, MessageType.CHAT);
-                    }
-                    new ServerInfoPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Status.Server.SERVER_INFO, MessageType.MOTD);
-                    new PlayerInfoPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.PLAYER_INFO, MessageType.PLAYER_INFO);
-                    new HeaderFooterPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER, MessageType.MOTD);
-                    new EntityMetaDataPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.ENTITY_METADATA, MessageType.METADATA);
-                    new EntityPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.SPAWN_ENTITY, MessageType.ENTITY);
-                    new BossBarPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.BOSS, MessageType.BOSSBAR);
-                    new GuiMessagePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.WINDOW_ITEMS, MessageType.GUI_ITEM);
-                    new GuiSlotMessage(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.SET_SLOT, MessageType.GUI_ITEM);
-                    new GuiTitleMessagePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.OPEN_WINDOW, MessageType.GUI_TITLE);
-                    new ScoreboardTeamPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.SCOREBOARD_TEAM, MessageType.SCOREBOARD_TEAM);
-                    new ScoreboardObjectivePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.SCOREBOARD_OBJECTIVE, MessageType.SCOREBOARD_OBJECTIVE);
-                    new SignLinesPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.TILE_ENTITY_DATA, MessageType.SIGN);
-                    new SignUpdatePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.MAP_CHUNK, MessageType.SIGN);
+//                    if (isLegacy()) {
+//                        new LegacyTitleMessagePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.TITLE, MessageType.TITLE);
+//                    } else {
+//                        new TitleMessagePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.SET_TITLE_TEXT, MessageType.TITLE_TEXT);
+//                        new SubtitleMessagePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.SET_SUBTITLE_TEXT, MessageType.SUBTITLE_TEXT);
+//                    }
+//                    if (supportsSignature() && !isNewSignature()) {
+//                        new SignaturePacket(this, MessageType.CHAT, gradientConfiguration);
+//                    } else if (isNewSignature()) {
+//                        new NewSignaturePacket(this, MessageType.CHAT, gradientConfiguration);
+//                    } else {
+//                        new ChatMessagePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.CHAT, MessageType.CHAT);
+//                    }
+//                    new ServerInfoPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Status.Server.SERVER_INFO, MessageType.MOTD);
+//                    new PlayerInfoPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.PLAYER_INFO, MessageType.PLAYER_INFO);
+//                    new HeaderFooterPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER, MessageType.MOTD);
+//                    new EntityMetaDataPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.ENTITY_METADATA, MessageType.METADATA);
+//                    new EntityPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.SPAWN_ENTITY, MessageType.ENTITY);
+//                    new BossBarPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.BOSS, MessageType.BOSSBAR);
+//                    new GuiMessagePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.WINDOW_ITEMS, MessageType.GUI_ITEM);
+//                    new GuiSlotMessage(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.SET_SLOT, MessageType.GUI_ITEM);
+//                    new GuiTitleMessagePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.OPEN_WINDOW, MessageType.GUI_TITLE);
+//                    new ScoreboardTeamPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.SCOREBOARD_TEAM, MessageType.SCOREBOARD_TEAM);
+//                    new ScoreboardObjectivePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.SCOREBOARD_OBJECTIVE, MessageType.SCOREBOARD_OBJECTIVE);
+//                    new SignLinesPacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.TILE_ENTITY_DATA, MessageType.SIGN);
+//                    new SignUpdatePacket(this, gradientConfiguration, ListenerPriority.MONITOR, PacketType.Play.Server.MAP_CHUNK, MessageType.SIGN);
+                    initialisePackets();
                 } catch (NoSuchFieldError e) {
                     getLogger().severe("Report this error to the developer: " + e.getMessage());
                     throwError();
@@ -158,6 +142,11 @@ public final class HypeGradients extends JavaPlugin {
             getLogger().warning("You don't have ProtocolLib or PlaceholderAPI installed, the plugin becomes useless, disabling...");
             Bukkit.getPluginManager().disablePlugin(this);
         }
+    }
+
+    public void initialisePackets(){
+        MessagePacketConfigurations configurations = new MessagePacketConfigurations(settingsConfig.getChatDetectionValues(), messageDetectionConfig.getChatDetectionValues(), ChatDetectionManager.getInstance().getConfiguration("gradient"));
+        new TitleMessagePacketRedesign(this, configurations, ListenerPriority.MONITOR, PacketType.Play.Server.SET_TITLE_TEXT, MessageType.TITLE_TEXT);
     }
 
     @Override
