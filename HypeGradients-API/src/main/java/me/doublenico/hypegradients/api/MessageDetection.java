@@ -1,6 +1,5 @@
 package me.doublenico.hypegradients.api;
 
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
 import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
 import me.doublenico.hypegradients.api.packet.MessagePacketHandler;
