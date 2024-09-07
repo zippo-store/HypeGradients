@@ -37,11 +37,13 @@ public class TitleMessagePacketRedesign extends MessagePacket {
         Player player = event.getPlayer();
         components = getMessageEvent(player, components);
         if (components == null) return;
+        components = getMessageDetection(getPlugin(), player, components, true);
         ChatGradient gradient = new ChatGradient(components.getPlainMessage());
         if (isGradient(gradient, getMessagePacketConfigurations().gradient().getChatDetectionValues().title())) {
             components.setWrappedChatComponent(setGradient(player, gradient, components.getWrappedChatComponent(), components.getJsonMessage(), components.getPlainMessage()));
             new Metrics().setMetrics((HypeGradients) getPlugin(), "Title", "Title");
         }
+        components = getMessageDetection(getPlugin(), player, components, false);
 
         wrapper.setTitle(components.getWrappedChatComponent());
     }
