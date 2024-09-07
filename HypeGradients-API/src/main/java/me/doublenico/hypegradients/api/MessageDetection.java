@@ -4,6 +4,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
 import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
 import me.doublenico.hypegradients.api.packet.MessagePacketHandler;
+import me.doublenico.hypegradients.api.packet.components.MessagePacketComponents;
 import org.bukkit.entity.Player;
 
 /**
@@ -18,44 +19,25 @@ public interface MessageDetection {
     String getName();
 
     /**
-     * Get the JSON message
-     * @param player the player
-     * @param jsonMessage the json message
-     * @return the json message
+     * Get the contents of the message, use this to modify the message packet, see {@link MessagePacketComponents}
+     * @param player the player that receives the message
+     * @param components the {@link MessagePacketComponents} of the message packet
+     * @return the new {@link MessagePacketComponents} with the modified contents that will be sent to the packet
      */
-    String getJSON(Player player, String jsonMessage);
+    MessagePacketComponents getChatComponent(Player player, MessagePacketComponents components);
 
     /**
-     * Get the plain message
-     * @param player the player
-     * @param plainMessage the plain message
-     * @return the plain message
+     * @param player the player that receives the message
+     * @param components the {@link MessagePacketComponents} of the message packet
+     * @return true if you want to sent this MessageDetection to the packet, false if you don't want to sent this MessageDetection to the packet
      */
-    String getPlainMessage(Player player, String plainMessage);
-
-    /**
-     * Get the chat component
-     * @param player the player
-     * @param component the chat component, see {@link WrappedChatComponent}
-     * @return the chat component
-     */
-    WrappedChatComponent getChatComponent(Player player, WrappedChatComponent component);
-
-    /**
-     * Check if the message is enabled, this is used to check if the message should be enabled or not
-     * @param player the player
-     * @param plainMessage the plain message
-     * @param jsonMessage the json message
-     * @param component the chat component
-     * @return true if the message is enabled
-     */
-    boolean isEnabled(Player player, String plainMessage, String jsonMessage, WrappedChatComponent component);
+    boolean isEnabled(Player player, MessagePacketComponents components);
 
     /**
      * This if used to set the {@link ChatDetectionConfiguration} for the
-     * @param player the player
+     * @param player the player that receives the message
      * @param directory the directory for the configuration, should be the in the same folder as the plugin
-     * @return the {@link ChatDetectionConfiguration}
+     * @return the {@link ChatDetectionConfiguration} that will be used for this MessageDetection
      */
     ChatDetectionConfiguration chatDetectionConfiguration(Player player, DynamicConfigurationDirectory directory);
 
