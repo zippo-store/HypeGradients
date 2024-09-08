@@ -37,8 +37,8 @@ public class MessagePacketComponents {
         this.wrappedChatComponent = wrappedChatComponent;
     }
 
-    public void setStringWrappedChatComponent(String wrappedChatComponent) {
-        this.wrappedChatComponent = WrappedChatComponent.fromText(wrappedChatComponent);
+    public void setPlainWrappedChatComponent(String plainMessage) {
+        this.wrappedChatComponent = WrappedChatComponent.fromText(plainMessage);
     }
 
     public void setJsonWrappedChatComponent(String jsonMessage) {
