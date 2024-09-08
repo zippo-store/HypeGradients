@@ -133,6 +133,7 @@ public abstract class MessagePacket {
             ChatDetectionConfiguration chatDetectionConfiguration = messageDetection.chatDetectionConfiguration(player, new DynamicConfigurationDirectory(plugin, plugin.getDataFolder()));
             if(chatDetectionConfiguration == null) continue;
             if(!chatDetectionConfiguration.getChatDetectionValues().title()) continue;
+            if (messageDetection.getChatComponent(player, components) == null) return components;
             components = messageDetection.getChatComponent(player, components);
         }
         return components;
