@@ -4,19 +4,13 @@ import dev.dynamicstudios.json.DynamicJText;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 
+/**
+ * Used to convert a message to JSON format or vice versa
+ */
 public class ChatJson {
-    /**
-     * This variable represents a private final string message.
-     * <p>
-     * It is used to store a message that cannot be modified once assigned.
-     */
+
     private final String message;
 
-    /**
-     * Creates a ChatJson object with the given message.
-     *
-     * @param message The message to include in the ChatJson object.
-     */
     public ChatJson(String message) {
         this.message = message;
     }
