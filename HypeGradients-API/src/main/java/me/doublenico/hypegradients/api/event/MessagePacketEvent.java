@@ -20,6 +20,7 @@ public class MessagePacketEvent extends Event implements Cancellable {
         this.player = player;
         this.messageType = messageType;
         this.components = components;
+        this.cancelled = false;
     }
 
     public static HandlerList getHandlerList() {
