@@ -22,6 +22,7 @@ import me.lucko.commodore.CommodoreProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.Objects;
 
 public final class HypeGradients extends JavaPlugin {
@@ -40,6 +41,7 @@ public final class HypeGradients extends JavaPlugin {
     public void onEnable() {
         getLogger().info("Loading configurations");
         DynamicConfigurationDirectory parent = new DynamicConfigurationDirectory(this, getDataFolder());
+        DynamicConfigurationDirectory detections = new DynamicConfigurationDirectory(this, new File(getDataFolder() + "/detections"));
         this.settingsConfig = new SettingsConfig(parent, "settings");
         if (parent.getConfiguration("colors.yml") == null) this.colorConfig = new ColorConfig(parent, "colors", true);
         this.colorConfig = new ColorConfig(parent, "colors", false);
@@ -48,12 +50,12 @@ public final class HypeGradients extends JavaPlugin {
             this.animationsConfig = new AnimationsConfig(parent, "animations", true);
         this.animationsConfig = new AnimationsConfig(parent, "animations", false);
         this.tagConfig = new TagConfig(parent, "tags", true);
-        this.messageDetectionConfig = new MessageDetectionConfig(parent, "messageDetection");
+        this.messageDetectionConfig = new MessageDetectionConfig(detections, "messageDetection");
         getLogger().finest("Configurations are loaded!");
         getLogger().info("Loading custom configurations");
         new ChatDetection("gradient", true);
         ChatDetectionManager.getInstance().getChatDetections().forEach(chatDetection -> {
-            chatDetection.build(parent);
+            chatDetection.build(detections);
             getLogger().info("Added configuration for " + chatDetection.configName());
         });
         ChatDetectionConfiguration gradientConfiguration = ChatDetectionManager.getInstance().getConfiguration("gradient");
