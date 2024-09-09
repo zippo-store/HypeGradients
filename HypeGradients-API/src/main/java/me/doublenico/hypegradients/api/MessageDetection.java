@@ -35,7 +35,7 @@ public interface MessageDetection {
     /**
      * This if used to set the {@link ChatDetectionConfiguration} for the
      * @param player the player that receives the message
-     * @param directory the directory for the configuration, should be the in the same folder as the plugin
+     * @param directory the directory for the configuration, should be the in detections folder of the plugin
      * @return the {@link ChatDetectionConfiguration} that will be used for this MessageDetection
      */
     ChatDetectionConfiguration chatDetectionConfiguration(Player player, DynamicConfigurationDirectory directory);

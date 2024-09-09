@@ -3,7 +3,6 @@ package me.doublenico.hypegradients.api.packet;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
 import me.doublenico.hypegradients.api.MessageDetection;
 import me.doublenico.hypegradients.api.MessageDetectionManager;
@@ -20,6 +19,8 @@ import me.doublenico.hypegradients.api.packet.enums.DetectionExecution;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
 
 /**
  * Base class for all message packets
@@ -90,19 +91,19 @@ public abstract class MessagePacket {
      * Sets the gradient for the component
      * @param player the player
      * @param gradient the gradient message, see {@link ChatGradient}
-     * @param component the chat component where the gradient was found, see {@link WrappedChatComponent}
-     * @param jsonMessage the json message of the component
-     * @param plainMessage the plain message of the component
+     * @param components the initial components of the message packet, see {@link MessagePacketComponents}
      * @return the component with the gradient
      */
-    public WrappedChatComponent setGradient(Player player, ChatGradient gradient, WrappedChatComponent component, String jsonMessage, String plainMessage){
-        GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(player, plainMessage, jsonMessage, gradient.getMessage(), getMessageType());
+    public MessagePacketComponents setGradient(Player player, ChatGradient gradient, MessagePacketComponents components) {
+        GradientModifyEvent gradientModifyEvent = new GradientModifyEvent(player, components.getPlainMessage(), components.getJsonMessage(), gradient.getMessage(), getMessageType());
         Bukkit.getPluginManager().callEvent(gradientModifyEvent);
-        if (gradientModifyEvent.isCancelled()) return component;
+        if (gradientModifyEvent.isCancelled()) return components;
         gradient = new ChatGradient(gradientModifyEvent.getGradientMessage());
-        component.setJson((new ChatJson(gradient.translateGradient())).convertToJson());
+        components.setPlainMessage(gradient.translateGradient());
+        components.setJsonMessage((new ChatJson(gradient.translateGradient())).convertToJson());
+        components.setJsonWrappedChatComponent(components.getJsonMessage());
 
-        return component;
+        return components;
     }
 
     /**
@@ -128,9 +129,9 @@ public abstract class MessagePacket {
      */
     public MessagePacketComponents getMessageDetection(JavaPlugin plugin, Player player, MessagePacketComponents components, boolean before){
         for(MessageDetection messageDetection : MessageDetectionManager.getInstance().getMessageDetectionList()){
-            if (getExecution(messageDetection) == before) continue;
+            if (getExecution(messageDetection) != before) continue;
             if(!messageDetection.isEnabled(player, components)) continue;
-            ChatDetectionConfiguration chatDetectionConfiguration = messageDetection.chatDetectionConfiguration(player, new DynamicConfigurationDirectory(plugin, plugin.getDataFolder()));
+            ChatDetectionConfiguration chatDetectionConfiguration = messageDetection.chatDetectionConfiguration(player, new DynamicConfigurationDirectory(plugin, new File(plugin.getDataFolder() + "/detections")));
             if(chatDetectionConfiguration == null) continue;
             if(!chatDetectionConfiguration.getChatDetectionValues().title()) continue;
             if (messageDetection.getChatComponent(player, components) == null) return components;

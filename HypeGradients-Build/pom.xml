@@ -30,7 +30,6 @@
                         <includes>
                             <include>me.lucko:commodore</include>
                             <include>com.github.PerryPlaysMC:DynamicJson</include>
-                            <include>com.github.PerryPlaysMC:DynamicConfigurations</include>
                             <include>me.doublenico:HypeGradients-Dev</include>
                             <include>me.doublenico:HypeGradients-API</include>
                             <include>org.bstats:bstats-base</include>
@@ -45,10 +44,6 @@
                         <relocation>
                             <pattern>dev.dynamicstudios.json</pattern>
                             <shadedPattern>me.doublenico.hypegradients.json</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>dev.perryplaysmc.dynamicconfigurations</pattern>
-                            <shadedPattern>me.doublenico.hypegradients.config</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.bstats</pattern>
