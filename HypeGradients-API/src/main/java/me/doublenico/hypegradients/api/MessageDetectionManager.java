@@ -7,6 +7,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Manages the list of {@link MessageDetection}, and provides methods to add, remove, and get message detections
+ * <p>
+ * The list of message detections is sorted by priority
+ * <p>
+ * Use this to add your custom message detections
+ */
 public class MessageDetectionManager {
     private final List<MessageDetection> messageDetectionList = new ArrayList<>();
 
