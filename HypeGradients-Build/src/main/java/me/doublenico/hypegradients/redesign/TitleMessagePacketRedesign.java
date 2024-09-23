@@ -24,27 +24,42 @@ public class TitleMessagePacketRedesign extends MessagePacket {
 
     @Override
     public boolean register() {
+        ((HypeGradients) getPlugin()).getDebugLogger().sendRegisterMessage(true);
         return getMessagePacketConfigurations().settings().title();
     }
 
     @Override
     public void onPacketSending(PacketEvent event) {
+        HypeGradients plugin = (HypeGradients) getPlugin();
+        plugin.getDebugLogger().sendMessagePacketMessage(getType(), getMessageType(), getPriority());
         PacketContainer packet = event.getPacket();
+        plugin.getDebugLogger().sendWrapperMessage();
         WrapperPlayServerTitle wrapper = new WrapperPlayServerTitle(packet);
         if (wrapper.getTitle() == null)
             return;
         MessagePacketComponents components = new MessagePacketComponents(wrapper.getTitle(), wrapper.getTitle().getJson(), (new ChatJson(wrapper.getTitle().getJson())).convertToString());
         Player player = event.getPlayer();
+        plugin.getDebugLogger().sendComponentMessage(player, components);
+        plugin.getDebugLogger().sendMessageEventMessage();
         components = getMessageEvent(player, components);
         if (components == null) return;
+        plugin.getDebugLogger().sendComponentMessage(player, components);
+        plugin.getDebugLogger().sendBeforeMessage();
         components = getMessageDetection(getPlugin(), player, components, true);
+        if (components == null) return;
+        plugin.getDebugLogger().sendComponentMessage(player, components);
+        plugin.getDebugLogger().sendGradientMessage();
         ChatGradient gradient = new ChatGradient(components.getPlainMessage());
+        plugin.getDebugLogger().sendGradientDetectedMessage(gradient, getMessagePacketConfigurations().gradient().getChatDetectionValues().title());
         if (isGradient(gradient, getMessagePacketConfigurations().gradient().getChatDetectionValues().title())) {
-            components.setWrappedChatComponent(setGradient(player, gradient, components.getWrappedChatComponent(), components.getJsonMessage(), components.getPlainMessage()));
-            new Metrics().setMetrics((HypeGradients) getPlugin(), "Title", "Title");
+            components = setGradient(player, gradient, components);
+            plugin.getDebugLogger().sendComponentMessage(player, components);
+            new Metrics().setMetrics(plugin, "Title", "Title");
         }
+        plugin.getDebugLogger().sendAfterMessage();
         components = getMessageDetection(getPlugin(), player, components, false);
-
+        if (components == null) return;
+        plugin.getDebugLogger().sendComponentMessage(player, components);
         wrapper.setTitle(components.getWrappedChatComponent());
     }
 
