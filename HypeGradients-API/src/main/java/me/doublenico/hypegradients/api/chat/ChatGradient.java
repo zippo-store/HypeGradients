@@ -98,4 +98,8 @@ public class ChatGradient {
     public String getMessage() {
         return message;
     }
+
+    public String toString() {
+        return "ChatGradient{message=" + message + "}";
+    }
 }

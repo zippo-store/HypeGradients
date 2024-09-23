@@ -64,4 +64,12 @@ public class MessagePacketComponents {
     public void setPlainMessage(WrappedChatComponent wrappedChatComponent) {
         this.plainMessage = new ChatJson(wrappedChatComponent.getJson()).convertToString();
     }
+
+    public String toString(){
+        return "MessagePacketComponents{" +
+                "wrappedChatComponent=" + wrappedChatComponent.toString() +
+                ", jsonMessage=" + jsonMessage +
+                ", plainMessage=" + plainMessage +
+                '}';
+    }
 }

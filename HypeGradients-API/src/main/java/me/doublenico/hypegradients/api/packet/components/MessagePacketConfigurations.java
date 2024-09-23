@@ -9,4 +9,14 @@ import me.doublenico.hypegradients.api.detection.ChatDetectionValues;
  * @param messageDetection The message detection values
  * @param gradient The gradient configuration
  */
-public record MessagePacketConfigurations(ChatDetectionValues settings, ChatDetectionValues messageDetection, ChatDetectionConfiguration gradient) {}
+public record MessagePacketConfigurations(ChatDetectionValues settings, ChatDetectionValues messageDetection, ChatDetectionConfiguration gradient) {
+
+    @Override
+    public String toString(){
+        return "MessagePacketConfigurations{" +
+                "settings=" + settings +
+                ", messageDetection=" + messageDetection +
+                ", gradient=" + gradient +
+                '}';
+    }
+}

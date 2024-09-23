@@ -8,6 +8,28 @@ public record ChatDetectionValues(
         boolean footer, boolean header, boolean playerInfo, boolean sign) {
 
     @Override
+    public String toString() {
+        return "ChatDetectionValues{" +
+            "enabled=" + enabled +
+            ", chat=" + chat +
+            ", title=" + title +
+            ", subtitle=" + subtitle +
+            ", guiItem=" + guiItem +
+            ", guiTitle=" + guiTitle +
+            ", scoreboardTitle=" + scoreboardTitle +
+            ", scoreboardLines=" + scoreboardLines +
+            ", bossbar=" + bossbar +
+            ", entity=" + entity +
+            ", entityMetadata=" + entityMetadata +
+            ", motd=" + motd +
+            ", footer=" + footer +
+            ", header=" + header +
+            ", playerInfo=" + playerInfo +
+            ", sign=" + sign +
+            '}';
+    }
+
+    @Override
     public boolean enabled() {
         return enabled;
     }
