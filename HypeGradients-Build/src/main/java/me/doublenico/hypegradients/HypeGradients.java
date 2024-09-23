@@ -15,6 +15,7 @@ import me.doublenico.hypegradients.bstats.MetricsWrapper;
 import me.doublenico.hypegradients.commands.CommandsManager;
 import me.doublenico.hypegradients.commands.CommodoreHandler;
 import me.doublenico.hypegradients.config.*;
+import me.doublenico.hypegradients.log.DebugLogger;
 import me.doublenico.hypegradients.placeholder.AnimationPlaceholder;
 import me.doublenico.hypegradients.placeholder.GradientPlaceholder;
 import me.doublenico.hypegradients.redesign.TitleMessagePacketRedesign;
@@ -36,6 +37,7 @@ public final class HypeGradients extends JavaPlugin {
     private MetricsWrapper metricsWrapper;
     private boolean placeholderAPI = false;
     private boolean protocolLib = false;
+    private DebugLogger debugLogger;
 
     @Override
     public void onEnable() {
@@ -71,6 +73,7 @@ public final class HypeGradients extends JavaPlugin {
             }
         }
         getLogger().finest("Custom Configurations are loaded!");
+        debugLogger = new DebugLogger(this, settingsConfig.getConfig().getBoolean("debug", false));
         if (settingsConfig.getChatDetectionValues().enabled()) {
             if (getServer().getPluginManager().getPlugin("ProtocolLib") == null)
                 getLogger().warning("Could not find ProtocolLib! Disabling gradient chat detection.");
@@ -179,6 +182,10 @@ public final class HypeGradients extends JavaPlugin {
 
     public MetricsWrapper getMetricsWrapper() {
         return this.metricsWrapper;
+    }
+
+    public DebugLogger getDebugLogger() {
+        return debugLogger;
     }
 
     public String getNMSVersion() {
