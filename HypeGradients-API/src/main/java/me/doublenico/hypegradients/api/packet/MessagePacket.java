@@ -41,11 +41,22 @@ public abstract class MessagePacket {
         this.messagePacketConfigurations = messagePacketConfigurations;
         MessagePacketHandler.getPackets().add(this);
         if (new MessagePacketHandler().registerPacketListener(this))
-            plugin.getLogger().finest("Registered packet listener for " + type.name());
+            plugin.getLogger().info("Registered packet listener for " + type.name());
         else {
             if (register())
                 plugin.getLogger().warning("Failed to register packet listener for " + type.name());
         }
+    }
+
+    @Override
+    public String toString(){
+        return "MessagePacket{" +
+                "plugin=" + plugin.getName() +
+                ", priority=" + priority.name() +
+                ", type=" + type.name() +
+                ", messageType=" + messageType.name() +
+                ", messagePacketConfigurations=" + messagePacketConfigurations +
+                '}';
     }
 
     /**

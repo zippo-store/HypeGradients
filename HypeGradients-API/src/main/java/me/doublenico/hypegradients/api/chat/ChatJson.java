@@ -36,4 +36,10 @@ public class ChatJson {
             return "";
         return BaseComponent.toLegacyText(ComponentSerializer.parse(this.message));
     }
+
+    public String toString() {
+        return "ChatJson{jsonMessage=" + convertToJson()
+            + ", stringMessage=" + convertToString()
+            + "}";
+    }
 }

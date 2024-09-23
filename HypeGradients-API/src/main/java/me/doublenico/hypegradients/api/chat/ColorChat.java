@@ -69,4 +69,8 @@ public record ColorChat(String message) {
         if (new ChatGradient(message).isGradient()) return new ChatGradient(message).translateGradient();
         else return CColor.translateHex('#', replaceColors());
     }
+
+    public String toString() {
+        return "ColorChat{message=" + message + "}";
+    }
 }
