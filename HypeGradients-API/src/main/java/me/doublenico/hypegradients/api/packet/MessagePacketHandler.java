@@ -8,6 +8,9 @@ import com.comphenix.protocol.events.PacketEvent;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Contains all the {@link MessagePacket} that are registered on the server
+ */
 public class MessagePacketHandler {
 
     private static final List<MessagePacket> packets = new LinkedList<>();
