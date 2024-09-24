@@ -98,6 +98,6 @@ public class ReloadSubCommand extends SubCommand {
         manager.removePacketListeners(plugin);
         MessagePacketHandler.getPackets().clear();
         plugin.initialisePackets();
-        new ColorChat("[info]Added [important]" + MessagePacketHandler.getPackets().size() + " [info]packets").sendMessage(sender);
+        new ColorChat("[info]Added [important]" + MessagePacketHandler.getPacketCount() + " [info]packets").sendMessage(sender);
     }
 }
