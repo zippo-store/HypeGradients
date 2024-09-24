@@ -28,6 +28,10 @@ public class TagConfig extends Configuration {
             "example: <%tag%> <---- the %tag% will be replaced with red, so it will be <red>",
             "example: -%tag% <---- the %tag% will be replaced with red, so it will be -red");
         addInlineDefault("color.useDefault", false, "If the plugin should use the default color tag");
+        setTag();
+    }
+
+    public void setTag(){
         getConfig().set("detection", getGradient(), "Check how the gradient will be detected");
     }
 

@@ -217,41 +217,41 @@ public class DebugSubCommand extends SubCommand {
             switch (args[0]) {
                 case "message" -> {
                     if (sender.hasPermission("hypegradients.debug.message"))
-                        completions.add("<message>");
+                        completions.add(plugin.getTagConfig().getConfig().getString("detection"));
                 }
                 case "title" -> {
                     if (sender.hasPermission("hypegradients.debug.title"))
-                        completions.add("<message>");
+                        completions.add(plugin.getTagConfig().getConfig().getString("detection"));
                 }
                 case "subtitle" -> {
                     if (sender.hasPermission("hypegradients.debug.subtitle"))
-                        completions.add("<message>");
+                        completions.add(plugin.getTagConfig().getConfig().getString("detection"));
                 }
                 case "bossbar" -> {
                     if (sender.hasPermission("hypegradients.debug.bossbar"))
-                        completions.add("<message>");
+                        completions.add(plugin.getTagConfig().getConfig().getString("detection"));
                 }
                 case "actionbar" -> {
                     if (sender.hasPermission("hypegradients.debug.actionbar"))
-                        completions.add("<message>");
+                        completions.add(plugin.getTagConfig().getConfig().getString("detection"));
                 }
                 case "scoreboard" -> {
                     if (sender.hasPermission("hypegradients.debug.scoreboard"))
-                        completions.add("<title/line>");
+                        completions.add(plugin.getTagConfig().getConfig().getString("detection"));
                 }
                 case "sign" -> {
                     if (sender.hasPermission("hypegradients.debug.sign"))
-                        completions.add("<message>");
+                        completions.add(plugin.getTagConfig().getConfig().getString("detection"));
                 }
                 case "item" -> {
                     if (sender.hasPermission("hypegradients.debug.item"))
-                        completions.add("<message>");
+                        completions.add(plugin.getTagConfig().getConfig().getString("detection"));
                 }
             }
         if (args.length == 3) {
             if (args[0].equals("scoreboard")) {
                 if (sender.hasPermission("hypegradients.debug.scoreboard"))
-                    completions.add("<message>");
+                    completions.add(plugin.getTagConfig().getConfig().getString("detection"));
             }
         }
     }
