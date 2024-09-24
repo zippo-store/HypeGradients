@@ -42,10 +42,10 @@ public abstract class MessagePacket {
         this.messagePacketConfigurations = messagePacketConfigurations;
         MessagePacketHandler.getPackets().add(this);
         if (new MessagePacketHandler().registerPacketListener(this))
-            plugin.getLogger().info("Registered packet listener for " + type.name());
+            plugin.getLogger().info("Registered packet listener for " + type.name() + " with priority " + priority.name() + " for " + messageType.name());
         else {
             if (register())
-                plugin.getLogger().warning("Failed to register packet listener for " + type.name());
+                plugin.getLogger().warning("Failed to register packet listener for " + type.name() + " with priority " + priority.name() + " for " + messageType.name());
         }
     }
 
