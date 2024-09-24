@@ -1,6 +1,5 @@
 package me.doublenico.hypegradients.bstats;
 
-import me.doublenico.hypegradients.HypeGradients;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.DrilldownPie;
 import org.bstats.charts.SingleLineChart;
