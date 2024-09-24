@@ -24,7 +24,7 @@ public class TitleMessagePacketRedesign extends MessagePacket {
 
     @Override
     public boolean register() {
-        ((HypeGradients) getPlugin()).getDebugLogger().sendRegisterMessage(true);
+        ((HypeGradients) getPlugin()).getDebugLogger().sendRegisterMessage(getMessagePacketConfigurations().settings().title());
         return getMessagePacketConfigurations().settings().title();
     }
 

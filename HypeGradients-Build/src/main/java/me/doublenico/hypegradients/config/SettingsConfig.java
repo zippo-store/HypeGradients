@@ -12,6 +12,7 @@ public class SettingsConfig extends Configuration {
     public SettingsConfig(DynamicConfigurationDirectory configDirectory, String configName) {
         super(configDirectory, configName, true);
         addInlineDefault("no-found-packet", "disable", "If the packet is not found, stop the server or disable the plugin, values disable or stop");
+        addInlineDefault("debug", false, "Enable debug mode, this will log everything that the plugin does");
         addInlineDefault("colors", true, "Enable colors");;
         addInlineDefault("placeholders", true, "Enable placeholders, PlaceholderAPI is required");
         addDefault("chat-packet.enabled", true);
