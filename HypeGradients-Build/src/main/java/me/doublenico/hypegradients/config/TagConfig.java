@@ -28,7 +28,15 @@ public class TagConfig extends Configuration {
             "example: <%tag%> <---- the %tag% will be replaced with red, so it will be <red>",
             "example: -%tag% <---- the %tag% will be replaced with red, so it will be -red");
         addInlineDefault("color.useDefault", false, "If the plugin should use the default color tag");
+        getConfig().set("detection", getGradient(), "Check how the gradient will be detected");
+    }
 
-
+    private String getGradient(){
+        return getConfig().getString("gradient.prefix", "<gradient:") +
+                getConfig().getString("color.tag", "<%tag>").replace("%tag%", "red") +
+                getConfig().getString("gradient.separator", ";") +
+                "#123456" +
+                getConfig().getString("gradient.prefixEnd", ">") +
+                getConfig().getString("gradient.suffix", "</gradient>");
     }
 }
