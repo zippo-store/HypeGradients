@@ -41,6 +41,7 @@ public class TagConfig extends Configuration {
                 getConfig().getString("gradient.separator", ";") +
                 "#123456" +
                 getConfig().getString("gradient.prefixEnd", ">") +
+                "Text" +
                 getConfig().getString("gradient.suffix", "</gradient>");
     }
 }
