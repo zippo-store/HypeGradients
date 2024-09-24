@@ -53,6 +53,8 @@ public class ReloadSubCommand extends SubCommand {
                 case "tags" -> {
                     if (!hasPermission(sender, "hypegradients.reload.tags")) return;
                     plugin.getTagConfig().getConfig().reload();
+                    plugin.getTagConfig().setTag();
+                    plugin.getTagConfig().getConfig().reload();
                     (new ColorChat("[info]Reloaded tags")).sendMessage(sender);
                 }
                 case "settings" -> {
