@@ -116,10 +116,10 @@ public final class HypeGradients extends JavaPlugin {
         new ChatTranslators();
         getLogger().info("Registering commands...");
         CommandsManager commandsManager = new CommandsManager(this);
-        Objects.requireNonNull(getCommand("hypegradients")).setExecutor(commandsManager);
+        Objects.requireNonNull(getCommand("hypegradients"), "HypeGradients command cannot be found").setExecutor(commandsManager);
         if (CommodoreProvider.isSupported())
             new CommodoreHandler().registerCommodoreSupport(this, commandsManager);
-        else Objects.requireNonNull(getCommand("hypegradients")).setTabCompleter(commandsManager);
+        else Objects.requireNonNull(getCommand("hypegradients"), "HypeGradients command cannot be found").setTabCompleter(commandsManager);
         getLogger().finest("Commands are enabled!");
         if (settingsConfig.getConfig().getBoolean("bstats.enabled", true)) {
             getLogger().info("Loading bStats metrics...");
