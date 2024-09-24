@@ -13,12 +13,14 @@ public interface MessageDetection {
 
     /**
      * Get the name of the message detection, this is used to identify the custom message detection in the {@link MessagePacketHandler}
+     *
      * @return the name of the message detection
      */
     String getName();
 
     /**
      * Get the contents of the message, use this to modify the message packet, see {@link MessagePacketComponents}
+     *
      * @param player the player that receives the message
      * @param components the {@link MessagePacketComponents} of the message packet
      * @return the new {@link MessagePacketComponents} with the modified contents that will be sent to the packet
@@ -34,11 +36,10 @@ public interface MessageDetection {
 
     /**
      * This if used to set the {@link ChatDetectionConfiguration} for the
+     *
      * @param player the player that receives the message
      * @param directory the directory for the configuration, should be the in detections folder of the plugin
      * @return the {@link ChatDetectionConfiguration} that will be used for this MessageDetection
      */
     ChatDetectionConfiguration chatDetectionConfiguration(Player player, DynamicConfigurationDirectory directory);
-
-
 }

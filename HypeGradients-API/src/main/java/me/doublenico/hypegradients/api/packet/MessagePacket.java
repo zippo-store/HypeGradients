@@ -16,6 +16,7 @@ import me.doublenico.hypegradients.api.packet.annotations.Execute;
 import me.doublenico.hypegradients.api.packet.components.MessagePacketComponents;
 import me.doublenico.hypegradients.api.packet.components.MessagePacketConfigurations;
 import me.doublenico.hypegradients.api.packet.enums.DetectionExecution;
+import me.doublenico.hypegradients.api.version.ServerVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -93,11 +94,6 @@ public abstract class MessagePacket {
         return messagePacketConfigurations;
     }
 
-    public String getNMSVersion() {
-        String v = Bukkit.getServer().getClass().getPackage().getName();
-        return v.substring(v.lastIndexOf('.') + 1);
-    }
-
     /**
      * Sets the gradient for the component
      * @param player the player
@@ -173,33 +169,9 @@ public abstract class MessagePacket {
     }
 
     /**
-     * This method checks if the server version supports the signature chat, the signature chat appeared in 1.19
-     * @return if the server version supports the signature chat
+     * {@link ServerVersion} is used to check if some features are supported by the server version
      */
-    public boolean supportsSignature() {
-        return switch (getNMSVersion()) {
-            case "v1_16_R1", "v1_16_R2", "v1_16_R3", "v1_17_R1", "v1_18_R1", "v1_18_R2" -> false;
-            default -> true;
-        };
+    public ServerVersion getServerVersion() {
+        return new ServerVersion();
     }
-
-    /**
-     * This method checks if the server version supports the new signature chat which is a modified version of the first one, the new signature chat appeared in 1.20
-     * @return if the server version supports the new signature chat
-     */
-    public boolean isNewSignature() {
-        if (supportsSignature()) {
-            switch (getNMSVersion()) {
-                case "v1_19_R1", "v1_19_R2" -> {
-                    return false;
-                }
-                default -> {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-
 }

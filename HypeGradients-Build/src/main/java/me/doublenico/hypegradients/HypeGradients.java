@@ -73,7 +73,6 @@ public final class HypeGradients extends JavaPlugin {
             }
         }
         getLogger().finest("Custom Configurations are loaded!");
-        debugLogger = new DebugLogger(this, settingsConfig.getConfig().getBoolean("debug", false));
         if (settingsConfig.getChatDetectionValues().enabled()) {
             if (getServer().getPluginManager().getPlugin("ProtocolLib") == null)
                 getLogger().warning("Could not find ProtocolLib! Disabling gradient chat detection.");
@@ -150,6 +149,7 @@ public final class HypeGradients extends JavaPlugin {
     }
 
     public void initialisePackets(){
+        debugLogger = new DebugLogger(this, settingsConfig.getConfig().getBoolean("debug", false));
         MessagePacketConfigurations configurations = new MessagePacketConfigurations(settingsConfig.getChatDetectionValues(), messageDetectionConfig.getChatDetectionValues(), ChatDetectionManager.getInstance().getConfiguration("gradient"));
         new TitleMessagePacketRedesign(this, configurations, ListenerPriority.MONITOR, PacketType.Play.Server.SET_TITLE_TEXT, MessageType.TITLE_TEXT);
     }
@@ -186,30 +186,6 @@ public final class HypeGradients extends JavaPlugin {
 
     public DebugLogger getDebugLogger() {
         return debugLogger;
-    }
-
-    public String getNMSVersion() {
-        String v = Bukkit.getServer().getClass().getPackage().getName();
-        return v.substring(v.lastIndexOf('.') + 1);
-    }
-
-    public boolean supportsSignature() {
-        return switch (getNMSVersion()) {
-            case "v1_16_R1", "v1_16_R2", "v1_16_R3", "v1_17_R1", "v1_18_R1", "v1_18_R2" -> false;
-            default -> true;
-        };
-    }
-
-    public boolean isNewSignature() {
-        if (supportsSignature()) return !getNMSVersion().equals("v1_19_R1") && !getNMSVersion().equals("v1_19_R2");
-        return false;
-    }
-
-    public boolean isLegacy() {
-        return switch (getNMSVersion()) {
-            case "v1_16_R1", "v1_16_R2", "v1_16_R3" -> true;
-            default -> false;
-        };
     }
 
     private void throwError() {
