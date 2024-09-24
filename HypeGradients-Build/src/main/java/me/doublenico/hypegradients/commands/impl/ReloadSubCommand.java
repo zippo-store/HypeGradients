@@ -63,8 +63,8 @@ public class ReloadSubCommand extends SubCommand {
                 }
                 case "all" -> {
                     if (!hasPermission(sender, "hypegradients.reload.all")) return;
-                    plugin.getColorConfig().checkConfig(plugin);
                     ConfigurationManager.getInstance().getConfigurations().values().forEach(configuration -> configuration.getConfig().reload());
+                    plugin.getColorConfig().checkConfig(plugin);
                     reloadPackets(plugin, sender);
                     (new ColorChat("[info]Reloaded everything")).sendMessage(sender);
                 }
@@ -88,17 +88,16 @@ public class ReloadSubCommand extends SubCommand {
     }
 
     private void reloadPackets(HypeGradients plugin, CommandSender sender) {
+        if (!plugin.getSettingsConfig().getConfig().getBoolean("chat-detection.enabled", true)){
+            new ColorChat("[warn]Chat detection is disabled, disabling all packets").sendMessage(sender);
+            return;
+        }
+        plugin.getMessageDetectionConfig().getConfig().reload();
+        ChatDetectionManager.getInstance().getChatDetections().forEach(config -> ChatDetectionManager.getInstance().getConfiguration(config.configName()).getConfig().reload());
         ProtocolManager manager = ProtocolLibrary.getProtocolManager();
         manager.removePacketListeners(plugin);
-        MessagePacketHandler handler = new MessagePacketHandler();
         MessagePacketHandler.getPackets().clear();
-        ChatDetectionManager.getInstance().getChatDetections().forEach(config -> ChatDetectionManager.getInstance().getConfiguration(config.configName()).getConfig().reload());
-        if (!plugin.getSettingsConfig().getConfig().getBoolean("chat-detection.enabled", true))
-            return;
-        if (handler.registerPacketListener()) {
-            new ColorChat("[info]Registered " + handler.getPacketCount() + " packet listeners.").sendMessage(sender);
-            new ColorChat("[info]ProtocolLib packet listener is enabled...").sendMessage(sender);
-        } else
-            new ColorChat("[error]Could not register ProtocolLib packet listener! Disabling gradient chat detection.").sendMessage(sender);
+        plugin.initialisePackets();
+        new ColorChat("[info]Added [important]" + MessagePacketHandler.getPackets().size() + " [info]packets").sendMessage(sender);
     }
 }
