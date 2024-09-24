@@ -28,7 +28,7 @@ public class MessagePacketHandler {
     /**
      * @return the amount of packets
      */
-    public int getPacketCount() {
+    public static int getPacketCount() {
         return packets.size();
     }
 
