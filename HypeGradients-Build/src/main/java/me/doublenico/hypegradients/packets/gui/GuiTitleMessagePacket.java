@@ -5,14 +5,11 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import me.doublenico.hypegradients.HypeGradients;
-import me.doublenico.hypegradients.api.chat.ChatJson;
 import me.doublenico.hypegradients.api.event.MessageType;
 import me.doublenico.hypegradients.api.packet.MessagePacket;
-import me.doublenico.hypegradients.api.packet.components.MessagePacketComponents;
 import me.doublenico.hypegradients.api.packet.components.MessagePacketConfigurations;
 import me.doublenico.hypegradients.api.bstats.MetricsComponents;
 import me.doublenico.hypegradients.wrappers.gui.WrapperGuiTitleMessage;
-import me.doublenico.hypegradients.wrappers.title.WrapperPlayServerTitle;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class GuiTitleMessagePacket extends MessagePacket {

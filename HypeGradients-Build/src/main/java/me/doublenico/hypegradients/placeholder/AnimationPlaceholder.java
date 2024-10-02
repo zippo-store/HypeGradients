@@ -17,13 +17,8 @@ import java.util.UUID;
 
 public class AnimationPlaceholder extends PlaceholderExpansion {
 
-    private final HypeGradients plugin;
     private final AnimationHandler animationHandler = new AnimationHandler();
     private final HashMap<UUID, AnimationCache> animationCache = new HashMap<>();
-
-    public AnimationPlaceholder(HypeGradients plugin) {
-        this.plugin = plugin;
-    }
 
     @Override
     public @NotNull String getIdentifier() {

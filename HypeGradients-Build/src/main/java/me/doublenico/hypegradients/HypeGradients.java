@@ -106,7 +106,7 @@ public final class HypeGradients extends JavaPlugin {
                 getLogger().info("PlaceholderAPI placeholders are enabled...");
                 if (settingsConfig.getConfig().getBoolean("animations.enabled", true)) {
                     getLogger().info("Loading animations...");
-                    AnimationPlaceholder animationPlaceholder = new AnimationPlaceholder(this);
+                    AnimationPlaceholder animationPlaceholder = new AnimationPlaceholder();
                     animationPlaceholder.register();
                     getServer().getPluginManager().registerEvents(new AnimationListener(animationPlaceholder), this);
                     getLogger().finest("Animations are enabled...");

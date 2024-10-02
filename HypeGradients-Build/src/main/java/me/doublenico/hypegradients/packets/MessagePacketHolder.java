@@ -33,6 +33,7 @@ import me.doublenico.hypegradients.packets.title.TitleMessagePacket;
 
 public class MessagePacketHolder {
 
+    @SuppressWarnings("deprecation")
     public void initialisePackets(HypeGradients plugin, SettingsConfig settingsConfig, MessageDetectionConfig messageDetectionConfig, DebugLogger logger) {
         MessagePacketConfigurations configurations = new MessagePacketConfigurations(settingsConfig.getChatDetectionValues(), messageDetectionConfig.getChatDetectionValues(), ChatDetectionManager.getInstance().getConfiguration("gradient"));
         if (new ServerVersion().isLegacy()) {
