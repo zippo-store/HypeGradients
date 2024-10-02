@@ -3,7 +3,7 @@ package me.doublenico.hypegradients.api.chat;
 import dev.dynamicstudios.json.data.util.CColor;
 import dev.perryplaysmc.dynamicconfigurations.IDynamicConfiguration;
 import dev.perryplaysmc.dynamicconfigurations.IDynamicConfigurationSection;
-import me.doublenico.hypegradients.api.GradientLogger;
+import me.doublenico.hypegradients.api.log.GradientLogger;
 import me.doublenico.hypegradients.api.configuration.ConfigurationManager;
 import org.bukkit.command.CommandSender;
 

@@ -1,4 +1,4 @@
-package me.doublenico.hypegradients.api;
+package me.doublenico.hypegradients.api.log;
 
 import org.bukkit.Bukkit;
 
