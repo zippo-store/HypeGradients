@@ -3,7 +3,10 @@ package me.doublenico.hypegradients.api.packet;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
+import me.doublenico.hypegradients.api.bstats.MetricsComponents;
+import me.doublenico.hypegradients.api.log.DebugLogger;
 import me.doublenico.hypegradients.api.MessageDetection;
 import me.doublenico.hypegradients.api.MessageDetectionManager;
 import me.doublenico.hypegradients.api.chat.ChatGradient;
@@ -19,9 +22,13 @@ import me.doublenico.hypegradients.api.packet.enums.DetectionExecution;
 import me.doublenico.hypegradients.api.version.ServerVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Base class for all message packets
@@ -173,5 +180,85 @@ public abstract class MessagePacket {
      */
     public ServerVersion getServerVersion() {
         return new ServerVersion();
+    }
+
+    /**
+     * Processes the packet, checks for message detection, gradient and puts them accordingly
+     * @param event the packet event
+     * @param logger the debug logger
+     * @param metrics the metrics components
+     * @param components the initial components of the message packet
+     * @return the modified components after gradient and message detection
+     */
+    public MessagePacketComponents processPacket(PacketEvent event, DebugLogger logger, MetricsComponents metrics, MessagePacketComponents components) {
+        Player player = event.getPlayer();
+        logger.sendComponentMessage(player, components);
+        logger.sendMessageEventMessage();
+        components = getMessageEvent(player, components);
+        if (components == null) return null;
+        logger.sendComponentMessage(player, components);
+        logger.sendBeforeMessage();
+        components = getMessageDetection(getPlugin(), player, components, true);
+        if (components == null) return null;
+        logger.sendComponentMessage(player, components);
+        logger.sendGradientMessage();
+        ChatGradient gradient = new ChatGradient(components.getPlainMessage());
+        logger.sendGradientDetectedMessage(gradient, getMessagePacketConfigurations().gradient().getChatDetectionValues().title());
+        if (isGradient(gradient, getMessagePacketConfigurations().gradient().getChatDetectionValues().title())) {
+            components = setGradient(player, gradient, components);
+            logger.sendComponentMessage(player, components);
+            metrics.setMetrics();
+        }
+        logger.sendAfterMessage();
+        components = getMessageDetection(getPlugin(), player, components, false);
+        if (components == null) return null;
+        logger.sendComponentMessage(player, components);
+        return components;
+    }
+
+
+    /**
+     * See {@link #processPacket(PacketEvent, DebugLogger, MetricsComponents, MessagePacketComponents)}
+     * <p>
+     * This method uses the {@link AbstractPacket} class to process the packet and set the wrapped chat component
+     */
+    public void processPacket(PacketEvent event, AbstractPacket packet, DebugLogger logger, MetricsComponents metrics, MessagePacketComponents components){
+        packet.setWrappedChatComponent(processPacket(event, logger, metrics, components).getWrappedChatComponent());
+    }
+
+    /**
+     * See {@link #processPacket(PacketEvent, DebugLogger, MetricsComponents, MessagePacketComponents)}
+     * <p>
+     * This method uses the {@link AbstractPacket} class to process the packet and set/get the wrapped chat component
+     */
+    public void processPacket(PacketEvent event, AbstractPacket packet, DebugLogger logger, MetricsComponents metrics){
+        processPacket(event, packet, logger, metrics, new MessagePacketComponents(packet.getWrappedChatComponent(), packet.getWrappedChatComponent().getJson(), new ChatJson(packet.getWrappedChatComponent().getJson()).convertToString()));
+    }
+
+    /**
+     * See {@link #processPacket(PacketEvent, DebugLogger, MetricsComponents, MessagePacketComponents)}
+     * <p>
+     * Processes the item stack, checks for message detection, gradient and puts them accordingly
+     */
+    public void processItemStack(PacketEvent event, DebugLogger logger, MetricsComponents metrics, ItemStack item){
+        if (item == null || item.getType().isAir()) return;
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) return;
+        if (meta.hasDisplayName()){
+            MessagePacketComponents messagePacketComponents = new MessagePacketComponents(WrappedChatComponent.fromLegacyText(meta.getDisplayName()), new ChatJson(meta.getDisplayName()).convertToJson(), meta.getDisplayName());
+            messagePacketComponents = processPacket(event, logger, metrics, messagePacketComponents);
+            meta.setDisplayName(new ChatJson(messagePacketComponents.getWrappedChatComponent().getJson()).convertToString());
+        }
+        if (meta.hasLore()){
+            List<String> lore = new ArrayList<>();
+            for (String line : meta.getLore()){
+                MessagePacketComponents messagePacketComponents = new MessagePacketComponents(WrappedChatComponent.fromLegacyText(line), new ChatJson(line).convertToJson(), line);
+                messagePacketComponents = processPacket(event, logger, metrics, messagePacketComponents);
+                if (messagePacketComponents == null) continue;
+                lore.add(new ChatJson(messagePacketComponents.getWrappedChatComponent().getJson()).convertToString());
+            }
+            meta.setLore(lore);
+        }
+        item.setItemMeta(meta);
     }
 }
