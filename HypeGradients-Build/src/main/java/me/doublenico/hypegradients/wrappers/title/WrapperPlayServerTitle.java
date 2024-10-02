@@ -17,11 +17,13 @@ public class WrapperPlayServerTitle extends AbstractPacket {
         super(packet, TYPE);
     }
 
-    public WrappedChatComponent getTitle() {
+    @Override
+    public WrappedChatComponent getWrappedChatComponent() {
         return this.handle.getChatComponents().read(0);
     }
 
-    public void setTitle(WrappedChatComponent value) {
+    @Override
+    public void setWrappedChatComponent(WrappedChatComponent value) {
         this.handle.getChatComponents().write(0, value);
     }
 }

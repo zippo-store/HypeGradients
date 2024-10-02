@@ -123,4 +123,13 @@ public class WrapperScoreboardTeam extends AbstractPacket {
         return teamParameters.build();
     }
 
+    @Override
+    public WrappedChatComponent getWrappedChatComponent() {
+        return null;
+    }
+
+    @Override
+    public void setWrappedChatComponent(WrappedChatComponent value) {
+
+    }
 }

@@ -25,7 +25,8 @@ public class WrapperScoreboardObjective extends AbstractPacket {
      *
      * @return The current Objective value
      */
-    public WrappedChatComponent getDisplayName() {
+    @Override
+    public WrappedChatComponent getWrappedChatComponent() {
         return handle.getChatComponents().read(0);
     }
 
@@ -34,7 +35,8 @@ public class WrapperScoreboardObjective extends AbstractPacket {
      *
      * @param value - new value.
      */
-    public void setDisplayName(WrappedChatComponent value) {
+    @Override
+    public void setWrappedChatComponent(WrappedChatComponent value) {
         handle.getChatComponents().write(0, value);
     }
 }

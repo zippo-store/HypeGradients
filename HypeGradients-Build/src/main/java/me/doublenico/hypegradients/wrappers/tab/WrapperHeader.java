@@ -1,21 +1,15 @@
-package me.doublenico.hypegradients.wrappers.title;
+package me.doublenico.hypegradients.wrappers.tab;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import me.doublenico.hypegradients.api.packet.AbstractPacket;
 
-public class WrapperPlayServerSubtitle extends AbstractPacket {
-    public static final PacketType TYPE = PacketType.Play.Server.SET_SUBTITLE_TEXT;
-
-    public WrapperPlayServerSubtitle() {
-        super(new PacketContainer(TYPE), TYPE);
-        this.handle.getModifier().writeDefaults();
+public class WrapperHeader extends AbstractPacket {
+    public WrapperHeader(PacketContainer handle) {
+        super(handle, PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
     }
 
-    public WrapperPlayServerSubtitle(PacketContainer packet) {
-        super(packet, TYPE);
-    }
 
     @Override
     public WrappedChatComponent getWrappedChatComponent() {

@@ -78,4 +78,13 @@ public class WrapperMetaData extends AbstractPacket {
         handle.getDataValueCollectionModifier().write(0, value);
     }
 
+    @Override
+    public WrappedChatComponent getWrappedChatComponent() {
+        return null;
+    }
+
+    @Override
+    public void setWrappedChatComponent(WrappedChatComponent value) {
+
+    }
 }

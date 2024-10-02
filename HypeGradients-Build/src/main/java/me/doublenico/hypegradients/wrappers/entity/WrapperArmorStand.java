@@ -3,6 +3,7 @@ package me.doublenico.hypegradients.wrappers.entity;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import me.doublenico.hypegradients.api.packet.AbstractPacket;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -42,4 +43,13 @@ public class WrapperArmorStand extends AbstractPacket {
     }
 
 
+    @Override
+    public WrappedChatComponent getWrappedChatComponent() {
+        return null;
+    }
+
+    @Override
+    public void setWrappedChatComponent(WrappedChatComponent value) {
+
+    }
 }

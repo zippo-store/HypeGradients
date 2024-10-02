@@ -38,4 +38,13 @@ public class WrapperGuiTitleMessage extends AbstractPacket {
     }
 
 
+    @Override
+    public WrappedChatComponent getWrappedChatComponent() {
+        return getWindowTitle();
+    }
+
+    @Override
+    public void setWrappedChatComponent(WrappedChatComponent value) {
+        setWindowTitle(value);
+    }
 }
