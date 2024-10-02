@@ -13,7 +13,7 @@ public class SettingsConfig extends Configuration {
         super(configDirectory, configName, true);
         addInlineDefault("no-found-packet", "disable", "If the packet is not found, stop the server or disable the plugin, values disable or stop");
         addInlineDefault("debug", false, "Enable debug mode, this will log everything that the plugin does");
-        addInlineDefault("colors", true, "Enable colors");;
+        addInlineDefault("colors", true, "Enable colors");
         addInlineDefault("placeholders", true, "Enable placeholders, PlaceholderAPI is required");
         addDefault("chat-packet.enabled", true);
         getConfig().comment("This will handle all the incoming chat packets, if you disable this, everything that the plugin checks(gradient, color, message detection) will be disabled");
