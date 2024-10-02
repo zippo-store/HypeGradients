@@ -2,8 +2,10 @@ package me.doublenico.hypegradients.api.packet;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.google.common.base.Objects;
 /**
+ * Modified by DoubleNico
  * PacketWrapper - ProtocolLib wrappers for Minecraft packets
  * Copyright (C) dmulloy2 <http://dmulloy2.net>
  * Copyright (C) Kristian S. Strangeland
@@ -41,5 +43,9 @@ public abstract class AbstractPacket {
 
         this.handle = handle;
     }
+
+    public abstract WrappedChatComponent getWrappedChatComponent();
+
+    public abstract void setWrappedChatComponent(WrappedChatComponent value);
 
 }
