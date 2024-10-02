@@ -1,4 +1,4 @@
-package me.doublenico.hypegradients.bstats;
+package me.doublenico.hypegradients.api.bstats;
 
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.DrilldownPie;
