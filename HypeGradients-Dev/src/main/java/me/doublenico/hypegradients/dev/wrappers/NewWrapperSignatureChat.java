@@ -6,6 +6,7 @@ import com.comphenix.protocol.reflect.StructureModifier;
 import com.comphenix.protocol.wrappers.AdventureComponentConverter;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import me.doublenico.hypegradients.api.packet.AbstractPacket;
+import me.doublenico.hypegradients.dev.util.AdventureComponent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 
@@ -74,4 +75,13 @@ public class NewWrapperSignatureChat extends AbstractPacket {
         }
     }
 
+    @Override
+    public WrappedChatComponent getWrappedChatComponent() {
+        return getMessage();
+    }
+
+    @Override
+    public void setWrappedChatComponent(WrappedChatComponent value) {
+        setMessage(value.getJson());
+    }
 }

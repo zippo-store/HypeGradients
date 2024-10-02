@@ -16,7 +16,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 
 import java.util.List;
@@ -150,7 +149,7 @@ public class DebugSubCommand extends SubCommand {
                                     message.append(args[i]).append(" ");
 
                                 player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-                                player.getScoreboard().registerNewObjective("hypegradientssb-title", Criteria.DUMMY, message.toString());
+                                player.getScoreboard().registerNewObjective("hypegradientssb-title", "dummy", message.toString());
                                 player.getScoreboard().getObjective("hypegradientssb-title").setDisplaySlot(DisplaySlot.SIDEBAR);
                                 player.getScoreboard().getObjective("hypegradientssb-title").getScore("§r").setScore(1);
                                 Bukkit.getScheduler().runTaskLater(plugin, () -> player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard()), 200L);
@@ -161,7 +160,7 @@ public class DebugSubCommand extends SubCommand {
                                 for (i = 3; i < args.length; i++)
                                     message.append(args[i]).append(" ");
                                 player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-                                player.getScoreboard().registerNewObjective("hypegradientssb-line", Criteria.DUMMY, "§r");
+                                player.getScoreboard().registerNewObjective("hypegradientssb-line", "dummy", "§r");
                                 player.getScoreboard().getObjective("hypegradientssb-line").setDisplaySlot(DisplaySlot.SIDEBAR);
                                 player.getScoreboard().getObjective("hypegradientssb-line").getScore(message.toString()).setScore(0);
                                 Bukkit.getScheduler().runTaskLater(plugin, () -> player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard()), 200L);

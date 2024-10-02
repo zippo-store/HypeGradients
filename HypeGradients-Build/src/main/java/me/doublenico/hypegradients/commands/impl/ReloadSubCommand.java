@@ -8,6 +8,7 @@ import me.doublenico.hypegradients.api.configuration.ConfigurationManager;
 import me.doublenico.hypegradients.api.detection.ChatDetectionManager;
 import me.doublenico.hypegradients.api.packet.MessagePacketHandler;
 import me.doublenico.hypegradients.commands.SubCommand;
+import me.doublenico.hypegradients.packets.MessagePacketHolder;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
@@ -99,7 +100,7 @@ public class ReloadSubCommand extends SubCommand {
         ProtocolManager manager = ProtocolLibrary.getProtocolManager();
         manager.removePacketListeners(plugin);
         MessagePacketHandler.getPackets().clear();
-        plugin.initialisePackets();
+        new MessagePacketHolder().initialisePackets(plugin, plugin.getSettingsConfig(), plugin.getMessageDetectionConfig(), plugin.getDebugLogger());
         new ColorChat("[info]Added [important]" + MessagePacketHandler.getPacketCount() + " [info]packets").sendMessage(sender);
     }
 }
