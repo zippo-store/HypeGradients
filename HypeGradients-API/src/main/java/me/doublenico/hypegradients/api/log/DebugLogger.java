@@ -1,4 +1,4 @@
-package me.doublenico.hypegradients.log;
+package me.doublenico.hypegradients.api.log;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
@@ -28,6 +28,10 @@ public record DebugLogger(JavaPlugin plugin, boolean shouldSend) {
         if (shouldSend) {
             plugin.getLogger().info(message);
         }
+    }
+
+    public void sendChatEnabledMessage(boolean enabled) {
+        sendDebugMessage("Registering Signature Chat: " + enabled);
     }
 
     public void sendRegisterMessage(boolean register) {

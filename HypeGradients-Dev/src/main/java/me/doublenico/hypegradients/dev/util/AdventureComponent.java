@@ -15,4 +15,9 @@ public class AdventureComponent {
     if (message == null) return "";
     return AdventureComponentConverter.fromComponent(LegacyComponentSerializer.legacySection().deserialize(message)).getJson();
   }
+
+  public String convertToJson(WrappedChatComponent component) {
+    if (component == null) return "";
+    return component.getJson();
+  }
 }
