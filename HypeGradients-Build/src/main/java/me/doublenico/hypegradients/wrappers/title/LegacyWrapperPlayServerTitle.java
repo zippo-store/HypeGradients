@@ -8,6 +8,7 @@ import me.doublenico.hypegradients.api.packet.AbstractPacket;
 
 public class LegacyWrapperPlayServerTitle extends AbstractPacket {
 
+    @SuppressWarnings("deprecation")
     public static final PacketType TYPE = PacketType.Play.Server.TITLE;
 
     public LegacyWrapperPlayServerTitle() {

@@ -7,7 +7,6 @@ import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import me.doublenico.hypegradients.api.packet.AbstractPacket;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 

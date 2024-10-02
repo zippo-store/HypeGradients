@@ -14,7 +14,6 @@ import me.doublenico.hypegradients.api.packet.components.MessagePacketComponents
 import me.doublenico.hypegradients.api.packet.components.MessagePacketConfigurations;
 import me.doublenico.hypegradients.api.bstats.MetricsComponents;
 import me.doublenico.hypegradients.wrappers.tab.WrapperPlayerInfo;
-import me.doublenico.hypegradients.wrappers.title.WrapperPlayServerTitle;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;

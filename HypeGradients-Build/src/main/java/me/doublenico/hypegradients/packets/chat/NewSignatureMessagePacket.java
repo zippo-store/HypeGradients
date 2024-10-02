@@ -11,7 +11,6 @@ import me.doublenico.hypegradients.api.packet.MessagePacket;
 import me.doublenico.hypegradients.api.packet.components.MessagePacketComponents;
 import me.doublenico.hypegradients.api.packet.components.MessagePacketConfigurations;
 import me.doublenico.hypegradients.dev.packets.NewSignatureChatMessagePacket;
-import me.doublenico.hypegradients.dev.util.AdventureComponent;
 import me.doublenico.hypegradients.dev.wrappers.NewWrapperSignatureChat;
 import org.bukkit.plugin.java.JavaPlugin;
 
