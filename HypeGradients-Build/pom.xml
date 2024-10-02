@@ -7,9 +7,8 @@
         <groupId>me.doublenico</groupId>
         <version>1.1.2</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-
     <artifactId>HypeGradients-Build</artifactId>
+    <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
 
     <build>
@@ -31,7 +30,6 @@
                         <includes>
                             <include>me.lucko:commodore</include>
                             <include>com.github.PerryPlaysMC:DynamicJson</include>
-                            <include>com.github.PerryPlaysMC:DynamicConfigurations</include>
                             <include>me.doublenico:HypeGradients-Dev</include>
                             <include>me.doublenico:HypeGradients-API</include>
                             <include>org.bstats:bstats-base</include>
@@ -44,16 +42,8 @@
                             <shadedPattern>me.doublenico.hypegradients.commodore</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>dev.dynamicstudios.json.data.util</pattern>
+                            <pattern>dev.dynamicstudios.json</pattern>
                             <shadedPattern>me.doublenico.hypegradients.json</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>dev.perryplaysmc.dynamicconfigurations</pattern>
-                            <shadedPattern>me.doublenico.hypegradients.config</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.bstats</pattern>
-                            <shadedPattern>me.doublenico.hypegradients.bstats</shadedPattern>
                         </relocation>
                     </relocations>
                     <minimizeJar>true</minimizeJar>
@@ -67,48 +57,8 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-        <finalName>HypeGradients-1.1.2</finalName>
+        <finalName>HypeGradients-${project.version}</finalName>
     </build>
-
-
-    <dependencies>
-        <dependency>
-            <groupId>me.doublenico</groupId>
-            <artifactId>HypeGradients-Dev</artifactId>
-            <version>1.1.2</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.clip</groupId>
-            <artifactId>placeholderapi</artifactId>
-            <version>2.11.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>me.lucko</groupId>
-            <artifactId>commodore</artifactId>
-            <version>2.2</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.2</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.PerryPlaysMC</groupId>
-            <artifactId>DynamicConfigurations</artifactId>
-            <version>1.4.2</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.PerryPlaysMC</groupId>
-            <artifactId>DynamicJson</artifactId>
-            <version>2.1.0</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
 
     <repositories>
         <repository>
@@ -128,4 +78,37 @@
             <url>https://libraries.minecraft.net/</url>
         </repository>
     </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>me.doublenico</groupId>
+            <artifactId>HypeGradients-Dev</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.6</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.lucko</groupId>
+            <artifactId>commodore</artifactId>
+            <version>2.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.PerryPlaysMC</groupId>
+            <artifactId>DynamicConfigurations</artifactId>
+            <version>1.4.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.PerryPlaysMC</groupId>
+            <artifactId>DynamicJson</artifactId>
+            <version>2.1.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>

@@ -17,6 +17,14 @@ public class Configuration {
         ConfigurationManager.getInstance().addConfiguration(configName, this);
     }
 
+    @Override
+    public String toString() {
+        return "Configuration{" +
+            "configDirectory=" + configDirectory.name() +
+            ", config=" + config.name() +
+            '}';
+    }
+
     public DynamicConfigurationDirectory getConfigDirectory() {
         return this.configDirectory;
     }

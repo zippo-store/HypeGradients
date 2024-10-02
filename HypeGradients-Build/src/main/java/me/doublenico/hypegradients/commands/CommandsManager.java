@@ -30,6 +30,7 @@ public class CommandsManager implements CommandExecutor, TabExecutor {
         this.subcmds.add(new PacketsSubCommand());
     }
 
+    @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         SubCommand subCommand = null;
         if (args.length == 0) {

@@ -3,6 +3,9 @@ package me.doublenico.hypegradients.api.detection;
 import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
 import me.doublenico.hypegradients.api.configuration.Configuration;
 
+/**
+ * This class is used to store the configuration for the chat detection that contains every message packet that can be detected.
+ */
 public class ChatDetectionConfiguration extends Configuration {
 
     private final ChatDetectionValues chatDetectionValues;

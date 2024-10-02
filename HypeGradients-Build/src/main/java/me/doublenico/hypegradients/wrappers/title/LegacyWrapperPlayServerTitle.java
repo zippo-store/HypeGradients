@@ -8,6 +8,7 @@ import me.doublenico.hypegradients.api.packet.AbstractPacket;
 
 public class LegacyWrapperPlayServerTitle extends AbstractPacket {
 
+    @SuppressWarnings("deprecation")
     public static final PacketType TYPE = PacketType.Play.Server.TITLE;
 
     public LegacyWrapperPlayServerTitle() {
@@ -37,23 +38,13 @@ public class LegacyWrapperPlayServerTitle extends AbstractPacket {
         handle.getTitleActions().write(0, value);
     }
 
-    /**
-     * Retrieve 0 (TITLE).
-     * <p>
-     * Notes: chat
-     *
-     * @return The current 0 (TITLE)
-     */
-    public WrappedChatComponent getTitle() {
+    @Override
+    public WrappedChatComponent getWrappedChatComponent() {
         return handle.getChatComponents().read(0);
     }
 
-    /**
-     * Set 0 (TITLE).
-     *
-     * @param value - new value.
-     */
-    public void setTitle(WrappedChatComponent value) {
+    @Override
+    public void setWrappedChatComponent(WrappedChatComponent value) {
         handle.getChatComponents().write(0, value);
     }
 }

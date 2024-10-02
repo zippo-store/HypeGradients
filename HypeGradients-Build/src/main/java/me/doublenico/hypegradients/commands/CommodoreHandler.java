@@ -44,7 +44,8 @@ public class CommodoreHandler {
                         .then(LiteralArgumentBuilder.literal("colors"))
                         .then(LiteralArgumentBuilder.literal("all"))
                         .then(LiteralArgumentBuilder.literal("animations"))
-                        .then(LiteralArgumentBuilder.literal("configs")))
+                        .then(LiteralArgumentBuilder.literal("configs"))
+                        .then(LiteralArgumentBuilder.literal("tags")))
                 .then(LiteralArgumentBuilder.literal("packets")).build();
         CommodoreProvider.getCommodore(plugin).register(plugin.getCommand("hypegradients"), node, commandsManager::checkPermission);
     }

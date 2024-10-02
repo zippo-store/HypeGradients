@@ -17,4 +17,14 @@ public class WrapperPlayServerChat extends AbstractPacket {
     public void setMessage(WrappedChatComponent value) {
         this.handle.getChatComponents().write(0, value);
     }
+
+    @Override
+    public WrappedChatComponent getWrappedChatComponent() {
+        return getMessage();
+    }
+
+    @Override
+    public void setWrappedChatComponent(WrappedChatComponent value) {
+        setMessage(value);
+    }
 }

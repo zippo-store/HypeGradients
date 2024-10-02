@@ -7,10 +7,10 @@
         <groupId>me.doublenico</groupId>
         <version>1.1.2</version>
     </parent>
+    <artifactId>HypeGradients-Dev</artifactId>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
 
-    <artifactId>HypeGradients-Dev</artifactId>
     <build>
         <finalName>HypeGradients-Dev ${project.version}</finalName>
     </build>
@@ -27,7 +27,6 @@
         </repository>
     </repositories>
 
-
     <dependencies>
         <dependency>
             <groupId>io.papermc.paper</groupId>
@@ -38,10 +37,8 @@
         <dependency>
             <groupId>me.doublenico</groupId>
             <artifactId>HypeGradients-API</artifactId>
-            <version>1.1.2</version>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
-
 </project>

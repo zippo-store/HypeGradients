@@ -2,6 +2,7 @@ package me.doublenico.hypegradients.wrappers.gui;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import me.doublenico.hypegradients.api.packet.AbstractPacket;
 import org.bukkit.inventory.ItemStack;
 
@@ -57,5 +58,15 @@ public class WrapperGuiMessage extends AbstractPacket {
      */
     public void setSlotData(List<ItemStack> value) {
         handle.getItemListModifier().write(0, value);
+    }
+
+    @Override
+    public WrappedChatComponent getWrappedChatComponent() {
+        return null;
+    }
+
+    @Override
+    public void setWrappedChatComponent(WrappedChatComponent value) {
+
     }
 }

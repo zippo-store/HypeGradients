@@ -2,6 +2,7 @@ package me.doublenico.hypegradients.wrappers.motd;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import me.doublenico.hypegradients.api.packet.AbstractPacket;
 
@@ -18,4 +19,14 @@ public class WrapperServerInfo extends AbstractPacket {
         handle.getServerPings().write(0, ping);
     }
 
+    @Override
+    public WrappedChatComponent getWrappedChatComponent() {
+        return getServerPing().getMotD();
+    }
+
+    @Override
+    public void setWrappedChatComponent(WrappedChatComponent value) {
+        getServerPing().setMotD(value);
+        setServerPing(getServerPing());
+    }
 }

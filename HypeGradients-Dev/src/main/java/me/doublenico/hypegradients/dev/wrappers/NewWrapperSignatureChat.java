@@ -74,4 +74,13 @@ public class NewWrapperSignatureChat extends AbstractPacket {
         }
     }
 
+    @Override
+    public WrappedChatComponent getWrappedChatComponent() {
+        return getMessage();
+    }
+
+    @Override
+    public void setWrappedChatComponent(WrappedChatComponent value) {
+        setMessage(value.getJson());
+    }
 }

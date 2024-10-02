@@ -1,5 +1,8 @@
 package me.doublenico.hypegradients.api.event;
 
+/**
+ * The type of message packet that is being sent.
+ */
 public enum MessageType {
 
     /**

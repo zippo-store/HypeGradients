@@ -27,4 +27,14 @@ public class WrapperBossBar extends AbstractPacket {
         } catch (FieldAccessException ignored) {
         }
     }
+
+    @Override
+    public WrappedChatComponent getWrappedChatComponent() {
+        return getTitle();
+    }
+
+    @Override
+    public void setWrappedChatComponent(WrappedChatComponent value) {
+        setTitle(value);
+    }
 }

@@ -1,4 +1,11 @@
-package me.doublenico.hypegradients.api.packet; /**
+package me.doublenico.hypegradients.api.packet;
+
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import com.google.common.base.Objects;
+/**
+ * Modified by DoubleNico
  * PacketWrapper - ProtocolLib wrappers for Minecraft packets
  * Copyright (C) dmulloy2 <http://dmulloy2.net>
  * Copyright (C) Kristian S. Strangeland
@@ -16,11 +23,6 @@ package me.doublenico.hypegradients.api.packet; /**
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.events.PacketContainer;
-import com.google.common.base.Objects;
-
 public abstract class AbstractPacket {
     // The packet we will be modifying
     protected PacketContainer handle;
@@ -41,5 +43,9 @@ public abstract class AbstractPacket {
 
         this.handle = handle;
     }
+
+    public abstract WrappedChatComponent getWrappedChatComponent();
+
+    public abstract void setWrappedChatComponent(WrappedChatComponent value);
 
 }
