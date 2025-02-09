@@ -1,7 +1,7 @@
 package me.doublenico.hypegradients.config;
 
-import dev.perryplaysmc.dynamicconfigurations.IDynamicConfigurationSection;
-import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
+import io.dynamicstudios.configurations.IDynamicConfigurationSection;
+import io.dynamicstudios.configurations.utils.DynamicConfigurationDirectory;
 import me.doublenico.hypegradients.HypeGradients;
 import me.doublenico.hypegradients.api.configuration.Configuration;
 

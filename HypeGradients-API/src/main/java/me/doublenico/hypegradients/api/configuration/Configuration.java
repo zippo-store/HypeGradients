@@ -1,9 +1,8 @@
 package me.doublenico.hypegradients.api.configuration;
 
-
-import dev.perryplaysmc.dynamicconfigurations.IDynamicConfiguration;
-import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
-import dev.perryplaysmc.dynamicconfigurations.utils.StringWrap;
+import io.dynamicstudios.configurations.IDynamicConfiguration;
+import io.dynamicstudios.configurations.utils.DynamicConfigurationDirectory;
+import io.dynamicstudios.configurations.utils.StringWrap;
 
 public class Configuration {
     private final DynamicConfigurationDirectory configDirectory;

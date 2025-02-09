@@ -1,6 +1,6 @@
 package me.doublenico.hypegradients.api;
 
-import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
+import io.dynamicstudios.configurations.utils.DynamicConfigurationDirectory;
 import me.doublenico.hypegradients.api.detection.ChatDetectionConfiguration;
 import me.doublenico.hypegradients.api.packet.MessagePacketHandler;
 import me.doublenico.hypegradients.api.packet.components.MessagePacketComponents;
