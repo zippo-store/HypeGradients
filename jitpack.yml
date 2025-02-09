@@ -1,12 +1,9 @@
 jdk:
   - openjdk16
 before_install:
-  - echo "Before Install"
-  - bash ensure-java-16 install
-  - echo "Installing new version of Maven"
+  - sdk install java 16.0.2-open
+  - sdk use java 16.0.2-open
   - sdk install maven
   - mvn -v
 install:
-  - echo "Install"
-  - if ! bash ensure-java-16 use; then source ~/.sdkman/bin/sdkman-init.sh; fi
-  - java -version
+  - mvn install -DskipTests=true
