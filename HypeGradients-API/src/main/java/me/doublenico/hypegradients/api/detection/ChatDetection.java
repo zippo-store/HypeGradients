@@ -1,6 +1,6 @@
 package me.doublenico.hypegradients.api.detection;
 
-import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
+import io.dynamicstudios.configurations.utils.DynamicConfigurationDirectory;
 
 public record ChatDetection(String configName, boolean appendMissingKeys) {
 

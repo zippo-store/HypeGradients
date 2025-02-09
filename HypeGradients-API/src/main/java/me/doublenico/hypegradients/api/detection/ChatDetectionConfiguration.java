@@ -1,6 +1,6 @@
 package me.doublenico.hypegradients.api.detection;
 
-import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
+import io.dynamicstudios.configurations.utils.DynamicConfigurationDirectory;
 import me.doublenico.hypegradients.api.configuration.Configuration;
 
 /**
