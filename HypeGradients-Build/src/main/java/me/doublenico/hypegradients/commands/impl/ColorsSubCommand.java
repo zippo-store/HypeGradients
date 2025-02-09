@@ -1,6 +1,6 @@
 package me.doublenico.hypegradients.commands.impl;
 
-import dev.perryplaysmc.dynamicconfigurations.IDynamicConfigurationSection;
+import io.dynamicstudios.configurations.IDynamicConfigurationSection;
 import me.doublenico.hypegradients.HypeGradients;
 import me.doublenico.hypegradients.api.chat.ColorChat;
 import me.doublenico.hypegradients.commands.SubCommand;
@@ -90,7 +90,7 @@ public class ColorsSubCommand extends SubCommand {
                     if (!hasPermission(sender, "hypegradients.color.list"))
                         return;
                     IDynamicConfigurationSection colors = plugin.getColorConfig().getConfig().getSection("colors");
-                    Set<String> keys = colors.getKeys(false);
+                    List<String> keys = colors.getKeys(false);
                     if (keys.isEmpty()) {
                         (new ColorChat("[error]No colors found")).sendMessage(sender);
                         return;
