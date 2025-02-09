@@ -1,6 +1,6 @@
 package me.doublenico.hypegradients.api.animations;
 
-import dev.perryplaysmc.dynamicconfigurations.IDynamicConfiguration;
+import io.dynamicstudios.configurations.IDynamicConfiguration;
 import me.doublenico.hypegradients.api.log.GradientLogger;
 import me.doublenico.hypegradients.api.configuration.ConfigurationManager;
 
