@@ -1,7 +1,7 @@
 package me.doublenico.hypegradients.api.chat;
 
-import dev.dynamicstudios.json.data.util.CColor;
-import dev.perryplaysmc.dynamicconfigurations.IDynamicConfiguration;
+import io.dynamicstudios.configurations.IDynamicConfiguration;
+import io.dynamicstudios.json.data.util.CColor;
 import me.doublenico.hypegradients.api.log.GradientLogger;
 import me.doublenico.hypegradients.api.configuration.ConfigurationManager;
 

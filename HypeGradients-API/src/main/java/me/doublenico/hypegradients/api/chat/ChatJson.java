@@ -1,6 +1,6 @@
 package me.doublenico.hypegradients.api.chat;
 
-import dev.dynamicstudios.json.DynamicJText;
+import io.dynamicstudios.json.DynamicJText;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 
