@@ -4,7 +4,7 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import dev.perryplaysmc.dynamicconfigurations.utils.DynamicConfigurationDirectory;
+import io.dynamicstudios.configurations.utils.DynamicConfigurationDirectory;
 import me.doublenico.hypegradients.api.bstats.MetricsComponents;
 import me.doublenico.hypegradients.api.log.DebugLogger;
 import me.doublenico.hypegradients.api.MessageDetection;
