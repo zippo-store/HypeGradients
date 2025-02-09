@@ -1,6 +1,6 @@
 package me.doublenico.hypegradients.placeholder;
 
-import dev.dynamicstudios.json.data.util.CColor;
+import io.dynamicstudios.json.data.util.CColor;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.doublenico.hypegradients.HypeGradients;
