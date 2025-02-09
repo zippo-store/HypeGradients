@@ -38,7 +38,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.11.2</version>
                 <configuration>
                     <classifier>javadoc</classifier>
                     <source>${java.version}</source>
@@ -68,6 +68,16 @@
                 </executions>
                 <configuration>
                     <attach>true</attach>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/apidocs/**</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
